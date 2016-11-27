@@ -66,7 +66,8 @@ public class Generator {
       return;
     }
 
-    final File outDir = new File(destDir, "json");
+    final String packageName = "xjb.json";
+    final File outDir = new File(destDir, packageName.replace('.', '/'));
     if (!outDir.exists() && !outDir.mkdirs())
       throw new IOException("Unable to mkdirs: " + outDir.getAbsolutePath());
 
@@ -77,7 +78,7 @@ public class Generator {
 
     String out = "";
 
-    out += "package json;";
+    out += "package " + packageName + ";";
     out += "\n\n@" + SuppressWarnings.class.getName() + "(\"all\")";
     out += "\npublic class " + name + " extends " + JSBundle.class.getName() + " {";
     out += "\n  private static " + name + " instance = null;";
