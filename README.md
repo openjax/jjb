@@ -4,7 +4,7 @@
 
 ## Introduction
 
-XJB is a lightweight framework based on a XSD [XJB Schema](http://xws.safris.org/xjb.xsd) that allows one to create a schema for JSON classes. To its disadvantage, JavaScript is a highly non-cohesive language, resulting in errors always realized in runtime. As there does not exist a formalized schema specification for JSON, developers often make repeated mistakes when designing JSON messages, encoding JSON objects, and decoding JSON strings. XJB presents a schema model that can be used to bring errors to edit-time and compile-time, greatly reducint the risk of the same errors to appear in run-time.
+XJB is a lightweight framework based on a XSD [XJB Schema](http://xws.safris.org/xjs.xsd) that allows one to create a schema for JSON classes. To its disadvantage, JavaScript is a highly non-cohesive language, resulting in errors always realized in runtime. As there does not exist a formalized schema specification for JSON, developers often make repeated mistakes when designing JSON messages, encoding JSON objects, and decoding JSON strings. XJB presents a schema model that can be used to bring errors to edit-time and compile-time, greatly reducint the risk of the same errors to appear in run-time.
 
 ## Why XJB?
 
@@ -14,19 +14,19 @@ Developed with the CohesionFirst™ approach, XJB is the cohesive alternative to
 
 ### Cohesive Binding Between JSON and Java Classes
 
-XJB uses a `json.xjb` file that conforms to the [XJB Schema](http://xws.safris.org/xjb.xsd) to generate Java beans to bind the JSON classes to Java. The generated classes are strongly typed and offer the full benefits of a cohesive interface to JSON objects in Java. The generated classes can be used to parse and marshal JSON messages, confident that all messages conform to the definition in the XJB.
+XJB uses a `json.xjs` file that conforms to the [XJB Schema](http://xjb.safris.org/xjs.xsd) to generate Java beans to bind the JSON classes to Java. The generated classes are strongly typed and offer the full benefits of a cohesive interface to JSON objects in Java. The generated classes can be used to parse and marshal JSON messages, confident that all messages conform to the definition in the XJB.
 
 ### Support Complete JSON Spec and Abstract Types
 
-The [XJB Schema](http://xws.safris.org/xjb.xsd) has constructs that allow for the definition of the entire range of possible JSON structures. Additionally, the schema offers abstract types, which provides one with the ability to use the OO principles of inheritance and polymorphism for JSON -- powerful paradigms which are not used in JSON as it is based on the "loosely Object Oriented" language of JavaScript.
+The [XJB Schema](http://xjb.safris.org/xjs.xsd) has constructs that allow for the definition of the entire range of possible JSON structures. Additionally, the schema offers abstract types, which provides one with the ability to use the OO principles of inheritance and polymorphism for JSON -- powerful paradigms which are not used in JSON as it is based on the "loosely Object Oriented" language of JavaScript.
 
 ### Support Check Constraint Triggers on Encode and Decode
 
-The [XJB Schema](http://xws.safris.org/xjb.xsd) offers a semantics for the definition of check constraints on properties. Properties of different types have different check constraint classes available. The `String` property has a `PatternValidator` that allows a developer to assert the property to conform to a regex pattern. Additionally, all properties have semantics for `nullable` and `required`, where the former states whether a property can be `null`, and the latter states whether the property can altogether be omitted from the message.
+The [XJB Schema](http://xjb.safris.org/xjs.xsd) offers a semantics for the definition of check constraints on properties. Properties of different types have different check constraint classes available. The `String` property has a `PatternValidator` that allows a developer to assert the property to conform to a regex pattern. Additionally, all properties have semantics for `nullable` and `required`, where the former states whether a property can be `null`, and the latter states whether the property can altogether be omitted from the message.
 
 ### Validating and Fail-Fast
 
-XJB is based on the [XJB Schema](http://xws.safris.org/xjb.xsd) that allows one to define JSON classes in XML. The XJB XSD uses the full power of the XML Validation to provide immediate feedback of errors or inconsistencies in the model. Cross-object and cross-property relations are checked using the `key`, `keyref` and `unique` facets of the XML Schema specification. Once a `json.xjb` passes the validation checks, it is guaranteed to produce JSON-compliant objects.
+XJB is based on the [XJB Schema](http://xjb.safris.org/xjs.xsd) that allows one to define JSON classes in XML. The XJB XSD uses the full power of the XML Validation to provide immediate feedback of errors or inconsistencies in the model. Cross-object and cross-property relations are checked using the `key`, `keyref` and `unique` facets of the XML Schema specification. Once a `json.xjs` passes the validation checks, it is guaranteed to produce JSON-compliant objects.
 
 ## Getting Started
 
@@ -60,13 +60,13 @@ XJB is based on the [XJB Schema](http://xws.safris.org/xjb.xsd) that allows one 
   </pluginRepositories>
   ```
 
-3. Create a `json.xjb` and put it in `src/main/resources/`.
+3. Create a `json.xjs` and put it in `src/main/resources/`.
 
   ```xml
   <json name="json"
-    xmlns="http://cf.safris.org/xjb.xsd"
+    xmlns="http://xjb.safris.org/xjs.xsd"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://cf.safris.org/xjb.xsd http://cf.safris.org/xjb.xsd">
+    xsi:schemaLocation="http://xjb.safris.org/xjs.xsd http://xjb.safris.org/xjs.xsd">
 
     <description>JSON class definitions for communication protocol of server API</description>
 
@@ -113,7 +113,7 @@ XJB is based on the [XJB Schema](http://xws.safris.org/xjb.xsd) that allows one 
           <manifest xmlns="http://maven.safris.org/common/manifest.xsd">
             <destdir>${project.build.directory}/generated-sources/xjb</destdir>
             <schemas>
-              <schema>${basedir}/src/main/resources/json.xjb</schema>
+              <schema>${basedir}/src/main/resources/json.xjs</schema>
             </schemas>
           </manifest>
         </configuration>
@@ -122,17 +122,17 @@ XJB is based on the [XJB Schema](http://xws.safris.org/xjb.xsd) that allows one 
   </plugin>
   ```
 
-5. Add the `org.safris.xws`:`xjb` dependency to the POM.
+5. Add the `org.safris.xjb`:`xjb-generator` dependency to the POM.
 
   ```xml
   <dependency>
-    <groupId>org.safris.cf</groupId>
-    <artifactId>xjb</artifactId>
+    <groupId>org.safris.xjb</groupId>
+    <artifactId>xjb-generator</artifactId>
     <version>1.1.3</version>
   </dependency>
   ```
 
-6. Upon successful execution of the `org.safris.xws`:`xjb` plugin, a class by the name of `json` (as was specified in the `name` attribute of the `<json>` element in `json.xjb) will be generated in `generated-sources/xjb`. Add this path to your Build Paths in your IDE to integrate into your project.
+6. Upon successful execution of the `org.safris.maven.plugin`:`xjb-maven-plugin` plugin, a class by the name of `json` (as was specified in the `name` attribute of the `<json>` element in `json.xjs`) will be generated in `generated-sources/xjb`. Add this path to your Build Paths in your IDE to integrate into your project.
 
 7. The generated classes can be instantiated as any other Java objects. They are strongly typed, and will guide you in proper construction of a JSON message. The following patterns can be used for parsing and marshalling XJB to and from JSON:
 

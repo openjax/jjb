@@ -16,8 +16,8 @@
 -->
 <xs:schema
   elementFormDefault="qualified"
-  targetNamespace="http://cf.safris.org/xjb.xsd"
-  xmlns:xjb="http://cf.safris.org/xjb.xsd"
+  targetNamespace="http://xjb.safris.org/xjs.xsd"
+  xmlns:xjb="http://xjb.safris.org/xjs.xsd"
   xmlns:xs="http://www.w3.org/2001/XMLSchema">
   
   <xs:complexType name="element" abstract="true">
