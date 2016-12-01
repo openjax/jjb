@@ -1,5 +1,5 @@
 <img src="http://safris.org/logo.png" align="right"/>
-## XJB<br>[![JavaCommons](https://img.shields.io/badge/java-enterprise-blue.svg)](https://cohesionfirst.com/) [![CohesionFirst](https://img.shields.io/badge/CohesionFirst%E2%84%A2--blue.svg)](https://cohesionfirst.com/)
+## XJB<br>![java-enterprise][java-enterprise] [![CohesionFirst™][cohesionfirst_badge]][cohesionfirst]
 > eXtensible JSON Binding
 
 ### Introduction
@@ -18,7 +18,7 @@ Developed with the CohesionFirst™ approach, **XJB** is the cohesive alternativ
 
 #### Support Complete JSON Spec and Abstract Types
 
-The [XJB Schema][xjs-xsd] has constructs that allow for the definition of [the entire range of possible JSON structures](http://www.json.org/). Additionally, the schema offers abstract types, which provides one the ability to use the OO principles of inheritance and polymorphism for JSON -- powerful paradigms which are not used in JSON as it is based on the "loosely Object Oriented" language of JavaScript.
+The [XJB Schema][xjs-xsd] has constructs that allow for the definition of [the entire range of possible JSON structures][json]. Additionally, the schema offers abstract types, which provides one the ability to use the OO principles of inheritance and polymorphism for JSON -- powerful paradigms which are not used in JSON as it is based on the "loosely Object Oriented" language of JavaScript.
 
 #### Support Check Constraint Triggers on Encode and Decode
 
@@ -32,12 +32,12 @@ The [XJB Schema][xjs-xsd] offers semantics for the definition of check constrain
 
 #### Prerequisites
 
-* [Java 7](http://www.oracle.com/technetwork/java/javase/downloads/jdk7-downloads-1880260.html) - The minimum required JDK version.
-* [Maven](https://maven.apache.org/) - The dependency management system.
+* [Java 7][jdk7-download] - The minimum required JDK version.
+* [Maven][maven] - The dependency management system.
 
 #### Example
 
-1. In your preferred development directory, create a [`maven-archetype-quickstart`](http://maven.apache.org/archetypes/maven-archetype-quickstart/) project.
+1. In your preferred development directory, create a [`maven-archetype-quickstart`][maven-archetype-quickstart] project.
 
   ```tcsh
   mvn archetype:generate -DgroupId=com.mycompany.app -DartifactId=my-app -DarchetypeArtifactId=maven-archetype-quickstart -DinteractiveMode=false
@@ -96,7 +96,7 @@ The [XJB Schema][xjs-xsd] offers semantics for the definition of check constrain
   </json>
   ```
 
-4. Add the [`org.safris.maven.plugin:xjb-maven-plugin`](https://github.com/SevaSafris/xjb-maven-plugin) to the POM.
+4. Add the [`org.safris.maven.plugin:xjb-maven-plugin`][xjb-maven-plugin] to the POM.
 
   ```xml
   <plugin>
@@ -150,10 +150,20 @@ The [XJB Schema][xjs-xsd] offers semantics for the definition of check constrain
 
 #### Integration with XRS
 
-XJB can be used as the `MessageBodyReader` and `MessageBodyWriter` to marshal and parse JSON objects in a JAX-RS 2.0 server. Please [see here](https://github.com/SevaSafris/xrs#getting-started) for an example of how to initiate XJB as a Provider for your JAX-RS 2.0 application. The [XRS implementation](https://github.com/SevaSafris/xrs) offers a CohesionFirst™ alternative to JAX-RS 2.0.
+XJB can be used as the `MessageBodyReader` and `MessageBodyWriter` to marshal and parse JSON objects in a JAX-RS 2.0 server. Please [see here][xrs-getting-started] for an example of how to initiate XJB as a Provider for your JAX-RS 2.0 application. The [XRS implementation][xrs] offers a CohesionFirst™ alternative to JAX-RS 2.0.
 
 ### License
 
 This project is licensed under the MIT License - see the [LICENSE.txt](LICENSE.txt) file for details.
 
+[cohesionfirst]: https://www.cohesionfirst.com/
+[cohesionfirst_badge]: https://img.shields.io/badge/CohesionFirst%E2%84%A2--blue.svg
+[java-enterprise]: https://img.shields.io/badge/java-enterprise-blue.svg
+[jdk7-download]: http://www.oracle.com/technetwork/java/javase/downloads/jdk7-downloads-1880260.html
+[json]: http://www.json.org/
+[maven-archetype-quickstart]: http://maven.apache.org/archetypes/maven-archetype-quickstart/
+[maven]: https://maven.apache.org/
+[xjb-maven-plugin]: https://github.com/SevaSafris/xjb-maven-plugin
 [xjs-xsd]: https://github.com/SevaSafris/xjb/blob/master/generator/src/main/resources/xjs.xsd
+[xrs-getting-started]: https://github.com/SevaSafris/xrs#getting-started
+[xrs]: https://github.com/SevaSafris/xrs
