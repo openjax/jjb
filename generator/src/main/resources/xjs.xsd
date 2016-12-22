@@ -102,7 +102,7 @@
             </xs:complexContent>
           </xs:complexType>
           <xs:unique name="uniqueValueName">
-            <xs:selector xpath="./xjb:value"/>
+            <xs:selector xpath="./xjb:property"/>
             <xs:field xpath="@name"/>
           </xs:unique>
         </xs:element>
