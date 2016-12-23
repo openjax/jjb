@@ -111,13 +111,7 @@
         </xs:element>
       </xs:sequence>
       <xs:attribute name="name" type="dt:javaVariable" use="required"/>
-      <xs:attribute name="mimeType" use="required">
-        <xs:simpleType>
-          <xs:restriction base="xs:string">
-            <xs:pattern value="([-a-z]{1,127}/[-\.a-z0-9]{1,127}$)[a-z]+(-[a-z]+)*/[a-z0-9]+([-\.][a-z0-9]+)*"/>
-          </xs:restriction>
-        </xs:simpleType>
-      </xs:attribute>
+      <xs:attribute name="mimeType" type="dt:mimeType" use="required"/>
     </xs:complexType>
     <xs:key name="keyObjectName">
       <xs:selector xpath="./xjb:object"/>
