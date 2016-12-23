@@ -18,7 +18,10 @@
   elementFormDefault="qualified"
   targetNamespace="http://xjb.safris.org/xjs.xsd"
   xmlns:xjb="http://xjb.safris.org/xjs.xsd"
+  xmlns:dt="http://commons.safris.org/xml/datatypes.xsd"
   xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  
+  <xs:import namespace="http://commons.safris.org/xml/datatypes.xsd" schemaLocation="http://commons.safris.org/xml/datatypes.xsd"/>
   
   <xs:complexType name="element" abstract="true">
     <xs:sequence minOccurs="0">
@@ -36,16 +39,10 @@
     </xs:complexContent>
   </xs:complexType>
   
-  <xs:simpleType name="name">
-    <xs:restriction base="xs:string">
-      <xs:pattern value="[a-zA-Z_$][a-zA-Z_$0-9]*"/>
-    </xs:restriction>
-  </xs:simpleType>
-  
   <xs:complexType name="named" abstract="true">
     <xs:complexContent>
       <xs:extension base="xjb:property">
-        <xs:attribute name="name" type="xjb:name" use="required"/>
+        <xs:attribute name="name" type="dt:javaVariable" use="required"/>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
@@ -73,7 +70,7 @@
   <xs:complexType name="ref">
     <xs:complexContent>
       <xs:extension base="xjb:property">
-        <xs:attribute name="object" type="xjb:name" use="required"/>
+        <xs:attribute name="object" type="dt:javaVariable" use="required"/>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
@@ -84,7 +81,7 @@
         <xs:sequence minOccurs="0" maxOccurs="unbounded">
           <xs:element name="property" type="xjb:property"/>
         </xs:sequence>
-        <xs:attribute name="name" type="xjb:name" use="required"/>
+        <xs:attribute name="name" type="dt:javaVariable" use="required"/>
         <xs:attribute name="extends" type="xs:string"/>
       </xs:extension>
     </xs:complexContent>
@@ -101,7 +98,7 @@
                 <xs:sequence minOccurs="0" maxOccurs="unbounded">
                   <xs:element name="property" type="xjb:property"/>
                 </xs:sequence>
-                <xs:attribute name="name" type="xjb:name" use="required"/>
+                <xs:attribute name="name" type="dt:javaVariable" use="required"/>
                 <xs:attribute name="extends" type="xs:string"/>
                 <xs:attribute name="abstract" type="xs:boolean" default="false"/>
               </xs:extension>
@@ -113,7 +110,14 @@
           </xs:unique>
         </xs:element>
       </xs:sequence>
-      <xs:attribute name="name" type="xjb:name" use="required"/>
+      <xs:attribute name="name" type="dt:javaVariable" use="required"/>
+      <xs:attribute name="mimeType" use="required">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:pattern value="([-a-z]{1,127}/[-\.a-z0-9]{1,127}$)[a-z]+(-[a-z]+)*/[a-z0-9]+([-\.][a-z0-9]+)*"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
     </xs:complexType>
     <xs:key name="keyObjectName">
       <xs:selector xpath="./xjb:object"/>

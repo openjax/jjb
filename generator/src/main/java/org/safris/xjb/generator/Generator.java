@@ -66,7 +66,7 @@ public class Generator {
       return;
     }
 
-    final String packageName = "xjb.json";
+    final String packageName = "xjb";
     final File outDir = new File(destDir, packageName.replace('.', '/'));
     if (!outDir.exists() && !outDir.mkdirs())
       throw new IOException("Unable to mkdirs: " + outDir.getAbsolutePath());
@@ -81,6 +81,7 @@ public class Generator {
     out += "package " + packageName + ";";
     out += "\n\n@" + SuppressWarnings.class.getName() + "(\"all\")";
     out += "\npublic class " + name + " extends " + JSBundle.class.getName() + " {";
+    out += "\n  public static final " + String.class.getName() + " mimeType = \"" + json._mimeType$().text() + "\";";
     out += "\n  private static " + name + " instance = null;";
     out += "\n\n  protected static " + name + " instance() {";
     out += "\n    return instance == null ? instance = new " + name + "() : instance;";
@@ -127,7 +128,7 @@ public class Generator {
     if (property instanceof $xjb_object)
       return Collections.toString(parent, ".") + "." + Strings.toClassCase((($xjb_object)property)._name$().text());
 
-    throw new UnsupportedOperationException("Unknown type: " + property);
+    throw new UnsupportedOperationException("Unknown type: " + property.getClass().getName());
   }
 
   private static String getPropertyName(final $xjb_property property) {
