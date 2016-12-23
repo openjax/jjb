@@ -36,17 +36,23 @@
     </xs:complexContent>
   </xs:complexType>
   
-  <xs:complexType name="name" abstract="true">
+  <xs:simpleType name="name">
+    <xs:restriction base="xs:string">
+      <xs:pattern value="[a-zA-Z_$][a-zA-Z_$0-9]*"/>
+    </xs:restriction>
+  </xs:simpleType>
+  
+  <xs:complexType name="named" abstract="true">
     <xs:complexContent>
       <xs:extension base="xjb:property">
-        <xs:attribute name="name" type="xs:NCName" use="required"/>
+        <xs:attribute name="name" type="xjb:name" use="required"/>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
   
   <xs:complexType name="string">
     <xs:complexContent>
-      <xs:extension base="xjb:name">
+      <xs:extension base="xjb:named">
         <xs:attribute name="pattern" type="xs:string"/>
       </xs:extension>
     </xs:complexContent>
@@ -54,20 +60,20 @@
   
   <xs:complexType name="number">
     <xs:complexContent>
-      <xs:extension base="xjb:name"/>
+      <xs:extension base="xjb:named"/>
     </xs:complexContent>
   </xs:complexType>
   
   <xs:complexType name="boolean">
     <xs:complexContent>
-      <xs:extension base="xjb:name"/>
+      <xs:extension base="xjb:named"/>
     </xs:complexContent>
   </xs:complexType>
   
   <xs:complexType name="ref">
     <xs:complexContent>
       <xs:extension base="xjb:property">
-        <xs:attribute name="object" type="xs:NCName" use="required"/>
+        <xs:attribute name="object" type="xjb:name" use="required"/>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
@@ -78,7 +84,7 @@
         <xs:sequence minOccurs="0" maxOccurs="unbounded">
           <xs:element name="property" type="xjb:property"/>
         </xs:sequence>
-        <xs:attribute name="name" type="xs:NCName" use="required"/>
+        <xs:attribute name="name" type="xjb:name" use="required"/>
         <xs:attribute name="extends" type="xs:string"/>
       </xs:extension>
     </xs:complexContent>
@@ -95,7 +101,7 @@
                 <xs:sequence minOccurs="0" maxOccurs="unbounded">
                   <xs:element name="property" type="xjb:property"/>
                 </xs:sequence>
-                <xs:attribute name="name" type="xs:NCName" use="required"/>
+                <xs:attribute name="name" type="xjb:name" use="required"/>
                 <xs:attribute name="extends" type="xs:string"/>
                 <xs:attribute name="abstract" type="xs:boolean" default="false"/>
               </xs:extension>
@@ -107,7 +113,7 @@
           </xs:unique>
         </xs:element>
       </xs:sequence>
-      <xs:attribute name="name" type="xs:NCName" use="required"/>
+      <xs:attribute name="name" type="xjb:name" use="required"/>
     </xs:complexType>
     <xs:key name="keyObjectName">
       <xs:selector xpath="./xjb:object"/>

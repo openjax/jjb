@@ -43,7 +43,7 @@ import org.safris.xjb.runtime.Property;
 import org.safris.xjb.runtime.validator.PatternValidator;
 import org.safris.xjb.xjs.xe.$xjb_boolean;
 import org.safris.xjb.xjs.xe.$xjb_element;
-import org.safris.xjb.xjs.xe.$xjb_name;
+import org.safris.xjb.xjs.xe.$xjb_named;
 import org.safris.xjb.xjs.xe.$xjb_number;
 import org.safris.xjb.xjs.xe.$xjb_object;
 import org.safris.xjb.xjs.xe.$xjb_property;
@@ -131,8 +131,8 @@ public class Generator {
   }
 
   private static String getPropertyName(final $xjb_property property) {
-    if (property instanceof $xjb_name)
-      return (($xjb_name)property)._name$().text();
+    if (property instanceof $xjb_named)
+      return (($xjb_named)property)._name$().text();
 
     if (property instanceof $xjb_ref)
       return (($xjb_ref)property)._object$().text();
