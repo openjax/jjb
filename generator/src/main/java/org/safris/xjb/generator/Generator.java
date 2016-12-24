@@ -262,7 +262,7 @@ public class Generator {
             if (string._min$().text() != null && string._max$().text() != null && string._min$().text() > string._max$().text())
               throw new GeneratorExecutionException("min (" + string._min$().text() + ") > max (" + string._max$().text() + ") on property: " + objectName + "." + propertyName);
 
-            out += ", new " + NumberValidator.class.getName() + "(" + _form$.whole.text().equals(string._form$().text()) + ", " + (string._min$().isNull() ? "null" : string._min$().text()) + ", " + (string._max$().isNull() ? "null" : string._max$().text()) + ")";
+            out += ", new " + NumberValidator.class.getName() + "(" + _form$.whole.text().equals(string._form$().text()) + ", " + (string._min$().isNull() ? "null" : string._min$().text().intValue()) + ", " + (string._max$().isNull() ? "null" : string._max$().text().intValue()) + ")";
           }
         }
 
