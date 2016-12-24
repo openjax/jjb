@@ -17,7 +17,7 @@
 <xs:schema
   elementFormDefault="qualified"
   targetNamespace="http://xjb.safris.org/xjs.xsd"
-  xmlns:xjb="http://xjb.safris.org/xjs.xsd"
+  xmlns:xjs="http://xjb.safris.org/xjs.xsd"
   xmlns:dt="http://commons.safris.org/xml/datatypes.xsd"
   xmlns:xs="http://www.w3.org/2001/XMLSchema">
   
@@ -31,7 +31,7 @@
   
   <xs:complexType name="property" abstract="true">
     <xs:complexContent>
-      <xs:extension base="xjb:element">
+      <xs:extension base="xjs:element">
         <xs:attribute name="array" type="xs:boolean"/>
         <xs:attribute name="required" type="xs:boolean" default="true"/>
         <xs:attribute name="null" type="xs:boolean" default="true"/>
@@ -41,7 +41,7 @@
   
   <xs:complexType name="named" abstract="true">
     <xs:complexContent>
-      <xs:extension base="xjb:property">
+      <xs:extension base="xjs:property">
         <xs:attribute name="name" type="dt:javaVariable" use="required"/>
       </xs:extension>
     </xs:complexContent>
@@ -49,7 +49,7 @@
   
   <xs:complexType name="string">
     <xs:complexContent>
-      <xs:extension base="xjb:named">
+      <xs:extension base="xjs:named">
         <xs:attribute name="pattern" type="xs:string"/>
         <xs:attribute name="length" type="xs:positiveInteger"/>
       </xs:extension>
@@ -58,7 +58,7 @@
   
   <xs:complexType name="number">
     <xs:complexContent>
-      <xs:extension base="xjb:named">
+      <xs:extension base="xjs:named">
         <xs:attribute name="form" default="real">
           <xs:simpleType>
             <xs:restriction base="xs:string">
@@ -75,15 +75,15 @@
   
   <xs:complexType name="boolean">
     <xs:complexContent>
-      <xs:extension base="xjb:named"/>
+      <xs:extension base="xjs:named"/>
     </xs:complexContent>
   </xs:complexType>
   
   <xs:complexType name="object">
     <xs:complexContent>
-      <xs:extension base="xjb:property">
+      <xs:extension base="xjs:property">
         <xs:sequence minOccurs="0" maxOccurs="unbounded">
-          <xs:element name="property" type="xjb:property"/>
+          <xs:element name="property" type="xjs:property"/>
         </xs:sequence>
         <xs:attribute name="name" type="dt:javaVariable" use="required"/>
         <xs:attribute name="extends" type="xs:string"/>
@@ -93,7 +93,7 @@
   
   <xs:complexType name="ref">
     <xs:complexContent>
-      <xs:extension base="xjb:property">
+      <xs:extension base="xjs:property">
         <xs:attribute name="object" type="dt:javaVariable" use="required"/>
       </xs:extension>
     </xs:complexContent>
@@ -106,9 +106,9 @@
         <xs:element name="object" minOccurs="1" maxOccurs="unbounded">
           <xs:complexType>
             <xs:complexContent>
-              <xs:extension base="xjb:element">
+              <xs:extension base="xjs:element">
                 <xs:sequence minOccurs="0" maxOccurs="unbounded">
-                  <xs:element name="property" type="xjb:property"/>
+                  <xs:element name="property" type="xjs:property"/>
                 </xs:sequence>
                 <xs:attribute name="name" type="dt:javaVariable" use="required"/>
                 <xs:attribute name="extends" type="xs:string"/>
@@ -117,7 +117,7 @@
             </xs:complexContent>
           </xs:complexType>
           <xs:unique name="uniqueValueName">
-            <xs:selector xpath="./xjb:property"/>
+            <xs:selector xpath="./xjs:property"/>
             <xs:field xpath="@name"/>
           </xs:unique>
         </xs:element>
@@ -126,19 +126,19 @@
       <xs:attribute name="mimeType" type="dt:mimeType" use="required"/>
     </xs:complexType>
     <xs:key name="keyObjectName">
-      <xs:selector xpath="./xjb:object"/>
+      <xs:selector xpath="./xjs:object"/>
       <xs:field xpath="@name"/>
     </xs:key>
-    <xs:keyref name="keyrefObjectType" refer="xjb:keyObjectName">
-      <xs:selector xpath="./xjb:object/xjb:property | ./xjb:object/xjb:property/xjb:property | ./xjb:object/xjb:property/xjb:property/xjb:property | ./xjb:object/xjb:property/xjb:property/xjb:property/xjb:property | ./xjb:object/xjb:property/xjb:property/xjb:property/xjb:property/xjb:property | ./xjb:object/xjb:property/xjb:property/xjb:property/xjb:property/xjb:property/xjb:property | ./xjb:object/xjb:property/xjb:property/xjb:property/xjb:property/xjb:property/xjb:property/xjb:property"/>
+    <xs:keyref name="keyrefObjectType" refer="xjs:keyObjectName">
+      <xs:selector xpath="./xjs:object/xjs:property | ./xjs:object/xjs:property/xjs:property | ./xjs:object/xjs:property/xjs:property/xjs:property | ./xjs:object/xjs:property/xjs:property/xjs:property/xjs:property | ./xjs:object/xjs:property/xjs:property/xjs:property/xjs:property/xjs:property | ./xjs:object/xjs:property/xjs:property/xjs:property/xjs:property/xjs:property/xjs:property | ./xjs:object/xjs:property/xjs:property/xjs:property/xjs:property/xjs:property/xjs:property/xjs:property"/>
       <xs:field xpath="@type"/>
     </xs:keyref>
-    <xs:keyref name="keyrefObjectExtends" refer="xjb:keyObjectName">
-      <xs:selector xpath="./xjb:*"/>
+    <xs:keyref name="keyrefObjectExtends" refer="xjs:keyObjectName">
+      <xs:selector xpath="./xjs:*"/>
       <xs:field xpath="@extends"/>
     </xs:keyref>
-    <xs:keyref name="keyrefObjectRef" refer="xjb:keyObjectName">
-      <xs:selector xpath="./xjb:object | ./xjb:object/xjb:property | ./xjb:object/xjb:property/xjb:property | ./xjb:object/xjb:property/xjb:property/xjb:property | ./xjb:object/xjb:property/xjb:property/xjb:property/xjb:property | ./xjb:object/xjb:property/xjb:property/xjb:property/xjb:property/xjb:property | ./xjb:object/xjb:property/xjb:property/xjb:property/xjb:property/xjb:property/xjb:property | ./xjb:object/xjb:property/xjb:property/xjb:property/xjb:property/xjb:property/xjb:property/xjb:property"/>
+    <xs:keyref name="keyrefObjectRef" refer="xjs:keyObjectName">
+      <xs:selector xpath="./xjs:object | ./xjs:object/xjs:property | ./xjs:object/xjs:property/xjs:property | ./xjs:object/xjs:property/xjs:property/xjs:property | ./xjs:object/xjs:property/xjs:property/xjs:property/xjs:property | ./xjs:object/xjs:property/xjs:property/xjs:property/xjs:property/xjs:property | ./xjs:object/xjs:property/xjs:property/xjs:property/xjs:property/xjs:property/xjs:property | ./xjs:object/xjs:property/xjs:property/xjs:property/xjs:property/xjs:property/xjs:property/xjs:property"/>
       <xs:field xpath="@object"/>
     </xs:keyref>
   </xs:element>
