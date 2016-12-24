@@ -40,11 +40,13 @@ import org.safris.xjb.runtime.JSArray;
 import org.safris.xjb.runtime.JSBundle;
 import org.safris.xjb.runtime.JSObject;
 import org.safris.xjb.runtime.Property;
-import org.safris.xjb.runtime.validator.PatternValidator;
+import org.safris.xjb.runtime.validator.NumberValidator;
+import org.safris.xjb.runtime.validator.StringValidator;
 import org.safris.xjb.xjs.xe.$xjb_boolean;
 import org.safris.xjb.xjs.xe.$xjb_element;
 import org.safris.xjb.xjs.xe.$xjb_named;
 import org.safris.xjb.xjs.xe.$xjb_number;
+import org.safris.xjb.xjs.xe.$xjb_number._form$;
 import org.safris.xjb.xjs.xe.$xjb_object;
 import org.safris.xjb.xjs.xe.$xjb_property;
 import org.safris.xjb.xjs.xe.$xjb_ref;
@@ -243,16 +245,25 @@ public class Generator {
     if (properties != null) {
       out += "\n" + pad + "     try {";
       for (final $xjb_property property : properties) {
-        final String valueName = getPropertyName(property);
+        final String propertyName = getPropertyName(property);
         final String rawType = getType(parent, property);
         final boolean isArray = property._array$().text() != null && property._array$().text();
         final String type = isArray ? Collection.class.getName() + "<" + rawType + ">" : rawType;
 
-        out += "\n" + pad + "       bindings.put(\"" + valueName + "\", new " + Binding.class.getName() + "<" + type + ">(\"" + valueName + "\", " + className + ".class.getDeclaredField(\"" + getInstanceName(property) + "\"), " + rawType + ".class, " + isAbstract + ", " + isArray + ", " + property._required$().text() + ", " + !property._null$().text();
+        out += "\n" + pad + "       bindings.put(\"" + propertyName + "\", new " + Binding.class.getName() + "<" + type + ">(\"" + propertyName + "\", " + className + ".class.getDeclaredField(\"" + getInstanceName(property) + "\"), " + rawType + ".class, " + isAbstract + ", " + isArray + ", " + property._required$().text() + ", " + !property._null$().text();
         if (property instanceof $xjb_string) {
           final $xjb_string string = ($xjb_string)property;
-          if (string._pattern$().text() != null)
-            out += ", new " + PatternValidator.class.getName() + "(\"" + XMLText.unescapeXMLText(string._pattern$().text()).replace("\\", "\\\\") + "\")";
+          if (string._pattern$().text() != null || string._length$().text() != null)
+            out += ", new " + StringValidator.class.getName() + "(" + (string._pattern$().isNull() ? "null" : "\"" + XMLText.unescapeXMLText(string._pattern$().text()).replace("\\", "\\\\") + "\"") + ", " + (string._length$().isNull() ? "null" : string._length$().text()) + ")";
+        }
+        else if (property instanceof $xjb_number) {
+          final $xjb_number string = ($xjb_number)property;
+          if (_form$.whole.text().equals(string._form$().text()) || string._min$().text() != null || string._max$().text() != null) {
+            if (string._min$().text() != null && string._max$().text() != null && string._min$().text() > string._max$().text())
+              throw new GeneratorExecutionException("min (" + string._min$().text() + ") > max (" + string._max$().text() + ") on property: " + objectName + "." + propertyName);
+
+            out += ", new " + NumberValidator.class.getName() + "(" + _form$.whole.text().equals(string._form$().text()) + ", " + (string._min$().isNull() ? "null" : string._min$().text()) + ", " + (string._max$().isNull() ? "null" : string._max$().text()) + ")";
+          }
         }
 
         out += "));";

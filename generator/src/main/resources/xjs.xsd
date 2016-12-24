@@ -51,27 +51,31 @@
     <xs:complexContent>
       <xs:extension base="xjb:named">
         <xs:attribute name="pattern" type="xs:string"/>
+        <xs:attribute name="length" type="xs:positiveInteger"/>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
   
   <xs:complexType name="number">
     <xs:complexContent>
-      <xs:extension base="xjb:named"/>
+      <xs:extension base="xjb:named">
+        <xs:attribute name="form" default="real">
+          <xs:simpleType>
+            <xs:restriction base="xs:string">
+              <xs:enumeration value="whole"/>
+              <xs:enumeration value="real"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="min" type="xs:double"/>
+        <xs:attribute name="max" type="xs:double"/>
+      </xs:extension>
     </xs:complexContent>
   </xs:complexType>
   
   <xs:complexType name="boolean">
     <xs:complexContent>
       <xs:extension base="xjb:named"/>
-    </xs:complexContent>
-  </xs:complexType>
-  
-  <xs:complexType name="ref">
-    <xs:complexContent>
-      <xs:extension base="xjb:property">
-        <xs:attribute name="object" type="dt:javaVariable" use="required"/>
-      </xs:extension>
     </xs:complexContent>
   </xs:complexType>
   
@@ -83,6 +87,14 @@
         </xs:sequence>
         <xs:attribute name="name" type="dt:javaVariable" use="required"/>
         <xs:attribute name="extends" type="xs:string"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  
+  <xs:complexType name="ref">
+    <xs:complexContent>
+      <xs:extension base="xjb:property">
+        <xs:attribute name="object" type="dt:javaVariable" use="required"/>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>

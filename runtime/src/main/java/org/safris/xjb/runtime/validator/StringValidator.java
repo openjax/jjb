@@ -16,15 +16,32 @@
 
 package org.safris.xjb.runtime.validator;
 
-public class PatternValidator extends Validator<String> {
+public class StringValidator extends Validator<String> {
   private final String pattern;
+  private final Integer length;
 
-  public PatternValidator(final String pattern) {
+  public StringValidator(final String pattern, final Integer length) {
     this.pattern = pattern;
+    this.length = length;
   }
 
   @Override
   public String validate(final String value) {
-    return value == null || value.matches(pattern) ? null : "does not match pattern \"" + pattern + "\": \"" + value + "\"";
+    if (value == null)
+      return null;
+
+    final String patternError = pattern == null || value.matches(pattern) ? null : "does not match pattern \"" + pattern + "\"";
+    final String lengthError = length == null || value.length() <= length ? null : "is longer than length \"" + length + "\"";
+    if (patternError == null) {
+      if (lengthError == null)
+        return null;
+
+      return lengthError + ": \"" + value + "\"";
+    }
+
+    if (lengthError == null)
+      return patternError + ": \"" + value + "\"";
+
+    return patternError + ", and " + lengthError + ": \"" + value + "\"";
   }
 }
