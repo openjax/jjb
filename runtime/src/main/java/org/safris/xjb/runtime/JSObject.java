@@ -24,7 +24,7 @@ import org.safris.commons.util.CachedReader;
 
 public abstract class JSObject extends JSObjectUtil {
   @SuppressWarnings("unchecked")
-  public static <T extends JSObject>T parse(final Class<? extends JSObject> type, final Reader reader) throws DecodeException, IOException {
+  public static <T extends JSObject>T parse(final Class<?> type, final Reader reader) throws DecodeException, IOException {
     try {
       final CachedReader stringBuilderReader = reader instanceof CachedReader ? (CachedReader) reader : new CachedReader(reader, new StringBuilder());
       final char ch = next(stringBuilderReader);
