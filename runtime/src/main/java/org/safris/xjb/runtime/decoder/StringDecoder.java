@@ -42,6 +42,6 @@ public class StringDecoder extends Decoder<String> {
     while ((ch = JSObjectUtil.nextAny(reader)) != '"')
       value.append(ch);
 
-    return binding.urlDecode ? URLDecoder.decode(value.toString(), "UTF-8") : value.toString();
+    return binding != null && binding.urlDecode ? URLDecoder.decode(value.toString(), "UTF-8") : value.toString();
   }
 }
