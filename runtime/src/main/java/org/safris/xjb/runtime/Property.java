@@ -27,7 +27,7 @@ import org.safris.commons.util.CachedReader;
 
 public class Property<T> {
   @SuppressWarnings("unchecked")
-  private static <T>T encode(final T value, final JSObject jsObject) {
+  private static <T>T encode(final T value, final JSObject jsObject, final Binding<T> binding) {
     if (value instanceof Number) {
       final Number number = (Number)value;
       return (T)(number.intValue() == number.doubleValue() ? String.valueOf(number.intValue()) : String.valueOf(number.doubleValue()));
@@ -35,7 +35,7 @@ public class Property<T> {
 
     if (value instanceof String) {
       try {
-        return (T)URIComponent.encode((String)value, "UTF-8");
+        return binding.urlEncode ? (T)URIComponent.encode((String)value, "UTF-8") : value;
       }
       catch (final UnsupportedEncodingException e) {
         throw new EncodeException(e.getMessage(), jsObject, e);
@@ -98,12 +98,12 @@ public class Property<T> {
       final Collection<T> collection = (Collection<T>)value;
       final Collection<T> encoded = new JSArray<T>(collection.size());
       for (final T item : collection)
-        encoded.add(encode(item, jsObject));
+        encoded.add(encode(item, jsObject, binding));
 
       return (T)encoded;
     }
 
-    return encode(value, jsObject);
+    return encode(value, jsObject, binding);
   }
 
   @SuppressWarnings("unchecked")

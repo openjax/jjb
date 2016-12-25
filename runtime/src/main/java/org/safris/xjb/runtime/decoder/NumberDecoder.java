@@ -19,6 +19,7 @@ package org.safris.xjb.runtime.decoder;
 import java.io.IOException;
 import java.io.Reader;
 
+import org.safris.xjb.runtime.Binding;
 import org.safris.xjb.runtime.JSObjectUtil;
 
 public class NumberDecoder extends Decoder<Number> {
@@ -28,7 +29,7 @@ public class NumberDecoder extends Decoder<Number> {
   }
 
   @Override
-  public Number decode(final Reader reader, char ch) throws IOException {
+  public Number decode(final Reader reader, char ch, final Binding<?> binding) throws IOException {
     if (('0' > ch || ch > '9') && ch != '-') {
       if (JSObjectUtil.isNull(ch, reader))
         return null;

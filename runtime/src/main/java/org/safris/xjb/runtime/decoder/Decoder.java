@@ -19,23 +19,24 @@ package org.safris.xjb.runtime.decoder;
 import java.io.IOException;
 import java.io.Reader;
 
+import org.safris.xjb.runtime.Binding;
 import org.safris.xjb.runtime.JSObjectUtil;
 
 public abstract class Decoder<T> extends JSObjectUtil {
   protected abstract T[] newInstance(final int depth);
 
-  public abstract T decode(final Reader reader, char ch) throws IOException;
+  public abstract T decode(final Reader reader, char ch, final Binding<?> binding) throws IOException;
 
-  public final T[] recurse(final Reader reader, final int depth) throws IOException {
+  public final T[] recurse(final Reader reader, final int depth, final Binding<?> binding) throws IOException {
     char ch = JSObjectUtil.next(reader);
     if (ch == ']')
       return newInstance(depth);
 
     if (ch == ',')
-      return recurse(reader, depth);
+      return recurse(reader, depth, binding);
 
-    final T value = decode(reader, ch);
-    final T[] array = recurse(reader, depth + 1);
+    final T value = decode(reader, ch, binding);
+    final T[] array = recurse(reader, depth + 1, binding);
     array[depth] = value;
     return array;
   }

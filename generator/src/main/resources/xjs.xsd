@@ -52,6 +52,8 @@
       <xs:extension base="xjs:named">
         <xs:attribute name="pattern" type="xs:string"/>
         <xs:attribute name="length" type="xs:positiveInteger"/>
+        <xs:attribute name="urlDecode" type="xs:boolean" default="false"/>
+        <xs:attribute name="urlEncode" type="xs:boolean" default="false"/>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>

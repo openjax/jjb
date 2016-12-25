@@ -121,7 +121,7 @@ public abstract class JSObjectUtil {
     return part == null ? "null" : part instanceof JSObject ? encode((JSObject)part, depth) : part instanceof String ? "\"" + part + "\"" : String.valueOf(part);
   }
 
-  protected static Object decodeValue(final char ch, final CachedReader reader, final Class<?> type) throws DecodeException, IOException {
+  protected static Object decodeValue(final char ch, final CachedReader reader, final Class<?> type, final Binding<?> binding) throws DecodeException, IOException {
     final boolean isArray = ch == '[';
     try {
       if (JSObject.class.isAssignableFrom(type))
@@ -132,13 +132,13 @@ public abstract class JSObjectUtil {
     }
 
     if (type == String.class)
-      return isArray ? Collections.asCollection(JSArray.class, stringDecoder.recurse(reader, 0)) : stringDecoder.decode(reader, ch);
+      return isArray ? Collections.asCollection(JSArray.class, stringDecoder.recurse(reader, 0, binding)) : stringDecoder.decode(reader, ch, binding);
 
     if (type == Boolean.class)
-      return isArray ? Collections.asCollection(JSArray.class, booleanDecoder.recurse(reader, 0)) : booleanDecoder.decode(reader, ch);
+      return isArray ? Collections.asCollection(JSArray.class, booleanDecoder.recurse(reader, 0, binding)) : booleanDecoder.decode(reader, ch, binding);
 
     if (type == Number.class)
-      return isArray ? Collections.asCollection(JSArray.class, numberDecoder.recurse(reader, 0)) : numberDecoder.decode(reader, ch);
+      return isArray ? Collections.asCollection(JSArray.class, numberDecoder.recurse(reader, 0, binding)) : numberDecoder.decode(reader, ch, binding);
 
     throw new UnsupportedOperationException("Unexpected type: " + type);
   }
@@ -182,7 +182,7 @@ public abstract class JSObjectUtil {
               string.setLength(0);
               ch = next(reader);
 
-              final Object value = decodeValue(ch, reader, member.type);
+              final Object value = decodeValue(ch, reader, member.type, member);
 
               if (member.required && member.notNull && value == null)
                 throw new DecodeException("\"" + member.name + "\" cannot be null", reader.readFully(), jsObject._bundle());

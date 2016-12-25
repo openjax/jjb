@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.io.Reader;
 import java.net.URLDecoder;
 
+import org.safris.xjb.runtime.Binding;
 import org.safris.xjb.runtime.JSObjectUtil;
 
 public class StringDecoder extends Decoder<String> {
@@ -29,7 +30,7 @@ public class StringDecoder extends Decoder<String> {
   }
 
   @Override
-  public String decode(final Reader reader, char ch) throws IOException {
+  public String decode(final Reader reader, char ch, final Binding<?> binding) throws IOException {
     if (ch != '"') {
       if (JSObjectUtil.isNull(ch, reader))
         return null;
@@ -41,6 +42,6 @@ public class StringDecoder extends Decoder<String> {
     while ((ch = JSObjectUtil.nextAny(reader)) != '"')
       value.append(ch);
 
-    return URLDecoder.decode(value.toString(), "UTF-8");
+    return binding.urlDecode ? URLDecoder.decode(value.toString(), "UTF-8") : value.toString();
   }
 }

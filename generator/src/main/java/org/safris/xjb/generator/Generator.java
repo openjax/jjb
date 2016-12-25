@@ -250,7 +250,7 @@ public class Generator {
         final boolean isArray = property._array$().text() != null && property._array$().text();
         final String type = isArray ? Collection.class.getName() + "<" + rawType + ">" : rawType;
 
-        out += "\n" + pad + "       bindings.put(\"" + propertyName + "\", new " + Binding.class.getName() + "<" + type + ">(\"" + propertyName + "\", " + className + ".class.getDeclaredField(\"" + getInstanceName(property) + "\"), " + rawType + ".class, " + isAbstract + ", " + isArray + ", " + property._required$().text() + ", " + !property._null$().text();
+        out += "\n" + pad + "       bindings.put(\"" + propertyName + "\", new " + Binding.class.getName() + "<" + type + ">(\"" + propertyName + "\", " + className + ".class.getDeclaredField(\"" + getInstanceName(property) + "\"), " + rawType + ".class, " + isAbstract + ", " + isArray + ", " + property._required$().text() + ", " + !property._null$().text() + ", " + (property instanceof $xjs_string ? (($xjs_string)property)._urlEncode$().text() : "false") + ", " + (property instanceof $xjs_string ? (($xjs_string)property)._urlDecode$().text() : "false");
         if (property instanceof $xjs_string) {
           final $xjs_string string = ($xjs_string)property;
           if (string._pattern$().text() != null || string._length$().text() != null)

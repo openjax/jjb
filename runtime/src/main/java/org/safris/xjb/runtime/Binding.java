@@ -29,10 +29,12 @@ public class Binding<T> {
   public final boolean array;
   public final boolean required;
   public final boolean notNull;
+  public final boolean urlEncode;
+  public final boolean urlDecode;
   public final Validator<?>[] validators;
 
   @SafeVarargs
-  public Binding(final String name, final Field property, final Class<?> type, final boolean isAbstract, final boolean array, final boolean required, final boolean notNull, final Validator<?> ... validators) {
+  public Binding(final String name, final Field property, final Class<?> type, final boolean isAbstract, final boolean array, final boolean required, final boolean notNull, final boolean urlEncode, final boolean urlDecode, final Validator<?> ... validators) {
     property.setAccessible(true);
     this.name = name;
     this.property = property;
@@ -41,6 +43,8 @@ public class Binding<T> {
     this.array = array;
     this.required = required;
     this.notNull = notNull;
+    this.urlEncode = urlEncode;
+    this.urlDecode = urlDecode;
     this.validators = validators;
   }
 
