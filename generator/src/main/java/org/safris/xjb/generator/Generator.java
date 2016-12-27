@@ -258,11 +258,11 @@ public class Generator {
         }
         else if (property instanceof $xjs_number) {
           final $xjs_number string = ($xjs_number)property;
-          if (_form$.whole.text().equals(string._form$().text()) || string._min$().text() != null || string._max$().text() != null) {
+          if (_form$.integer.text().equals(string._form$().text()) || string._min$().text() != null || string._max$().text() != null) {
             if (string._min$().text() != null && string._max$().text() != null && string._min$().text() > string._max$().text())
               throw new GeneratorExecutionException("min (" + string._min$().text() + ") > max (" + string._max$().text() + ") on property: " + objectName + "." + propertyName);
 
-            out += ", new " + NumberValidator.class.getName() + "(" + _form$.whole.text().equals(string._form$().text()) + ", " + (string._min$().isNull() ? "null" : string._min$().text().intValue()) + ", " + (string._max$().isNull() ? "null" : string._max$().text().intValue()) + ")";
+            out += ", new " + NumberValidator.class.getName() + "(" + _form$.integer.text().equals(string._form$().text()) + ", " + (string._min$().isNull() ? "null" : string._min$().text().intValue()) + ", " + (string._max$().isNull() ? "null" : string._max$().text().intValue()) + ")";
           }
         }
 

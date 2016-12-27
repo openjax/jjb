@@ -64,7 +64,7 @@
         <xs:attribute name="form" default="real">
           <xs:simpleType>
             <xs:restriction base="xs:string">
-              <xs:enumeration value="whole"/>
+              <xs:enumeration value="integer"/>
               <xs:enumeration value="real"/>
             </xs:restriction>
           </xs:simpleType>
