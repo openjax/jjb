@@ -32,7 +32,7 @@ The [XJB Schema][xjs-xsd] offers semantics for the definition of check constrain
 
 #### Prerequisites
 
-* [Java 7][jdk7-download] - The minimum required JDK version.
+* [Java 8][jdk8-download] - The minimum required JDK version.
 * [Maven][maven] - The dependency management system.
 
 #### Example
@@ -157,7 +157,7 @@ XJB can be used as the `MessageBodyReader` and `MessageBodyWriter` to marshal an
 This project is licensed under the MIT License - see the [LICENSE.txt](LICENSE.txt) file for details.
 
 [java-enterprise]: https://img.shields.io/badge/java-enterprise-blue.svg
-[jdk7-download]: http://www.oracle.com/technetwork/java/javase/downloads/jdk7-downloads-1880260.html
+[jdk8-download]: http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html
 [json]: http://www.json.org/
 [maven-archetype-quickstart]: http://maven.apache.org/archetypes/maven-archetype-quickstart/
 [maven]: https://maven.apache.org/
