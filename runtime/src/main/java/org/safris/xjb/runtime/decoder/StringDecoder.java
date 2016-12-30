@@ -24,6 +24,10 @@ import org.safris.xjb.runtime.Binding;
 import org.safris.xjb.runtime.JSObjectUtil;
 
 public class StringDecoder extends Decoder<String> {
+  public static String escapeString(final String string) {
+    return string.replace("\\", "\\\\").replace("\"", "\\\"");
+  }
+
   @Override
   protected String[] newInstance(final int depth) {
     return new String[depth];
@@ -38,10 +42,12 @@ public class StringDecoder extends Decoder<String> {
       throw new IllegalArgumentException("Malformed JSON");
     }
 
-    final StringBuilder value = new StringBuilder();
-    while ((ch = JSObjectUtil.nextAny(reader)) != '"')
-      value.append(ch);
+    boolean escape = false;
+    final StringBuilder builder = new StringBuilder();
+    while ((ch = JSObjectUtil.nextAny(reader)) != '"' || escape)
+      if (!(escape = ch == '\\' && !escape))
+        builder.append(ch);
 
-    return binding != null && binding.urlDecode ? URLDecoder.decode(value.toString(), "UTF-8") : value.toString();
+    return binding != null && binding.urlDecode ? URLDecoder.decode(builder.toString(), "UTF-8") : builder.toString();
   }
 }

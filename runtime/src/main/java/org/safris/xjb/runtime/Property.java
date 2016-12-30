@@ -24,6 +24,7 @@ import java.util.Collection;
 import org.safris.commons.lang.Numbers;
 import org.safris.commons.net.URIComponent;
 import org.safris.commons.util.CachedReader;
+import org.safris.xjb.runtime.decoder.StringDecoder;
 
 public class Property<T> {
   @SuppressWarnings("unchecked")
@@ -34,8 +35,9 @@ public class Property<T> {
     }
 
     if (value instanceof String) {
+      final String escaped = StringDecoder.escapeString((String)value);
       try {
-        return binding.urlEncode ? (T)URIComponent.encode((String)value, "UTF-8") : value;
+        return (T)(binding.urlEncode ? URIComponent.encode(escaped, "UTF-8") : escaped);
       }
       catch (final UnsupportedEncodingException e) {
         throw new EncodeException(e.getMessage(), jsObject, e);

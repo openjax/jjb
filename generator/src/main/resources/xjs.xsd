@@ -136,7 +136,7 @@
       <xs:field xpath="@type"/>
     </xs:keyref>
     <xs:keyref name="keyrefObjectExtends" refer="xjs:keyObjectName">
-      <xs:selector xpath="./xjs:*"/>
+      <xs:selector xpath=".//xjs:*"/>
       <xs:field xpath="@extends"/>
     </xs:keyref>
     <xs:keyref name="keyrefObjectRef" refer="xjs:keyObjectName">

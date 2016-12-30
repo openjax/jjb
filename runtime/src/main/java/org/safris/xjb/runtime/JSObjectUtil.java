@@ -147,7 +147,7 @@ public abstract class JSObjectUtil {
   protected static JSObject decode(final CachedReader reader, char ch, final JSObject jsObject) throws DecodeException, IOException {
     boolean hasOpenBrace = false;
     boolean hasStartQuote = false;
-    final StringBuilder string = new StringBuilder();
+    final StringBuilder builder = new StringBuilder();
     while (true) {
       if (ch == '{') {
         if (hasOpenBrace)
@@ -175,11 +175,11 @@ public abstract class JSObjectUtil {
                 throw new DecodeException("Malformed JSON", reader.readFully(), jsObject._bundle());
 
               // Special case for parsing the container object
-              final Binding<?> member = jsObject._getBinding(string.toString());
+              final Binding<?> member = jsObject._getBinding(builder.toString());
               if (member == null)
-                throw new DecodeException("Unknown property name: " + string, reader.readFully(), jsObject._bundle());
+                throw new DecodeException("Unknown property name: " + builder, reader.readFully(), jsObject._bundle());
 
-              string.setLength(0);
+              builder.setLength(0);
               ch = next(reader);
 
               final Object value = decodeValue(ch, reader, member.type, member);
@@ -212,7 +212,7 @@ public abstract class JSObjectUtil {
             }
 
             if (ch != ',') {
-              string.append(ch);
+              builder.append(ch);
             }
           }
         }

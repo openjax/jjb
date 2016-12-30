@@ -254,7 +254,7 @@ public class Generator {
         if (property instanceof $xjs_string) {
           final $xjs_string string = ($xjs_string)property;
           if (string._pattern$().text() != null || string._length$().text() != null)
-            out += ", new " + StringValidator.class.getName() + "(" + (string._pattern$().isNull() ? "null" : "\"" + XMLText.unescapeXMLText(string._pattern$().text()).replace("\\", "\\\\") + "\"") + ", " + (string._length$().isNull() ? "null" : string._length$().text()) + ")";
+            out += ", new " + StringValidator.class.getName() + "(" + (string._pattern$().isNull() ? "null" : "\"" + XMLText.unescapeXMLText(string._pattern$().text()).replace("\\", "\\\\").replace("\"", "\\\"") + "\"") + ", " + (string._length$().isNull() ? "null" : string._length$().text()) + ")";
         }
         else if (property instanceof $xjs_number) {
           final $xjs_number string = ($xjs_number)property;
