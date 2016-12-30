@@ -51,6 +51,10 @@ public class JSArray<E> extends JSObject implements List<E>, RandomAccess, Clone
     list = new ArrayList<E>();
   }
 
+  public JSArray(final Collection<? extends E> c) {
+    list = new ArrayList<E>(c);
+  }
+
   public JSArray(final int size) {
     list = new ArrayList<E>(size);
   }
