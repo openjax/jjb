@@ -59,10 +59,6 @@ public abstract class JSObjectUtil {
     property.set(value);
   }
 
-  protected static <T>boolean wasSet(final Property<T> property) {
-    return property.wasSet();
-  }
-
   protected static <T>T encode(final Property<T> property) throws EncodeException {
     return property.encode();
   }
@@ -197,13 +193,13 @@ public abstract class JSObjectUtil {
               for (final Binding<?> binding : jsObject._bindings()) {
                 final Property<?> property = (Property<?>)binding.property.get(jsObject);
                 if (binding.required) {
-                  if (!property.wasSet())
+                  if (!property.present())
                     throw new DecodeException("\"" + binding.name + "\" is required", reader.readFully(), jsObject._bundle());
 
                   if (binding.notNull && property.get() == null)
                     throw new DecodeException("\"" + binding.name + "\" cannot be null", reader.readFully(), jsObject._bundle());
                 }
-                else if (property.wasSet() && binding.notNull && property.get() == null) {
+                else if (property.present() && binding.notNull && property.get() == null) {
                   throw new DecodeException("\"" + binding.name + "\" cannot be null", reader.readFully(), jsObject._bundle());
                 }
               }

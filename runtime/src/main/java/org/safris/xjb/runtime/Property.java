@@ -59,7 +59,7 @@ public class Property<T> {
 
   private final JSObject jsObject;
   private final Binding<T> binding;
-  private boolean wasSet = false;
+  private boolean present = false;
   private T value;
 
   public Property(final JSObject jsObject, final Binding<T> binding) {
@@ -68,7 +68,7 @@ public class Property<T> {
   }
 
   protected void clone(final Property<T> clone) {
-    this.wasSet = clone.wasSet;
+    this.present = clone.present;
     this.value = clone.value;
   }
 
@@ -77,17 +77,17 @@ public class Property<T> {
   }
 
   protected void set(final T value) {
-    this.wasSet = true;
+    this.present = true;
     this.value = value;
   }
 
   public void clear() {
-    this.wasSet = false;
+    this.present = false;
     this.value = null;
   }
 
-  protected boolean wasSet() {
-    return wasSet;
+  public boolean present() {
+    return present;
   }
 
   @SuppressWarnings("unchecked")

@@ -182,16 +182,16 @@ public class Generator {
 
     String out = "";
     if (property._required$().text()) {
-      out += "\n" + pad + "     if (!wasSet(" + instanceName + "))";
+      out += "\n" + pad + "     if (!" + instanceName + ".present())";
       out += "\n" + pad + "       throw new " + EncodeException.class.getName() + "(\"\\\"" + valueName + "\\\" is required\", this);\n";
     }
 
     if (!property._null$().text()) {
-      out += "\n" + pad + "     if (wasSet(" + instanceName + ") && get(" + instanceName + ") == null)";
+      out += "\n" + pad + "     if (" + instanceName + ".present() && get(" + instanceName + ") == null)";
       out += "\n" + pad + "       throw new " + EncodeException.class.getName() + "(\"\\\"" + valueName + "\\\" cannot be null\", this);\n";
     }
 
-    out += "\n" + pad + "     if (wasSet(" + instanceName + "))";
+    out += "\n" + pad + "     if (" + instanceName + ".present())";
     out += "\n" + pad + "       out.append(\",\\n\").append(pad(depth)).append(\"\\\"" + valueName + "\\\": \").append(";
     if (!property._array$().isNull() && property._array$().text())
       return out + JSArray.class.getName() + ".toString(encode(" + instanceName + "), depth + 1));\n";
