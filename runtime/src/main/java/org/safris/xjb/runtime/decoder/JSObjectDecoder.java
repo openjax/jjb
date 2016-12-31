@@ -20,33 +20,23 @@ import java.io.IOException;
 
 import org.safris.commons.util.CachedReader;
 import org.safris.xjb.runtime.Binding;
+import org.safris.xjb.runtime.DecodeException;
+import org.safris.xjb.runtime.JSObject;
 import org.safris.xjb.runtime.JSObjectUtil;
 
-public class NumberDecoder extends Decoder<Number> {
+public class JSObjectDecoder extends Decoder<JSObject> {
   @Override
-  protected Number[] newInstance(final int depth) {
-    return new Double[depth];
+  protected JSObject[] newInstance(final int depth) {
+    return new JSObject[depth];
   }
 
   @Override
-  public Number decode(final CachedReader reader, char ch, final Binding<?> binding) throws IOException {
-    if (('0' > ch || ch > '9') && ch != '-') {
-      if (JSObjectUtil.isNull(ch, reader))
-        return null;
-
-      throw new IllegalArgumentException("Malformed JSON");
+  public JSObject decode(final CachedReader reader, char ch, final Binding<?> clazz) throws DecodeException, IOException {
+    try {
+      return JSObjectUtil.decode(reader, ch, clazz.type == null ? null : (JSObject)clazz.type.newInstance());
     }
-
-    final StringBuilder value = new StringBuilder();
-    do {
-      value.append(ch);
+    catch (final ReflectiveOperationException e) {
+      throw new UnsupportedOperationException(e);
     }
-    while ('0' <= (ch = JSObjectUtil.nextAny(reader)) && ch <= '9' || ch == '.' || ch == 'e' || ch == 'E' || ch == '+' || ch == '+');
-
-    final String number = value.toString();
-    if (number.contains(".") || number.contains("e") || number.contains("E"))
-      return Double.parseDouble(number);
-
-    return Long.parseLong(number);
   }
 }

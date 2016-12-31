@@ -22,6 +22,8 @@ import java.util.Collection;
 import org.safris.xjb.runtime.validator.Validator;
 
 public class Binding<T> {
+  public static final Binding<?> ANY = new Binding<Object>(null, null, null, false, false, false, false);
+
   public final String name;
   public final Field property;
   public final Class<?> type;
@@ -29,23 +31,32 @@ public class Binding<T> {
   public final boolean array;
   public final boolean required;
   public final boolean notNull;
-  public final boolean urlEncode;
   public final boolean urlDecode;
+  public final boolean urlEncode;
   public final Validator<?>[] validators;
 
+  // string
   @SafeVarargs
-  public Binding(final String name, final Field property, final Class<?> type, final boolean isAbstract, final boolean array, final boolean required, final boolean notNull, final boolean urlEncode, final boolean urlDecode, final Validator<?> ... validators) {
-    property.setAccessible(true);
+  public Binding(final String name, final Field property, final Class<?> type, final boolean isAbstract, final boolean array, final boolean required, final boolean notNull, final boolean urlDecode, final boolean urlEncode, final Validator<?> ... validators) {
     this.name = name;
     this.property = property;
+    if (this.property != null)
+      this.property.setAccessible(true);
+
     this.type = type;
     this.isAbstract = isAbstract;
     this.array = array;
     this.required = required;
     this.notNull = notNull;
-    this.urlEncode = urlEncode;
     this.urlDecode = urlDecode;
+    this.urlEncode = urlEncode;
     this.validators = validators;
+  }
+
+  // [other]
+  @SafeVarargs
+  public Binding(final String name, final Field property, final Class<?> type, final boolean isAbstract, final boolean array, final boolean required, final boolean notNull, final Validator<?> ... validators) {
+    this(name, property, type, isAbstract, array, required, notNull, false, false, validators);
   }
 
   private String errorsToString(final String[] errors) {

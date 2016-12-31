@@ -89,6 +89,7 @@
         </xs:sequence>
         <xs:attribute name="name" type="dt:javaVariable" use="required"/>
         <xs:attribute name="extends" type="xs:string"/>
+        <xs:attribute name="unknown" type="xjs:unknown" default="fail"/>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
@@ -100,6 +101,13 @@
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
+  
+  <xs:simpleType name="unknown">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="skip"/>
+      <xs:enumeration value="fail"/>
+    </xs:restriction>
+  </xs:simpleType>
   
   <xs:element name="json">
     <xs:complexType>
@@ -115,6 +123,7 @@
                 <xs:attribute name="name" type="dt:javaVariable" use="required"/>
                 <xs:attribute name="extends" type="xs:string"/>
                 <xs:attribute name="abstract" type="xs:boolean" default="false"/>
+                <xs:attribute name="unknown" type="xjs:unknown" default="fail"/>
               </xs:extension>
             </xs:complexContent>
           </xs:complexType>

@@ -37,8 +37,8 @@ public abstract class JSObject extends JSObjectUtil {
 
       return (T)decode(stringBuilderReader, ch, ((Class<T>)type).newInstance());
     }
-    catch (final InstantiationException | IllegalAccessException e) {
-      throw new RuntimeException(e);
+    catch (final ReflectiveOperationException e) {
+      throw new UnsupportedOperationException(e);
     }
   }
 
@@ -55,5 +55,6 @@ public abstract class JSObject extends JSObjectUtil {
   protected abstract String _name();
   protected abstract Binding<?> _getBinding(final String name);
   protected abstract Collection<Binding<?>> _bindings();
+  protected abstract boolean _skipUnknown();
   protected abstract JSBundle _bundle();
 }

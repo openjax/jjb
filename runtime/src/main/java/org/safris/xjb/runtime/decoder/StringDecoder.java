@@ -17,9 +17,9 @@
 package org.safris.xjb.runtime.decoder;
 
 import java.io.IOException;
-import java.io.Reader;
 import java.net.URLDecoder;
 
+import org.safris.commons.util.CachedReader;
 import org.safris.xjb.runtime.Binding;
 import org.safris.xjb.runtime.JSObjectUtil;
 
@@ -34,7 +34,7 @@ public class StringDecoder extends Decoder<String> {
   }
 
   @Override
-  public String decode(final Reader reader, char ch, final Binding<?> binding) throws IOException {
+  public String decode(final CachedReader reader, char ch, final Binding<?> binding) throws IOException {
     if (ch != '"') {
       if (JSObjectUtil.isNull(ch, reader))
         return null;

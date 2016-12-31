@@ -85,6 +85,11 @@ public class JSArray<E> extends JSObject implements List<E>, RandomAccess, Clone
   }
 
   @Override
+  protected boolean _skipUnknown() {
+    return false;
+  }
+
+  @Override
   public int size() {
     return list.size();
   }

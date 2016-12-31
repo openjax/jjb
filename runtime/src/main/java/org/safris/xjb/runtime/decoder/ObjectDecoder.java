@@ -1,4 +1,4 @@
-/* Copyright (c) 2015 Seva Safris
+/* Copyright (c) 2016 Seva Safris
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -17,57 +17,46 @@
 package org.safris.xjb.runtime.decoder;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
 
 import org.safris.commons.util.CachedReader;
+import org.safris.xjb.runtime.Binding;
 import org.safris.xjb.runtime.DecodeException;
-import org.safris.xjb.runtime.JSObject;
 import org.safris.xjb.runtime.JSObjectUtil;
 
-public class ObjectDecoder extends JSObjectUtil {
-  public JSObject decode(final CachedReader reader, char ch, final Class<?> clazz) throws DecodeException, IOException {
-    try {
-      final JSObject value = (JSObject)clazz.newInstance();
-      JSObjectUtil.decode(reader, ch, value);
-      return value;
-    }
-    catch (final ReflectiveOperationException e) {
-      throw new RuntimeException(e);
-    }
+public class ObjectDecoder extends Decoder<Object> {
+  private final JSObjectDecoder objectDecoder;
+  private final StringDecoder stringDecoder;
+  private final NumberDecoder numberDecoder;
+  private final BooleanDecoder booleanDecoder;
+
+  public ObjectDecoder(final JSObjectDecoder objectDecoder, final StringDecoder stringDecoder, final NumberDecoder numberDecoder, final BooleanDecoder booleanDecoder) {
+    this.objectDecoder = objectDecoder;
+    this.stringDecoder = stringDecoder;
+    this.numberDecoder = numberDecoder;
+    this.booleanDecoder = booleanDecoder;
   }
 
-  public JSObject[] recurse(final CachedReader reader, final Class<?> clazz, final int depth) throws DecodeException, IOException {
-    char ch = JSObjectUtil.next(reader);
-    final JSObject value;
-    if (ch != '{') {
-      if (JSObjectUtil.isNull(ch, reader))
-        value = null;
-      else
-        throw new IllegalArgumentException("Malformed JSON");
-    }
-    else {
-      try {
-        value = (JSObject)clazz.newInstance();
-      }
-      catch (final ReflectiveOperationException e) {
-        throw new Error(e);
-      }
+  @Override
+  protected Object[] newInstance(final int depth) {
+    return new Object[depth];
+  }
 
-      JSObjectUtil.decode(reader, ch, value);
-    }
+  @Override
+  public Object decode(final CachedReader reader, char ch, final Binding<?> binding) throws DecodeException, IOException {
+    if (ch == '"')
+      return stringDecoder.decode(reader, ch, binding);
 
-    ch = JSObjectUtil.next(reader);
-    if (ch == ',') {
-      final JSObject[] array = recurse(reader, clazz, depth + 1);
-      array[depth] = value;
-      return array;
-    }
+    if ('0' <= ch && ch <= '9' || ch == '.')
+      return numberDecoder.decode(reader, ch, binding);
 
-    if (ch == ']') {
-      final JSObject[] array = (JSObject[])Array.newInstance(clazz, depth + 1);
-      array[depth] = value;
-      return array;
-    }
+    if (ch == 't' || ch == 'f')
+      return booleanDecoder.decode(reader, ch, binding);
+
+    if (ch == '{')
+      return objectDecoder.decode(reader, ch, binding);
+
+    if (JSObjectUtil.isNull(ch, reader))
+      return null;
 
     throw new IllegalArgumentException("Malformed JSON");
   }

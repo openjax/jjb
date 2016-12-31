@@ -225,10 +225,15 @@ public class Generator {
 
     final boolean isAbstract = object instanceof xjs_json._object ? ((xjs_json._object)object)._abstract$().text() : false;
     final String extendsPropertyName;
-    if (object1 != null)
+    final boolean skipUnknown;
+    if (object1 != null) {
       extendsPropertyName = !object1._extends$().isNull() ? object1._extends$().text() : null;
-    else
+      skipUnknown = $xjs_object._unknown$.skip.text().equals(object1._unknown$().text());
+    }
+    else {
       extendsPropertyName = !object2._extends$().isNull() ? object2._extends$().text() : null;
+      skipUnknown = $xjs_object._unknown$.skip.text().equals(object2._unknown$().text());
+    }
 
     final String className = Strings.toClassCase(objectName);
     parent.add(className);
@@ -236,7 +241,8 @@ public class Generator {
     final BindingList<$xjs_property> properties = object1 != null ? object1._property() : object2._property();
 
     final String pad = Strings.padFixed("", depth * 2, false);
-    out += "\n\n" + pad + " public static" + (isAbstract ? " abstract" : "") + " class " + className + " extends " + (extendsPropertyName != null ? parent.get(0) + "." + Strings.toClassCase(extendsPropertyName) : JSObject.class.getName()) + " {";
+    out += "\n\n" + pad + " ";
+    out += "\n" + pad + " public static" + (isAbstract ? " abstract" : "") + " class " + className + " extends " + (extendsPropertyName != null ? parent.get(0) + "." + Strings.toClassCase(extendsPropertyName) : JSObject.class.getName()) + " {";
     out += "\n" + pad + "   private static final " + String.class.getName() + " _name = \"" + objectName + "\";\n";
     out += "\n" + pad + "   private static final " + Map.class.getName() + "<" + String.class.getName() + "," + Binding.class.getName() + "<?>> bindings = new " + HashMap.class.getName() + "<" + String.class.getName() + "," + Binding.class.getName() + "<?>>(" + (properties != null ? properties.size() : 0) + ");";
 
@@ -250,7 +256,7 @@ public class Generator {
         final boolean isArray = property._array$().text() != null && property._array$().text();
         final String type = isArray ? Collection.class.getName() + "<" + rawType + ">" : rawType;
 
-        out += "\n" + pad + "       bindings.put(\"" + propertyName + "\", new " + Binding.class.getName() + "<" + type + ">(\"" + propertyName + "\", " + className + ".class.getDeclaredField(\"" + getInstanceName(property) + "\"), " + rawType + ".class, " + isAbstract + ", " + isArray + ", " + property._required$().text() + ", " + !property._null$().text() + ", " + (property instanceof $xjs_string ? (($xjs_string)property)._urlEncode$().text() : "false") + ", " + (property instanceof $xjs_string ? (($xjs_string)property)._urlDecode$().text() : "false");
+        out += "\n" + pad + "       bindings.put(\"" + propertyName + "\", new " + Binding.class.getName() + "<" + type + ">(\"" + propertyName + "\", " + className + ".class.getDeclaredField(\"" + getInstanceName(property) + "\"), " + rawType + ".class, " + isAbstract + ", " + isArray + ", " + property._required$().text() + ", " + !property._null$().text() + (property instanceof $xjs_string ? ", " + (($xjs_string)property)._urlDecode$().text() + ", " + (($xjs_string)property)._urlEncode$().text() : "");
         if (property instanceof $xjs_string) {
           final $xjs_string string = ($xjs_string)property;
           if (string._pattern$().text() != null || string._length$().text() != null)
@@ -298,6 +304,11 @@ public class Generator {
     out += "\n\n" + pad + "   public " + className + "() {";
     out += "\n" + pad + "     super();";
     out += "\n" + pad + "   }";
+
+    out += "\n\n" + pad + "   @" + Override.class.getName();
+    out += "\n" + pad + "   protected boolean _skipUnknown() {";
+      out += "\n" + pad + "     return " + skipUnknown + ";";
+    out += "\n" + pad + "   }\n";
 
     out += "\n\n" + pad + "   @" + Override.class.getName();
     out += "\n" + pad + "   protected " + Binding.class.getName() + "<?> _getBinding(final " + String.class.getName() + " name) {";
