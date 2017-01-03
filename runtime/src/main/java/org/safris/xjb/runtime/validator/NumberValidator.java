@@ -16,25 +16,27 @@
 
 package org.safris.xjb.runtime.validator;
 
-public class NumberValidator extends Validator<String> {
-  private final boolean whole;
+import org.safris.commons.lang.Numbers;
+
+public class NumberValidator extends Validator<Number> {
+  private final boolean integer;
   private final Integer min;
   private final Integer max;
 
-  public NumberValidator(final boolean whole, final Integer min, final Integer max) {
-    this.whole = whole;
+  public NumberValidator(final boolean integer, final Integer min, final Integer max) {
+    this.integer = integer;
     this.min = min;
     this.max = max;
   }
 
   @Override
-  public String validate(final String value) {
+  public String validate(final Number value) {
     if (value == null)
       return null;
 
-    final String formError = !whole || !value.contains(".") ? null : "is not a \"whole\" number";
+    final Double doubleValue = value.doubleValue();
+    final String formError = !integer || Numbers.isInteger(doubleValue) ? null : "is not a \"integer\" number";
 
-    final Double doubleValue = Double.parseDouble(value);
     final String minError = min == null || min <= doubleValue ? null : "is less than \"" + min + "\" min value";
     final String maxError = max == null || max >= doubleValue ? null : "is more than \"" + max + "\" max value";
 

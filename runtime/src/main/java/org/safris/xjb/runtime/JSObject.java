@@ -33,7 +33,7 @@ public abstract class JSObject extends JSObjectUtil {
         return (T)decodeValue(ch, stringBuilderReader, type, null);
 
       if (!JSObject.class.isAssignableFrom(type))
-        throw new DecodeException("Expected a JSObject type " + type.getName(), stringBuilderReader.readFully(), null);
+        throw new DecodeException("[" + stringBuilderReader.getLength() + "] Expected a JSObject type " + type.getName(), stringBuilderReader.readFully(), null);
 
       return (T)decode(stringBuilderReader, ch, ((Class<T>)type).newInstance());
     }

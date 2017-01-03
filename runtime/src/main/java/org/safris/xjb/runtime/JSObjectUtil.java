@@ -147,7 +147,7 @@ public abstract class JSObjectUtil {
     while (true) {
       if (ch == '{') {
         if (hasOpenBrace)
-          throw new DecodeException("Malformed JSON", reader.readFully(), jsObject != null ? jsObject._bundle() : null);
+          throw new DecodeException("Malformed JSON [" + reader.getLength() + "]", reader.readFully(), jsObject != null ? jsObject._bundle() : null);
 
         hasOpenBrace = true;
       }
@@ -156,7 +156,7 @@ public abstract class JSObjectUtil {
           if (isNull(ch, reader))
             return null;
 
-          throw new DecodeException("Malformed JSON", reader.readFully(), jsObject != null ? jsObject._bundle() : null);
+          throw new DecodeException("Malformed JSON [" + reader.getLength() + "]", reader.readFully(), jsObject != null ? jsObject._bundle() : null);
         }
 
         try {
@@ -168,7 +168,7 @@ public abstract class JSObjectUtil {
               hasStartQuote = false;
               ch = next(reader);
               if (ch != ':')
-                throw new DecodeException("Malformed JSON", reader.readFully(), jsObject != null ? jsObject._bundle() : null);
+                throw new DecodeException("Malformed JSON [" + reader.getLength() + "]", reader.readFully(), jsObject != null ? jsObject._bundle() : null);
 
               // Special case for parsing the container object
               Binding<?> member = jsObject == null ? Binding.ANY : jsObject._getBinding(builder.toString());
@@ -176,7 +176,7 @@ public abstract class JSObjectUtil {
                 if (jsObject._skipUnknown())
                   member = Binding.ANY;
                 else
-                  throw new DecodeException("Unknown property name: " + builder, reader.readFully(), jsObject._bundle());
+                  throw new DecodeException("Unknown property name: " + builder + " [" + reader.getLength() + "]", reader.readFully(), jsObject._bundle());
               }
 
               builder.setLength(0);
@@ -185,7 +185,7 @@ public abstract class JSObjectUtil {
               final Object value = decodeValue(ch, reader, member.type, member);
 
               if (member.required && member.notNull && value == null)
-                throw new DecodeException("\"" + member.name + "\" cannot be null", reader.readFully(), jsObject != null ? jsObject._bundle() : null);
+                throw new DecodeException("\"" + member.name + "\" cannot be null [" + reader.getLength() + "]", reader.readFully(), jsObject != null ? jsObject._bundle() : null);
 
               if (member != Binding.ANY) {
                 final Property property = (Property)member.property.get(jsObject);
@@ -203,13 +203,13 @@ public abstract class JSObjectUtil {
                 final Property<?> property = (Property<?>)binding.property.get(jsObject);
                 if (binding.required) {
                   if (!property.present())
-                    throw new DecodeException("\"" + binding.name + "\" is required", reader.readFully(), jsObject._bundle());
+                    throw new DecodeException("\"" + binding.name + "\" is required [" + reader.getLength() + "]", reader.readFully(), jsObject._bundle());
 
                   if (binding.notNull && property.get() == null)
-                    throw new DecodeException("\"" + binding.name + "\" cannot be null", reader.readFully(), jsObject._bundle());
+                    throw new DecodeException("\"" + binding.name + "\" cannot be null [" + reader.getLength() + "]", reader.readFully(), jsObject._bundle());
                 }
                 else if (property.present() && binding.notNull && property.get() == null) {
-                  throw new DecodeException("\"" + binding.name + "\" cannot be null", reader.readFully(), jsObject._bundle());
+                  throw new DecodeException("\"" + binding.name + "\" cannot be null [" + reader.getLength() + "]", reader.readFully(), jsObject._bundle());
                 }
               }
 

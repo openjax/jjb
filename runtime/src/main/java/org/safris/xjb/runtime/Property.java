@@ -112,7 +112,7 @@ public class Property<T> {
   protected void decode(final CachedReader reader) throws DecodeException, IOException {
     final String error = binding.validate(value);
     if (error != null)
-      throw new DecodeException(error, reader.readFully(), jsObject._bundle());
+      throw new DecodeException(error + " [" + reader.getLength() + "]", reader.readFully(), jsObject._bundle());
 
     if (value instanceof Collection<?>) {
       final Collection<T> collection = (Collection<T>)value;
