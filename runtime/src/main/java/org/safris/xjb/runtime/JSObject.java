@@ -20,22 +20,22 @@ import java.io.IOException;
 import java.io.Reader;
 import java.util.Collection;
 
-import org.safris.commons.util.CachedReader;
+import org.safris.commons.util.RewindableReader;
 
-public abstract class JSObject extends JSObjectUtil {
+public abstract class JSObject extends JSObjectBase {
   @SuppressWarnings("unchecked")
   public static <T extends JSObject>T parse(final Class<?> type, final Reader reader) throws DecodeException, IOException {
     try {
-      final CachedReader stringBuilderReader = reader instanceof CachedReader ? (CachedReader) reader : new CachedReader(reader, new StringBuilder());
-      final char ch = next(stringBuilderReader);
+      final RewindableReader rewindableReader = reader instanceof RewindableReader ? (RewindableReader) reader : new RewindableReader(reader);
+      final char ch = next(rewindableReader);
 
       if (ch == '[')
-        return (T)decodeValue(ch, stringBuilderReader, type, null);
+        return (T)decodeValue(ch, rewindableReader, type, null);
 
       if (!JSObject.class.isAssignableFrom(type))
-        throw new DecodeException("[" + stringBuilderReader.getLength() + "] Expected a JSObject type " + type.getName(), stringBuilderReader.readFully(), null);
+        throw new DecodeException("Expected a JSObject type " + type.getName(), rewindableReader, null);
 
-      return (T)decode(stringBuilderReader, ch, ((Class<T>)type).newInstance());
+      return (T)decode(rewindableReader, ch, ((Class<T>)type).newInstance());
     }
     catch (final ReflectiveOperationException e) {
       throw new UnsupportedOperationException(e);

@@ -18,18 +18,18 @@ package org.safris.xjb.runtime.decoder;
 
 import java.io.IOException;
 
-import org.safris.commons.util.CachedReader;
+import org.safris.commons.util.RewindableReader;
 import org.safris.xjb.runtime.Binding;
 import org.safris.xjb.runtime.DecodeException;
-import org.safris.xjb.runtime.JSObjectUtil;
+import org.safris.xjb.runtime.JSObjectBase;
 
-public abstract class Decoder<T> extends JSObjectUtil {
+public abstract class Decoder<T> extends JSObjectBase {
   protected abstract T[] newInstance(final int depth);
 
-  public abstract T decode(final CachedReader reader, char ch, final Binding<?> binding) throws DecodeException, IOException;
+  public abstract T decode(final RewindableReader reader, char ch, final Binding<?> binding) throws DecodeException, IOException;
 
-  public final T[] recurse(final CachedReader reader, final int depth, final Binding<?> binding) throws DecodeException, IOException {
-    char ch = JSObjectUtil.next(reader);
+  public final T[] recurse(final RewindableReader reader, final int depth, final Binding<?> binding) throws DecodeException, IOException {
+    char ch = JSObjectBase.next(reader);
     if (ch == ']')
       return newInstance(depth);
 

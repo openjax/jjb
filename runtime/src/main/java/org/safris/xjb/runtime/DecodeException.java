@@ -16,35 +16,33 @@
 
 package org.safris.xjb.runtime;
 
+import java.io.IOException;
+
+import org.safris.commons.util.RewindableReader;
+
 public class DecodeException extends Exception {
   private static final long serialVersionUID = -1234230677110958751L;
 
   private final String json;
-  private final JSBundle jsBundle;
 
-  public DecodeException(final String json, final JSBundle jsBundle) {
-    this(null, json, jsBundle, null);
+  public DecodeException(final RewindableReader json) throws IOException {
+    this(null, json, null);
   }
 
-  public DecodeException(final String message, final String json, final JSBundle jsBundle) {
-    this(message, json, jsBundle, null);
+  public DecodeException(final String message, final RewindableReader json) throws IOException {
+    this(message, json, null);
   }
 
-  public DecodeException(final String json, final JSBundle jsBundle, final Throwable cause) {
-    this(null, json, jsBundle, cause);
+  public DecodeException(final RewindableReader json, final Throwable cause) throws IOException {
+    this(null, json, cause);
   }
 
-  public DecodeException(final String message, final String json, final JSBundle jsBundle, final Throwable cause) {
-    super(message != null ? message + "\n" + json : json, cause);
-    this.json = json;
-    this.jsBundle = jsBundle;
+  public DecodeException(final String message, final RewindableReader json, final Throwable cause) throws IOException {
+    super(message != null ? message + " [" + json.getLength() + "] " + json.readFully() : "[" + json.getLength() + "] " + json.readFully(), cause);
+    this.json = json.readFully();
   }
 
   public String getJSON() {
     return json;
-  }
-
-  public String getSpec() {
-    return jsBundle.getSpec();
   }
 }

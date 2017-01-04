@@ -18,9 +18,9 @@ package org.safris.xjb.runtime.decoder;
 
 import java.io.IOException;
 
-import org.safris.commons.util.CachedReader;
+import org.safris.commons.util.RewindableReader;
 import org.safris.xjb.runtime.Binding;
-import org.safris.xjb.runtime.JSObjectUtil;
+import org.safris.xjb.runtime.JSObjectBase;
 
 public class BooleanDecoder extends Decoder<Boolean> {
   @Override
@@ -29,9 +29,9 @@ public class BooleanDecoder extends Decoder<Boolean> {
   }
 
   @Override
-  public Boolean decode(final CachedReader reader, char ch, final Binding<?> binding) throws IOException {
+  public Boolean decode(final RewindableReader reader, char ch, final Binding<?> binding) throws IOException {
     if (ch != 'f' && ch != 't') {
-      if (JSObjectUtil.isNull(ch, reader))
+      if (JSObjectBase.isNull(ch, reader))
         return null;
 
       throw new IllegalArgumentException("Malformed JSON");
@@ -40,7 +40,7 @@ public class BooleanDecoder extends Decoder<Boolean> {
     final StringBuilder value = new StringBuilder(5);
     value.append(ch);
     do
-      value.append(JSObjectUtil.next(reader));
+      value.append(JSObjectBase.next(reader));
     while ((value.length() != 4 || !"true".equals(value.toString())) && (value.length() != 5 || !"false".equals(value.toString())));
 
     return Boolean.parseBoolean(value.toString());

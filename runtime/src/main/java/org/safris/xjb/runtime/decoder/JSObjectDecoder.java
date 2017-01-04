@@ -18,11 +18,11 @@ package org.safris.xjb.runtime.decoder;
 
 import java.io.IOException;
 
-import org.safris.commons.util.CachedReader;
+import org.safris.commons.util.RewindableReader;
 import org.safris.xjb.runtime.Binding;
 import org.safris.xjb.runtime.DecodeException;
 import org.safris.xjb.runtime.JSObject;
-import org.safris.xjb.runtime.JSObjectUtil;
+import org.safris.xjb.runtime.JSObjectBase;
 
 public class JSObjectDecoder extends Decoder<JSObject> {
   @Override
@@ -31,9 +31,9 @@ public class JSObjectDecoder extends Decoder<JSObject> {
   }
 
   @Override
-  public JSObject decode(final CachedReader reader, char ch, final Binding<?> clazz) throws DecodeException, IOException {
+  public JSObject decode(final RewindableReader reader, char ch, final Binding<?> clazz) throws DecodeException, IOException {
     try {
-      return JSObjectUtil.decode(reader, ch, clazz.type == null ? null : (JSObject)clazz.type.newInstance());
+      return JSObjectBase.decode(reader, ch, clazz.type == null ? null : (JSObject)clazz.type.newInstance());
     }
     catch (final ReflectiveOperationException e) {
       throw new UnsupportedOperationException(e);

@@ -18,9 +18,9 @@ package org.safris.xjb.runtime.decoder;
 
 import java.io.IOException;
 
-import org.safris.commons.util.CachedReader;
+import org.safris.commons.util.RewindableReader;
 import org.safris.xjb.runtime.Binding;
-import org.safris.xjb.runtime.JSObjectUtil;
+import org.safris.xjb.runtime.JSObjectBase;
 
 public class NumberDecoder extends Decoder<Number> {
   @Override
@@ -29,9 +29,9 @@ public class NumberDecoder extends Decoder<Number> {
   }
 
   @Override
-  public Number decode(final CachedReader reader, char ch, final Binding<?> binding) throws IOException {
+  public Number decode(final RewindableReader reader, char ch, final Binding<?> binding) throws IOException {
     if (('0' > ch || ch > '9') && ch != '-') {
-      if (JSObjectUtil.isNull(ch, reader))
+      if (JSObjectBase.isNull(ch, reader))
         return null;
 
       throw new IllegalArgumentException("Malformed JSON");
@@ -40,8 +40,10 @@ public class NumberDecoder extends Decoder<Number> {
     final StringBuilder value = new StringBuilder();
     do {
       value.append(ch);
+      reader.mark(1);
     }
-    while ('0' <= (ch = JSObjectUtil.nextAny(reader)) && ch <= '9' || ch == '.' || ch == 'e' || ch == 'E' || ch == '+' || ch == '+');
+    while ('0' <= (ch = JSObjectBase.nextAny(reader)) && ch <= '9' || ch == '.' || ch == 'e' || ch == 'E' || ch == '-');
+    reader.reset();
 
     final String number = value.toString();
     if (number.contains(".") || number.contains("e") || number.contains("E"))

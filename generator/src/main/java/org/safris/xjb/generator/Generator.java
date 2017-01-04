@@ -23,6 +23,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
@@ -154,7 +155,7 @@ public class Generator {
     final String valueName = getPropertyName(property);
     final boolean isArray = property._array$().text() != null && property._array$().text();
     final String rawType = getType(parent, property);
-    final String type = isArray ? Collection.class.getName() + "<" + rawType + ">" : rawType;
+    final String type = isArray ? List.class.getName() + "<" + rawType + ">" : rawType;
 
     final String instanceName = getInstanceName(property);
 
@@ -254,7 +255,7 @@ public class Generator {
         final String propertyName = getPropertyName(property);
         final String rawType = getType(parent, property);
         final boolean isArray = property._array$().text() != null && property._array$().text();
-        final String type = isArray ? Collection.class.getName() + "<" + rawType + ">" : rawType;
+        final String type = isArray ? List.class.getName() + "<" + rawType + ">" : rawType;
 
         out += "\n" + pad + "       bindings.put(\"" + propertyName + "\", new " + Binding.class.getName() + "<" + type + ">(\"" + propertyName + "\", " + className + ".class.getDeclaredField(\"" + getInstanceName(property) + "\"), " + rawType + ".class, " + isAbstract + ", " + isArray + ", " + property._required$().text() + ", " + !property._null$().text() + (property instanceof $xjs_string ? ", " + (($xjs_string)property)._urlDecode$().text() + ", " + (($xjs_string)property)._urlEncode$().text() : "");
         if (property instanceof $xjs_string) {
@@ -322,7 +323,7 @@ public class Generator {
     out += "\n" + pad + "   @" + Override.class.getName();
     out += "\n" + pad + "   protected " + Collection.class.getName() + "<" + Binding.class.getName() + "<?>> _bindings() {";
     if (extendsPropertyName != null) {
-      out += "\n" + pad + "     final " + Collection.class.getName() + " bindings = new " + ArrayList.class.getName() + "<" + Binding.class.getName() + "<?>>();";
+      out += "\n" + pad + "     final " + List.class.getName() + " bindings = new " + ArrayList.class.getName() + "<" + Binding.class.getName() + "<?>>();";
       out += "\n" + pad + "     bindings.addAll(super._bindings());";
       out += "\n" + pad + "     bindings.addAll(bindings);";
       out += "\n" + pad + "     return bindings;";

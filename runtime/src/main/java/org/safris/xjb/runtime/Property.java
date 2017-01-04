@@ -17,13 +17,12 @@
 package org.safris.xjb.runtime;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Collection;
 
 import org.safris.commons.lang.Numbers;
 import org.safris.commons.net.URIComponent;
-import org.safris.commons.util.CachedReader;
+import org.safris.commons.util.RewindableReader;
 import org.safris.xjb.runtime.decoder.StringDecoder;
 
 public class Property<T> {
@@ -36,25 +35,15 @@ public class Property<T> {
 
     if (value instanceof String) {
       final String escaped = StringDecoder.escapeString((String)value);
-      try {
-        return (T)(binding.urlEncode ? URIComponent.encode(escaped, "UTF-8") : escaped);
-      }
-      catch (final UnsupportedEncodingException e) {
-        throw new EncodeException(e.getMessage(), jsObject, e);
-      }
+      return (T)(binding.urlEncode ? URIComponent.encode(escaped) : escaped);
     }
 
     return value;
   }
 
   @SuppressWarnings("unchecked")
-  private static <T>T decode(final T value, final JSObject jsObject) throws DecodeException {
-    try {
-      return value instanceof String ? (T)URIComponent.decode(((String)value), "UTF-8") : value;
-    }
-    catch (final UnsupportedEncodingException e) {
-      throw new DecodeException(e.getMessage(), jsObject._bundle(), e);
-    }
+  private static <T>T decode(final T value, final JSObject jsObject) {
+    return value instanceof String ? (T)URIComponent.decode(((String)value)) : value;
   }
 
   private final JSObject jsObject;
@@ -109,10 +98,10 @@ public class Property<T> {
   }
 
   @SuppressWarnings("unchecked")
-  protected void decode(final CachedReader reader) throws DecodeException, IOException {
+  protected void decode(final RewindableReader reader) throws DecodeException, IOException {
     final String error = binding.validate(value);
     if (error != null)
-      throw new DecodeException(error + " [" + reader.getLength() + "]", reader.readFully(), jsObject._bundle());
+      throw new DecodeException(error, reader);
 
     if (value instanceof Collection<?>) {
       final Collection<T> collection = (Collection<T>)value;

@@ -18,10 +18,10 @@ package org.safris.xjb.runtime.decoder;
 
 import java.io.IOException;
 
-import org.safris.commons.util.CachedReader;
+import org.safris.commons.util.RewindableReader;
 import org.safris.xjb.runtime.Binding;
 import org.safris.xjb.runtime.DecodeException;
-import org.safris.xjb.runtime.JSObjectUtil;
+import org.safris.xjb.runtime.JSObjectBase;
 
 public class ObjectDecoder extends Decoder<Object> {
   private final JSObjectDecoder objectDecoder;
@@ -42,7 +42,7 @@ public class ObjectDecoder extends Decoder<Object> {
   }
 
   @Override
-  public Object decode(final CachedReader reader, char ch, final Binding<?> binding) throws DecodeException, IOException {
+  public Object decode(final RewindableReader reader, char ch, final Binding<?> binding) throws DecodeException, IOException {
     if (ch == '"')
       return stringDecoder.decode(reader, ch, binding);
 
@@ -55,7 +55,7 @@ public class ObjectDecoder extends Decoder<Object> {
     if (ch == '{')
       return objectDecoder.decode(reader, ch, binding);
 
-    if (JSObjectUtil.isNull(ch, reader))
+    if (JSObjectBase.isNull(ch, reader))
       return null;
 
     throw new IllegalArgumentException("Malformed JSON");

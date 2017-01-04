@@ -19,9 +19,9 @@ package org.safris.xjb.runtime.decoder;
 import java.io.IOException;
 import java.net.URLDecoder;
 
-import org.safris.commons.util.CachedReader;
+import org.safris.commons.util.RewindableReader;
 import org.safris.xjb.runtime.Binding;
-import org.safris.xjb.runtime.JSObjectUtil;
+import org.safris.xjb.runtime.JSObjectBase;
 
 public class StringDecoder extends Decoder<String> {
   public static String escapeString(final String string) {
@@ -34,9 +34,9 @@ public class StringDecoder extends Decoder<String> {
   }
 
   @Override
-  public String decode(final CachedReader reader, char ch, final Binding<?> binding) throws IOException {
+  public String decode(final RewindableReader reader, char ch, final Binding<?> binding) throws IOException {
     if (ch != '"') {
-      if (JSObjectUtil.isNull(ch, reader))
+      if (JSObjectBase.isNull(ch, reader))
         return null;
 
       throw new IllegalArgumentException("Malformed JSON");
@@ -44,7 +44,7 @@ public class StringDecoder extends Decoder<String> {
 
     boolean escape = false;
     final StringBuilder builder = new StringBuilder();
-    while ((ch = JSObjectUtil.nextAny(reader)) != '"' || escape)
+    while ((ch = JSObjectBase.nextAny(reader)) != '"' || escape)
       if (!(escape = ch == '\\' && !escape))
         builder.append(ch);
 
