@@ -32,17 +32,14 @@
     <dependency>
       <groupId>org.safris.commons</groupId>
       <artifactId>commons-util</artifactId>
-      <version>1.5.7</version>
     </dependency>
     <dependency>
       <groupId>org.safris.commons</groupId>
       <artifactId>commons-lang</artifactId>
-      <version>1.6.4</version>
     </dependency>
     <dependency>
       <groupId>org.safris.commons</groupId>
       <artifactId>commons-net</artifactId>
-      <version>1.4.8</version>
     </dependency>
     <dependency>
       <groupId>javax.ws.rs</groupId>
