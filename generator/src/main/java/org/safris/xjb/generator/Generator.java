@@ -20,6 +20,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -27,6 +28,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
+import org.safris.commons.jci.CompilationException;
+import org.safris.commons.jci.JavaCompiler;
+import org.safris.commons.lang.ClassLoaders;
 import org.safris.commons.lang.Resources;
 import org.safris.commons.lang.Strings;
 import org.safris.commons.util.Collections;
@@ -59,10 +63,10 @@ import org.xml.sax.InputSource;
 
 public class Generator {
   public static void main(final String[] args) throws Exception {
-    Generator.generate(Resources.getResource(args[0]).getURL(), new File(args[1]));
+    Generator.generate(Resources.getResource(args[0]).getURL(), new File(args[1]), false);
   }
 
-  public static void generate(final URL url, final File destDir) throws GeneratorExecutionException, IOException, XMLException {
+  public static void generate(final URL url, final File destDir, final boolean compile) throws GeneratorExecutionException, IOException, XMLException {
     final xjs_json json = (xjs_json)Bindings.parse(new InputSource(url.openStream()));
     if (json._object() == null) {
       Log.error("Missing <object> elements: " + url.toExternalForm());
@@ -105,6 +109,17 @@ public class Generator {
     out += "\n}";
     try (final FileOutputStream fos = new FileOutputStream(new File(outDir, name + ".java"))) {
       fos.write(out.toString().getBytes());
+    }
+
+    if (compile) {
+      try {
+        new JavaCompiler(destDir).compile(destDir);
+      }
+      catch (final CompilationException e) {
+        throw new UnsupportedOperationException(e);
+      }
+
+      ClassLoaders.addURL((URLClassLoader)ClassLoader.getSystemClassLoader(), destDir.toURI().toURL());
     }
   }
 
