@@ -14,40 +14,35 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.safris.xjb.runtime.decoder;
+package org.safris.jjb.runtime.decoder;
 
 import java.io.IOException;
-import java.net.URLDecoder;
 
 import org.safris.commons.util.RewindableReader;
-import org.safris.xjb.runtime.Binding;
-import org.safris.xjb.runtime.JSObjectBase;
+import org.safris.jjb.runtime.Binding;
+import org.safris.jjb.runtime.JSObjectBase;
 
-public class StringDecoder extends Decoder<String> {
-  public static String escapeString(final String string) {
-    return string.replace("\\", "\\\\").replace("\"", "\\\"");
+public class BooleanDecoder extends Decoder<Boolean> {
+  @Override
+  protected Boolean[] newInstance(final int depth) {
+    return new Boolean[depth];
   }
 
   @Override
-  protected String[] newInstance(final int depth) {
-    return new String[depth];
-  }
-
-  @Override
-  public String decode(final RewindableReader reader, char ch, final Binding<?> binding) throws IOException {
-    if (ch != '"') {
+  public Boolean decode(final RewindableReader reader, char ch, final Binding<?> binding) throws IOException {
+    if (ch != 'f' && ch != 't') {
       if (JSObjectBase.isNull(ch, reader))
         return null;
 
       throw new IllegalArgumentException("Malformed JSON");
     }
 
-    boolean escape = false;
-    final StringBuilder builder = new StringBuilder();
-    while ((ch = JSObjectBase.nextAny(reader)) != '"' || escape)
-      if (!(escape = ch == '\\' && !escape))
-        builder.append(ch);
+    final StringBuilder value = new StringBuilder(5);
+    value.append(ch);
+    do
+      value.append(JSObjectBase.next(reader));
+    while ((value.length() != 4 || !"true".equals(value.toString())) && (value.length() != 5 || !"false".equals(value.toString())));
 
-    return binding != null && binding.urlDecode ? URLDecoder.decode(builder.toString(), "UTF-8") : builder.toString();
+    return Boolean.parseBoolean(value.toString());
   }
 }

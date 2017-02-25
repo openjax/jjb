@@ -14,7 +14,7 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.safris.xjb.runtime;
+package org.safris.jjb.runtime;
 
 import java.io.IOException;
 import java.io.Reader;

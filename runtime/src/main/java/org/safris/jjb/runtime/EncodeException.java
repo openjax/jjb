@@ -14,7 +14,7 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.safris.xjb.runtime;
+package org.safris.jjb.runtime;
 
 public class EncodeException extends RuntimeException {
   private static final long serialVersionUID = -5907473656780591942L;

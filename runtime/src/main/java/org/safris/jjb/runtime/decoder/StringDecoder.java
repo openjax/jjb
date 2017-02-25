@@ -14,41 +14,40 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.safris.xjb.runtime.decoder;
+package org.safris.jjb.runtime.decoder;
 
 import java.io.IOException;
+import java.net.URLDecoder;
 
 import org.safris.commons.util.RewindableReader;
-import org.safris.xjb.runtime.Binding;
-import org.safris.xjb.runtime.JSObjectBase;
+import org.safris.jjb.runtime.Binding;
+import org.safris.jjb.runtime.JSObjectBase;
 
-public class NumberDecoder extends Decoder<Number> {
-  @Override
-  protected Number[] newInstance(final int depth) {
-    return new Double[depth];
+public class StringDecoder extends Decoder<String> {
+  public static String escapeString(final String string) {
+    return string.replace("\\", "\\\\").replace("\"", "\\\"");
   }
 
   @Override
-  public Number decode(final RewindableReader reader, char ch, final Binding<?> binding) throws IOException {
-    if (('0' > ch || ch > '9') && ch != '-') {
+  protected String[] newInstance(final int depth) {
+    return new String[depth];
+  }
+
+  @Override
+  public String decode(final RewindableReader reader, char ch, final Binding<?> binding) throws IOException {
+    if (ch != '"') {
       if (JSObjectBase.isNull(ch, reader))
         return null;
 
       throw new IllegalArgumentException("Malformed JSON");
     }
 
-    final StringBuilder value = new StringBuilder();
-    do {
-      value.append(ch);
-      reader.mark(1);
-    }
-    while ('0' <= (ch = JSObjectBase.nextAny(reader)) && ch <= '9' || ch == '.' || ch == 'e' || ch == 'E' || ch == '-');
-    reader.reset();
+    boolean escape = false;
+    final StringBuilder builder = new StringBuilder();
+    while ((ch = JSObjectBase.nextAny(reader)) != '"' || escape)
+      if (!(escape = ch == '\\' && !escape))
+        builder.append(ch);
 
-    final String number = value.toString();
-    if (number.contains(".") || number.contains("e") || number.contains("E"))
-      return Double.parseDouble(number);
-
-    return Long.parseLong(number);
+    return binding != null && binding.urlDecode ? URLDecoder.decode(builder.toString(), "UTF-8") : builder.toString();
   }
 }

@@ -14,12 +14,12 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.safris.xjb.runtime;
+package org.safris.jjb.runtime;
 
 import java.lang.reflect.Field;
 import java.util.Collection;
 
-import org.safris.xjb.runtime.validator.Validator;
+import org.safris.jjb.runtime.validator.Validator;
 
 public class Binding<T> {
   public static final Binding<?> ANY = new Binding<Object>(null, null, null, false, false, false, false);

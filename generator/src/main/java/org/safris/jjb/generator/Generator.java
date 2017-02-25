@@ -14,7 +14,7 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.safris.xjb.generator;
+package org.safris.jjb.generator;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -38,25 +38,25 @@ import org.safris.commons.xml.XMLException;
 import org.safris.commons.xml.XMLText;
 import org.safris.commons.xml.dom.DOMStyle;
 import org.safris.commons.xml.dom.DOMs;
+import org.safris.jjb.jsonx.xe.$jsonx_boolean;
+import org.safris.jjb.jsonx.xe.$jsonx_element;
+import org.safris.jjb.jsonx.xe.$jsonx_named;
+import org.safris.jjb.jsonx.xe.$jsonx_number;
+import org.safris.jjb.jsonx.xe.$jsonx_number._form$;
+import org.safris.jjb.jsonx.xe.$jsonx_object;
+import org.safris.jjb.jsonx.xe.$jsonx_property;
+import org.safris.jjb.jsonx.xe.$jsonx_ref;
+import org.safris.jjb.jsonx.xe.$jsonx_string;
+import org.safris.jjb.jsonx.xe.jsonx_json;
+import org.safris.jjb.runtime.Binding;
+import org.safris.jjb.runtime.EncodeException;
+import org.safris.jjb.runtime.JSArray;
+import org.safris.jjb.runtime.JSBundle;
+import org.safris.jjb.runtime.JSObject;
+import org.safris.jjb.runtime.Property;
+import org.safris.jjb.runtime.validator.NumberValidator;
+import org.safris.jjb.runtime.validator.StringValidator;
 import org.safris.maven.common.Log;
-import org.safris.xjb.runtime.Binding;
-import org.safris.xjb.runtime.EncodeException;
-import org.safris.xjb.runtime.JSArray;
-import org.safris.xjb.runtime.JSBundle;
-import org.safris.xjb.runtime.JSObject;
-import org.safris.xjb.runtime.Property;
-import org.safris.xjb.runtime.validator.NumberValidator;
-import org.safris.xjb.runtime.validator.StringValidator;
-import org.safris.xjb.xjs.xe.$xjs_boolean;
-import org.safris.xjb.xjs.xe.$xjs_element;
-import org.safris.xjb.xjs.xe.$xjs_named;
-import org.safris.xjb.xjs.xe.$xjs_number;
-import org.safris.xjb.xjs.xe.$xjs_number._form$;
-import org.safris.xjb.xjs.xe.$xjs_object;
-import org.safris.xjb.xjs.xe.$xjs_property;
-import org.safris.xjb.xjs.xe.$xjs_ref;
-import org.safris.xjb.xjs.xe.$xjs_string;
-import org.safris.xjb.xjs.xe.xjs_json;
 import org.safris.xsb.runtime.BindingList;
 import org.safris.xsb.runtime.Bindings;
 import org.xml.sax.InputSource;
@@ -67,7 +67,7 @@ public class Generator {
   }
 
   public static void generate(final URL url, final File destDir, final boolean compile) throws GeneratorExecutionException, IOException, XMLException {
-    final xjs_json json = (xjs_json)Bindings.parse(new InputSource(url.openStream()));
+    final jsonx_json json = (jsonx_json)Bindings.parse(new InputSource(url.openStream()));
     if (json._object() == null) {
       Log.error("Missing <object> elements: " + url.toExternalForm());
       return;
@@ -78,7 +78,7 @@ public class Generator {
     if (!outDir.exists() && !outDir.mkdirs())
       throw new IOException("Unable to mkdirs: " + outDir.getAbsolutePath());
 
-    for (final xjs_json._object object : json._object())
+    for (final jsonx_json._object object : json._object())
       objectNameToObject.put(object._name$().text(), object);
 
     final String name = json._name$().text();
@@ -101,7 +101,7 @@ public class Generator {
 
     final Stack<String> parents = new Stack<String>();
     parents.push(name);
-    for (final xjs_json._object object : json._object())
+    for (final jsonx_json._object object : json._object())
       out += writeJavaClass(parents, object, 0);
 
     out += "\n\n  private " + name + "() {";
@@ -123,50 +123,50 @@ public class Generator {
     }
   }
 
-  private static final Map<String,xjs_json._object> objectNameToObject = new HashMap<String,xjs_json._object>();
+  private static final Map<String,jsonx_json._object> objectNameToObject = new HashMap<String,jsonx_json._object>();
 
-  private static String getType(final Stack<String> parent, final $xjs_property property) throws GeneratorExecutionException {
-    if (property instanceof $xjs_string)
+  private static String getType(final Stack<String> parent, final $jsonx_property property) throws GeneratorExecutionException {
+    if (property instanceof $jsonx_string)
       return String.class.getName();
 
-    if (property instanceof $xjs_number)
+    if (property instanceof $jsonx_number)
       return Number.class.getName();
 
-    if (property instanceof $xjs_boolean)
+    if (property instanceof $jsonx_boolean)
       return Boolean.class.getName();
 
-    if (property instanceof $xjs_ref) {
-      final String objectName = (($xjs_ref)property)._object$().text();
+    if (property instanceof $jsonx_ref) {
+      final String objectName = (($jsonx_ref)property)._object$().text();
       if (!objectNameToObject.get(objectName)._abstract$().isNull() && objectNameToObject.get(objectName)._abstract$().text())
         throw new GeneratorExecutionException("Cannot ref to an abstract object \"" + objectName + "\"");
 
       return Strings.toClassCase(objectName);
     }
 
-    if (property instanceof $xjs_object)
-      return Collections.toString(parent, ".") + "." + Strings.toClassCase((($xjs_object)property)._name$().text());
+    if (property instanceof $jsonx_object)
+      return Collections.toString(parent, ".") + "." + Strings.toClassCase((($jsonx_object)property)._name$().text());
 
     throw new UnsupportedOperationException("Unknown type: " + property.getClass().getName());
   }
 
-  private static String getPropertyName(final $xjs_property property) {
-    if (property instanceof $xjs_named)
-      return (($xjs_named)property)._name$().text();
+  private static String getPropertyName(final $jsonx_property property) {
+    if (property instanceof $jsonx_named)
+      return (($jsonx_named)property)._name$().text();
 
-    if (property instanceof $xjs_ref)
-      return (($xjs_ref)property)._object$().text();
+    if (property instanceof $jsonx_ref)
+      return (($jsonx_ref)property)._object$().text();
 
-    if (property instanceof $xjs_object)
-      return (($xjs_object)property)._name$().text();
+    if (property instanceof $jsonx_object)
+      return (($jsonx_object)property)._name$().text();
 
     throw new UnsupportedOperationException("Unexpected type: " + property);
   }
 
-  private static String getInstanceName(final $xjs_property property) {
+  private static String getInstanceName(final $jsonx_property property) {
     return Strings.toInstanceCase(getPropertyName(property));
   }
 
-  private static String writeField(final Stack<String> parent, final $xjs_property property, final int depth) throws GeneratorExecutionException {
+  private static String writeField(final Stack<String> parent, final $jsonx_property property, final int depth) throws GeneratorExecutionException {
     final String valueName = getPropertyName(property);
     final boolean isArray = property._array$().text() != null && property._array$().text();
     final String rawType = getType(parent, property);
@@ -191,7 +191,7 @@ public class Generator {
     return out;
   }
 
-  private static String writeEncode(final $xjs_property property, final int depth) {
+  private static String writeEncode(final $jsonx_property property, final int depth) {
     final String valueName = getPropertyName(property);
     final String instanceName = getInstanceName(property);
     final String pad = Strings.padFixed("", depth * 2, false);
@@ -212,49 +212,49 @@ public class Generator {
     if (!property._array$().isNull() && property._array$().text())
       return out + JSArray.class.getName() + ".toString(encode(" + instanceName + "), depth + 1));\n";
 
-    if (property instanceof $xjs_ref)
+    if (property instanceof $jsonx_ref)
       return out + "get(" + instanceName + ") != null ? encode(encode(" + instanceName + "), depth + 1) : \"null\");\n";
 
-    if (property instanceof $xjs_string)
+    if (property instanceof $jsonx_string)
       return out + "get(" + instanceName + ") != null ? \"\\\"\" + encode(" + instanceName + ") + \"\\\"\" : \"null\");\n";
 
-    if (property instanceof $xjs_object)
+    if (property instanceof $jsonx_object)
       return out + "encode(encode(" + instanceName + "), depth + 1));\n";
 
     return out + "encode(" + instanceName + "));\n";
   }
 
-  private static String writeJavaClass(final Stack<String> parent, final $xjs_element object, final int depth) throws GeneratorExecutionException {
-    final $xjs_object object1;
-    final xjs_json._object object2;
-    if (object instanceof $xjs_object) {
-      object1 = ($xjs_object)object;
+  private static String writeJavaClass(final Stack<String> parent, final $jsonx_element object, final int depth) throws GeneratorExecutionException {
+    final $jsonx_object object1;
+    final jsonx_json._object object2;
+    if (object instanceof $jsonx_object) {
+      object1 = ($jsonx_object)object;
       object2 = null;
     }
     else {
       object1 = null;
-      object2 = (xjs_json._object)object;
+      object2 = (jsonx_json._object)object;
     }
 
     final String objectName = (object1 != null ? object1._name$() : object2._name$()).text();
     String out = "";
 
-    final boolean isAbstract = object instanceof xjs_json._object ? ((xjs_json._object)object)._abstract$().text() : false;
+    final boolean isAbstract = object instanceof jsonx_json._object ? ((jsonx_json._object)object)._abstract$().text() : false;
     final String extendsPropertyName;
     final boolean skipUnknown;
     if (object1 != null) {
       extendsPropertyName = !object1._extends$().isNull() ? object1._extends$().text() : null;
-      skipUnknown = $xjs_object._unknown$.skip.text().equals(object1._unknown$().text());
+      skipUnknown = $jsonx_object._unknown$.skip.text().equals(object1._unknown$().text());
     }
     else {
       extendsPropertyName = !object2._extends$().isNull() ? object2._extends$().text() : null;
-      skipUnknown = $xjs_object._unknown$.skip.text().equals(object2._unknown$().text());
+      skipUnknown = $jsonx_object._unknown$.skip.text().equals(object2._unknown$().text());
     }
 
     final String className = Strings.toClassCase(objectName);
     parent.add(className);
 
-    final BindingList<$xjs_property> properties = object1 != null ? object1._property() : object2._property();
+    final BindingList<$jsonx_property> properties = object1 != null ? object1._property() : object2._property();
 
     final String pad = Strings.padFixed("", depth * 2, false);
     out += "\n\n" + pad + " ";
@@ -266,20 +266,20 @@ public class Generator {
     out += "\n" + pad + "     registerBinding(_name, " + className + ".class);";
     if (properties != null) {
       out += "\n" + pad + "     try {";
-      for (final $xjs_property property : properties) {
+      for (final $jsonx_property property : properties) {
         final String propertyName = getPropertyName(property);
         final String rawType = getType(parent, property);
         final boolean isArray = property._array$().text() != null && property._array$().text();
         final String type = isArray ? List.class.getName() + "<" + rawType + ">" : rawType;
 
-        out += "\n" + pad + "       bindings.put(\"" + propertyName + "\", new " + Binding.class.getName() + "<" + type + ">(\"" + propertyName + "\", " + className + ".class.getDeclaredField(\"" + getInstanceName(property) + "\"), " + rawType + ".class, " + isAbstract + ", " + isArray + ", " + property._required$().text() + ", " + !property._null$().text() + (property instanceof $xjs_string ? ", " + (($xjs_string)property)._urlDecode$().text() + ", " + (($xjs_string)property)._urlEncode$().text() : "");
-        if (property instanceof $xjs_string) {
-          final $xjs_string string = ($xjs_string)property;
+        out += "\n" + pad + "       bindings.put(\"" + propertyName + "\", new " + Binding.class.getName() + "<" + type + ">(\"" + propertyName + "\", " + className + ".class.getDeclaredField(\"" + getInstanceName(property) + "\"), " + rawType + ".class, " + isAbstract + ", " + isArray + ", " + property._required$().text() + ", " + !property._null$().text() + (property instanceof $jsonx_string ? ", " + (($jsonx_string)property)._urlDecode$().text() + ", " + (($jsonx_string)property)._urlEncode$().text() : "");
+        if (property instanceof $jsonx_string) {
+          final $jsonx_string string = ($jsonx_string)property;
           if (string._pattern$().text() != null || string._length$().text() != null)
             out += ", new " + StringValidator.class.getName() + "(" + (string._pattern$().isNull() ? "null" : "\"" + XMLText.unescapeXMLText(string._pattern$().text()).replace("\\", "\\\\").replace("\"", "\\\"") + "\"") + ", " + (string._length$().isNull() ? "null" : string._length$().text()) + ")";
         }
-        else if (property instanceof $xjs_number) {
-          final $xjs_number string = ($xjs_number)property;
+        else if (property instanceof $jsonx_number) {
+          final $jsonx_number string = ($jsonx_number)property;
           if (_form$.integer.text().equals(string._form$().text()) || string._min$().text() != null || string._max$().text() != null) {
             if (string._min$().text() != null && string._max$().text() != null && string._min$().text() > string._max$().text())
               throw new GeneratorExecutionException("min (" + string._min$().text() + ") > max (" + string._max$().text() + ") on property: " + objectName + "." + propertyName);
@@ -299,8 +299,8 @@ public class Generator {
     out += "\n" + pad + "   }";
 
     if (properties != null)
-      for (final $xjs_property property : properties)
-        if (property instanceof $xjs_object)
+      for (final $jsonx_property property : properties)
+        if (property instanceof $jsonx_object)
           out += writeJavaClass(parent, property, depth + 1);
 
     out += "\n\n" + pad + "   public " + className + "(final " + JSObject.class.getName() + " object) {";
@@ -309,7 +309,7 @@ public class Generator {
       out += "\n" + pad + "     if (!(object instanceof " + className + "))";
       out += "\n" + pad + "       return;";
       out += "\n\n" + pad + "     final " + className + " that = (" + className + ")object;";
-      for (final $xjs_property property : properties) {
+      for (final $jsonx_property property : properties) {
         final String instanceName = getInstanceName(property);
         out += "\n" + pad + "     clone(this." + instanceName + ", that." + instanceName + ");";
       }
@@ -356,7 +356,7 @@ public class Generator {
     out += "\n" + pad + "     return _name;";
     out += "\n" + pad + "   }";
     if (properties != null) {
-      for (final $xjs_property property : properties)
+      for (final $jsonx_property property : properties)
         out += writeField(parent, property, depth);
 
       out += "\n\n" + pad + "   @" + Override.class.getName();
@@ -381,7 +381,7 @@ public class Generator {
     out += "\n" + pad + "       return false;\n";
     if (properties != null) {
       out += "\n" + pad + "     final " + className + " that = (" + className + ")obj;";
-      for (final $xjs_property property : properties) {
+      for (final $jsonx_property property : properties) {
         final String instanceName = getInstanceName(property);
         out += "\n" + pad + "     if (that." + instanceName + " != null ? !that." + instanceName + ".equals(" + instanceName + ") : " + instanceName + " != null)";
         out += "\n" + pad + "       return false;\n";
@@ -394,7 +394,7 @@ public class Generator {
     out += "\n" + pad + "   public int hashCode() {";
     if (properties != null) {
       out += "\n" + pad + "     int hashCode = " + className.hashCode() + (extendsPropertyName != null ? " ^ 31 * super.hashCode()" : "") + ";";
-      for (final $xjs_property property : properties) {
+      for (final $jsonx_property property : properties) {
         final String instanceName = getInstanceName(property);
         out += "\n" + pad + "     if (" + instanceName + " != null)";
         out += "\n" + pad + "       hashCode ^= 31 * " + instanceName + ".hashCode();\n";

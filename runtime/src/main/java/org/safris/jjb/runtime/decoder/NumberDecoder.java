@@ -14,35 +14,41 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.safris.xjb.runtime.decoder;
+package org.safris.jjb.runtime.decoder;
 
 import java.io.IOException;
 
 import org.safris.commons.util.RewindableReader;
-import org.safris.xjb.runtime.Binding;
-import org.safris.xjb.runtime.JSObjectBase;
+import org.safris.jjb.runtime.Binding;
+import org.safris.jjb.runtime.JSObjectBase;
 
-public class BooleanDecoder extends Decoder<Boolean> {
+public class NumberDecoder extends Decoder<Number> {
   @Override
-  protected Boolean[] newInstance(final int depth) {
-    return new Boolean[depth];
+  protected Number[] newInstance(final int depth) {
+    return new Double[depth];
   }
 
   @Override
-  public Boolean decode(final RewindableReader reader, char ch, final Binding<?> binding) throws IOException {
-    if (ch != 'f' && ch != 't') {
+  public Number decode(final RewindableReader reader, char ch, final Binding<?> binding) throws IOException {
+    if (('0' > ch || ch > '9') && ch != '-') {
       if (JSObjectBase.isNull(ch, reader))
         return null;
 
       throw new IllegalArgumentException("Malformed JSON");
     }
 
-    final StringBuilder value = new StringBuilder(5);
-    value.append(ch);
-    do
-      value.append(JSObjectBase.next(reader));
-    while ((value.length() != 4 || !"true".equals(value.toString())) && (value.length() != 5 || !"false".equals(value.toString())));
+    final StringBuilder value = new StringBuilder();
+    do {
+      value.append(ch);
+      reader.mark(1);
+    }
+    while ('0' <= (ch = JSObjectBase.nextAny(reader)) && ch <= '9' || ch == '.' || ch == 'e' || ch == 'E' || ch == '-');
+    reader.reset();
 
-    return Boolean.parseBoolean(value.toString());
+    final String number = value.toString();
+    if (number.contains(".") || number.contains("e") || number.contains("E"))
+      return Double.parseDouble(number);
+
+    return Long.parseLong(number);
   }
 }

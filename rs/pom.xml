@@ -21,17 +21,17 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.safris</groupId>
-    <artifactId>xjb</artifactId>
-    <version>1.0.2</version>
+    <artifactId>jjb</artifactId>
+    <version>0.9.6</version>
   </parent>
-  <groupId>org.safris.xjb</groupId>
-  <artifactId>xjb-rs</artifactId>
-  <version>1.0.1</version>
+  <groupId>org.safris.jjb</groupId>
+  <artifactId>jjb-rs</artifactId>
+  <version>0.9.6</version>
   <name>${project.groupId}:${project.artifactId}</name>
   <dependencies>
     <dependency>
-      <groupId>org.safris.xjb</groupId>
-      <artifactId>xjb-runtime</artifactId>
+      <groupId>org.safris.jjb</groupId>
+      <artifactId>jjb-runtime</artifactId>
     </dependency>
   </dependencies>
 </project>

@@ -1,4 +1,4 @@
-/* Copyright (c) 2015 Seva Safris
+/* Copyright (c) 2016 Seva Safris
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -14,8 +14,24 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.safris.xjb.runtime;
+package org.safris.jjb.generator;
 
-public abstract class JSBundle {
-  protected abstract String getSpec();
+public class GeneratorExecutionException extends Exception {
+  private static final long serialVersionUID = 64500745605873916L;
+
+  public GeneratorExecutionException() {
+    super();
+  }
+
+  public GeneratorExecutionException(final String message) {
+    super(message);
+  }
+
+  public GeneratorExecutionException(final Throwable cause) {
+    super(cause);
+  }
+
+  public GeneratorExecutionException(final String message, final Throwable cause) {
+    super(message, cause);
+  }
 }

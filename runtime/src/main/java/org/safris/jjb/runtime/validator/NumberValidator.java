@@ -14,7 +14,7 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.safris.xjb.runtime.validator;
+package org.safris.jjb.runtime.validator;
 
 import org.safris.commons.lang.Numbers;
 

@@ -14,9 +14,9 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.safris.xjb.runtime.validator;
+package org.safris.jjb.runtime.validator;
 
-import org.safris.xjb.runtime.decoder.StringDecoder;
+import org.safris.jjb.runtime.decoder.StringDecoder;
 
 public class StringValidator extends Validator<String> {
   private final String pattern;

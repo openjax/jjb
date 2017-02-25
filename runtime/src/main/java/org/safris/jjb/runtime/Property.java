@@ -14,7 +14,7 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.safris.xjb.runtime;
+package org.safris.jjb.runtime;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -23,7 +23,7 @@ import java.util.Collection;
 import org.safris.commons.lang.Numbers;
 import org.safris.commons.net.URIComponent;
 import org.safris.commons.util.RewindableReader;
-import org.safris.xjb.runtime.decoder.StringDecoder;
+import org.safris.jjb.runtime.decoder.StringDecoder;
 
 public class Property<T> {
   @SuppressWarnings("unchecked")

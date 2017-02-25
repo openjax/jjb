@@ -14,15 +14,15 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.safris.xjb.runtime.decoder;
+package org.safris.jjb.runtime.decoder;
 
 import java.io.IOException;
 
 import org.safris.commons.util.RewindableReader;
-import org.safris.xjb.runtime.Binding;
-import org.safris.xjb.runtime.DecodeException;
-import org.safris.xjb.runtime.JSObject;
-import org.safris.xjb.runtime.JSObjectBase;
+import org.safris.jjb.runtime.Binding;
+import org.safris.jjb.runtime.DecodeException;
+import org.safris.jjb.runtime.JSObject;
+import org.safris.jjb.runtime.JSObjectBase;
 
 public class JSObjectDecoder extends Decoder<JSObject> {
   @Override

@@ -14,7 +14,7 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.safris.xjb.runtime;
+package org.safris.jjb.runtime;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -26,11 +26,11 @@ import org.safris.commons.lang.PackageLoader;
 import org.safris.commons.lang.PackageNotFoundException;
 import org.safris.commons.util.Collections;
 import org.safris.commons.util.RewindableReader;
-import org.safris.xjb.runtime.decoder.BooleanDecoder;
-import org.safris.xjb.runtime.decoder.JSObjectDecoder;
-import org.safris.xjb.runtime.decoder.NumberDecoder;
-import org.safris.xjb.runtime.decoder.ObjectDecoder;
-import org.safris.xjb.runtime.decoder.StringDecoder;
+import org.safris.jjb.runtime.decoder.BooleanDecoder;
+import org.safris.jjb.runtime.decoder.JSObjectDecoder;
+import org.safris.jjb.runtime.decoder.NumberDecoder;
+import org.safris.jjb.runtime.decoder.ObjectDecoder;
+import org.safris.jjb.runtime.decoder.StringDecoder;
 
 public abstract class JSObjectBase {
   private static final BooleanDecoder booleanDecoder = new BooleanDecoder();

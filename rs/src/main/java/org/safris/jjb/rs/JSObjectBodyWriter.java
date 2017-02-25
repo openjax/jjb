@@ -14,7 +14,7 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.safris.xjb.rs;
+package org.safris.jjb.rs;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -27,7 +27,7 @@ import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.ext.MessageBodyWriter;
 import javax.ws.rs.ext.Provider;
 
-import org.safris.xjb.runtime.JSObject;
+import org.safris.jjb.runtime.JSObject;
 
 @Provider
 @Produces(MediaType.APPLICATION_JSON)
