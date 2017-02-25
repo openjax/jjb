@@ -73,7 +73,7 @@ public class Generator {
       return;
     }
 
-    final String packageName = "xjb";
+    final String packageName = "jjb";
     final File outDir = new File(destDir, packageName.replace('.', '/'));
     if (!outDir.exists() && !outDir.mkdirs())
       throw new IOException("Unable to mkdirs: " + outDir.getAbsolutePath());
