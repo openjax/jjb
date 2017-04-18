@@ -26,7 +26,7 @@ The [JSONx Schema][jsonx-xsd] offers semantics for the definition of check const
 
 #### Validating and Fail-Fast
 
-**JJB** is based on the [JSONx Schema][jsonx-xsd] that allows one to define JSON classes in XML. The **JJB** XSD uses the full power of XML Validation to provide immediate feedback of errors or inconsistencies in the model. Cross-object and cross-property relations are checked using the `key`, `keyref` and `unique` facets of the XML Schema specification. Once a `json.jjb` passes the validation checks, it is guaranteed to produce JSON-compliant objects.
+**JJB** is based on the [JSONx Schema][jsonx-xsd] that allows one to define JSON classes in XML. The **JJB** XSD uses the full power of XML Validation to provide immediate feedback of errors or inconsistencies in the model. Cross-object and cross-property relations are checked using the `key`, `keyref` and `unique` facets of the XML Schema specification. Once a `json.jsonx` passes the validation checks, it is guaranteed to produce JSON-compliant objects.
 
 ### Getting Started
 
@@ -60,13 +60,13 @@ The [JSONx Schema][jsonx-xsd] offers semantics for the definition of check const
   </pluginRepositories>
   ```
 
-3. Create a `json.jjb` and put it in `src/main/resources/`.
+3. Create a `json.jsonx` and put it in `src/main/resources/`.
 
   ```xml
   <json name="json"
-    xmlns="http://xjb.safris.org/jjb.xsd"
+    xmlns="http://jjb.safris.org/jsonx.xsd"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://xjb.safris.org/jjb.xsd http://xjb.safris.org/jjb.xsd">
+    xsi:schemaLocation="http://jjb.safris.org/jsonx.xsd http://jjb.safris.org/jsonx.xsd">
 
     <description>JSON class definitions for communication protocol of server API</description>
 
@@ -96,13 +96,13 @@ The [JSONx Schema][jsonx-xsd] offers semantics for the definition of check const
   </json>
   ```
 
-4. Add the [`org.safris.maven.plugin:xjb-maven-plugin`][xjb-maven-plugin] to the POM.
+4. Add the [`org.safris.maven.plugin:jjb-maven-plugin`][jjb-maven-plugin] to the POM.
 
   ```xml
   <plugin>
     <groupId>org.safris.maven.plugin</groupId>
-    <artifactId>xjb-maven-plugin</artifactId>
-    <version>1.1.3</version>
+    <artifactId>jjb-maven-plugin</artifactId>
+    <version>0.9.6</version>
     <executions>
       <execution>
         <phase>generate-sources</phase>
@@ -111,9 +111,9 @@ The [JSONx Schema][jsonx-xsd] offers semantics for the definition of check const
         </goals>
         <configuration>
           <manifest xmlns="http://maven.safris.org/common/manifest.xsd">
-            <destdir>${project.build.directory}/generated-sources/xjb</destdir>
+            <destdir>${project.build.directory}/generated-sources/jjb</destdir>
             <schemas>
-              <schema>${basedir}/src/main/resources/json.jjb</schema>
+              <schema>${basedir}/src/main/resources/json.jsonx</schema>
             </schemas>
           </manifest>
         </configuration>
@@ -122,17 +122,17 @@ The [JSONx Schema][jsonx-xsd] offers semantics for the definition of check const
   </plugin>
   ```
 
-5. Add the `org.safris.xjb:xjb-generator` dependency to the POM.
+5. Add the `org.safris.jjb:jjb-generator` dependency to the POM.
 
   ```xml
   <dependency>
-    <groupId>org.safris.xjb</groupId>
-    <artifactId>xjb-generator</artifactId>
-    <version>1.1.3</version>
+    <groupId>org.safris.jjb</groupId>
+    <artifactId>jjb-generator</artifactId>
+    <version>0.9.6</version>
   </dependency>
   ```
 
-6. Upon successful execution of the `org.safris.maven.plugin:xjb-maven-plugin` plugin, a class by the name of `json` (as was specified in the `name` attribute of the `<json>` element in `json.jjb`) will be generated in `generated-sources/xjb`. Add this path to your Build Paths in your IDE to integrate into your project.
+6. Upon successful execution of the `org.safris.maven.plugin:jjb-maven-plugin` plugin, a class by the name of `json` (as was specified in the `name` attribute of the `<json>` element in `json.jsonx`) will be generated in `generated-sources/jjb`. Add this path to your Build Paths in your IDE to integrate into your project.
 
 7. The generated classes can be instantiated as any other Java objects. They are strongly typed, and will guide you in proper construction of a JSON message. The following patterns can be used for parsing and marshalling **JJB** to and from JSON:
 
@@ -158,10 +158,10 @@ This project is licensed under the MIT License - see the [LICENSE.txt](LICENSE.t
 
 [java-enterprise]: https://img.shields.io/badge/java-enterprise-blue.svg
 [jdk8-download]: http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html
+[jjb-maven-plugin]: https://github.com/SevaSafris/jjb-maven-plugin
 [json]: http://www.json.org/
-[jsonx-xsd]: https://github.com/SevaSafris/xjb/blob/master/generator/src/main/resources/jsonx.xsd
+[jsonx-xsd]: https://github.com/SevaSafris/jjb/blob/master/generator/src/main/resources/jsonx.xsd
 [maven-archetype-quickstart]: http://maven.apache.org/archetypes/maven-archetype-quickstart/
 [maven]: https://maven.apache.org/
-[xjb-maven-plugin]: https://github.com/SevaSafris/xjb-maven-plugin
 [xrs-getting-started]: https://github.com/SevaSafris/xrs#getting-started
 [xrs]: https://github.com/SevaSafris/xrs
