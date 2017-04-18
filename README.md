@@ -4,7 +4,7 @@
 
 ### Introduction
 
-**JJB** is a lightweight framework based on a XSD [JJB Schema][jsonx-xsd] that allows one to create a schema for JSON classes. To its disadvantage, JavaScript is compiler-less, and a highly non-cohesive language that results in errors being realized in runtime. As there does not exist a formalized schema specification for JSON, developers often make repeated mistakes when designing JSON messages, encoding JSON objects, and decoding JSON strings. **JJB** presents a schema model that can be used to bring errors to edit-time and compile-time, greatly reducing the risk of the same errors to appear in run-time.
+**JJB** is a lightweight framework based on a XSD [JSONx Schema][jsonx-xsd] that allows one to create a schema for JSON classes. To its disadvantage, JavaScript is compiler-less, and a highly non-cohesive language that results in errors being realized in runtime. As there does not exist a formalized schema specification for JSON, developers often make repeated mistakes when designing JSON messages, encoding JSON objects, and decoding JSON strings. **JJB** presents a schema model that can be used to bring errors to edit-time and compile-time, greatly reducing the risk of the same errors to appear in run-time.
 
 ### Why **JJB**?
 
@@ -14,19 +14,19 @@ Developed with the CohesionFirst™ approach, **JJB** is the cohesive alternativ
 
 #### Cohesive Binding Between JSON and Java Classes
 
-**JJB** uses a `json.jjb` file that conforms to the [JJB Schema][jsonx-xsd] to generate Java beans to bind the JSON classes to Java. The generated classes are strongly typed and offer the full benefits of a cohesive interface to JSON objects in Java. The generated classes can be used to parse and marshal JSON messages, confident that all messages conform to the definition in the **JJB**.
+**JJB** uses a `json.jsonx` file that conforms to the [JSONx Schema][jsonx-xsd] to generate Java beans to bind the JSON classes to Java. The generated classes are strongly typed and offer the full benefits of a cohesive interface to JSON objects in Java. The generated classes can be used to parse and marshal JSON messages, confident that all messages conform to the definition in the **JJB**.
 
 #### Support Complete JSON Spec and Abstract Types
 
-The [JJB Schema][jsonx-xsd] has constructs that allow for the definition of [the entire range of possible JSON structures][json]. Additionally, the schema offers abstract types, which provides one the ability to use the OO principles of inheritance and polymorphism for JSON -- powerful paradigms which are not used in JSON as it is based on the "loosely Object Oriented" language of JavaScript.
+The [JSONx Schema][jsonx-xsd] has constructs that allow for the definition of [the entire range of possible JSON structures][json]. Additionally, the schema offers abstract types, which provides one the ability to use the OO principles of inheritance and polymorphism for JSON -- powerful paradigms which are not used in JSON as it is based on the "loosely Object Oriented" language of JavaScript.
 
 #### Support Check Constraint Triggers on Encode and Decode
 
-The [JJB Schema][jsonx-xsd] offers semantics for the definition of check constraints on properties. Properties of different types have different check constraints -- the `String` property has a `PatternValidator` that allows a developer to assert the property to conform to a regex pattern. Additionally, all properties have semantics for `nullable` and `required`, where the former states whether a property can be `null`, and the latter states whether the property can altogether be omitted from the message. Validation of messages occurs in the **JJB** parser and marshaller, on encode of a message to be sent out, and the decode of a message coming in.
+The [JSONx Schema][jsonx-xsd] offers semantics for the definition of check constraints on properties. Properties of different types have different check constraints -- the `String` property has a `PatternValidator` that allows a developer to assert the property to conform to a regex pattern. Additionally, all properties have semantics for `nullable` and `required`, where the former states whether a property can be `null`, and the latter states whether the property can altogether be omitted from the message. Validation of messages occurs in the **JJB** parser and marshaller, on encode of a message to be sent out, and the decode of a message coming in.
 
 #### Validating and Fail-Fast
 
-**JJB** is based on the [JJB Schema][jsonx-xsd] that allows one to define JSON classes in XML. The **JJB** XSD uses the full power of XML Validation to provide immediate feedback of errors or inconsistencies in the model. Cross-object and cross-property relations are checked using the `key`, `keyref` and `unique` facets of the XML Schema specification. Once a `json.jjb` passes the validation checks, it is guaranteed to produce JSON-compliant objects.
+**JJB** is based on the [JSONx Schema][jsonx-xsd] that allows one to define JSON classes in XML. The **JJB** XSD uses the full power of XML Validation to provide immediate feedback of errors or inconsistencies in the model. Cross-object and cross-property relations are checked using the `key`, `keyref` and `unique` facets of the XML Schema specification. Once a `json.jjb` passes the validation checks, it is guaranteed to produce JSON-compliant objects.
 
 ### Getting Started
 
@@ -134,15 +134,15 @@ The [JJB Schema][jsonx-xsd] offers semantics for the definition of check constra
 
 6. Upon successful execution of the `org.safris.maven.plugin:xjb-maven-plugin` plugin, a class by the name of `json` (as was specified in the `name` attribute of the `<json>` element in `json.jjb`) will be generated in `generated-sources/xjb`. Add this path to your Build Paths in your IDE to integrate into your project.
 
-7. The generated classes can be instantiated as any other Java objects. They are strongly typed, and will guide you in proper construction of a JSON message. The following patterns can be used for parsing and marshalling JJB to and from JSON:
+7. The generated classes can be instantiated as any other Java objects. They are strongly typed, and will guide you in proper construction of a JSON message. The following patterns can be used for parsing and marshalling **JJB** to and from JSON:
 
-  To parse JSON to JJB:
+  To parse JSON to **JJB**:
 
   ```java
   final json.Credentials credentials = (json.Credentials)JSObject.parse(rawType, new StringReader("{email: 'john@doe', password: '066b91577bc547e21aa329c74d74b0e53e29534d4cc0ad455abba050121a9557'}"))`
   ```
   
-  To marshal JJB to JSON:
+  To marshal **JJB** to JSON:
 
   ```java
   System.out.println(credentials.toString());
@@ -150,7 +150,7 @@ The [JJB Schema][jsonx-xsd] offers semantics for the definition of check constra
 
 #### Integration with XRS
 
-JJB can be used as the `MessageBodyReader` and `MessageBodyWriter` to marshal and parse JSON objects in a JAX-RS 2.0 server. Please [see here][xrs-getting-started] for an example of how to initiate JJB as a Provider for your JAX-RS 2.0 application. The [XRS implementation][xrs] offers a CohesionFirst™ alternative to JAX-RS 2.0.
+**JJB** can be used as the `MessageBodyReader` and `MessageBodyWriter` to marshal and parse JSON objects in a JAX-RS 2.0 server. Please [see here][xrs-getting-started] for an example of how to initiate **JJB** as a Provider for your JAX-RS 2.0 application. The [XRS implementation][xrs] offers a CohesionFirst™ alternative to JAX-RS 2.0.
 
 ### License
 
