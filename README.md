@@ -112,9 +112,9 @@ The [JSONx Schema][jsonx-xsd] offers semantics for the definition of check const
         <configuration>
           <manifest xmlns="http://maven.safris.org/common/manifest.xsd">
             <destdir>${project.build.directory}/generated-sources/jjb</destdir>
-            <schemas>
-              <schema>${basedir}/src/main/resources/json.jsonx</schema>
-            </schemas>
+            <resources>
+              <resource>${basedir}/src/main/resources/json.jsonx</resource>
+            </resources>
           </manifest>
         </configuration>
       </execution>
