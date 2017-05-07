@@ -112,9 +112,9 @@ The [JSONx Schema][jsonx-xsd] offers semantics for the definition of check const
         </goals>
         <configuration>
           <manifest xmlns="http://maven.safris.org/common/manifest.xsd">
-            <destdir>${project.build.directory}/generated-sources/jjb</destdir>
+            <destdir>generated-sources/jjb</destdir>
             <resources>
-              <resource>${basedir}/src/main/resources/json.jsonx</resource>
+              <resource>src/main/resources/json.jsonx</resource>
             </resources>
           </manifest>
         </configuration>
@@ -133,7 +133,7 @@ The [JSONx Schema][jsonx-xsd] offers semantics for the definition of check const
   </dependency>
   ```
 
-6. Upon successful execution of the `org.safris.maven.plugin:jjb-maven-plugin` plugin, a class by the name of `json` (as was specified in the `name` attribute of the `<json>` element in `json.jsonx`) will be generated in `generated-sources/jjb`. Add this path to your Build Paths in your IDE to integrate into your project.
+6. Upon successful execution of the [`jjb-maven-plugin`][jjb-maven-plugin] plugin, a class by the name of `json` (as was specified in the `name` attribute of the `<json>` element in `json.jsonx`) will be generated in `generated-sources/jjb`. Add this path to your Build Paths in your IDE to integrate into your project.
 
 7. The generated classes can be instantiated as any other Java objects. They are strongly typed, and will guide you in proper construction of a JSON message. The following patterns can be used for parsing and marshalling **JJB** to and from JSON:
 
