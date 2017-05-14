@@ -56,12 +56,15 @@ import org.safris.jjb.runtime.JSObject;
 import org.safris.jjb.runtime.Property;
 import org.safris.jjb.runtime.validator.NumberValidator;
 import org.safris.jjb.runtime.validator.StringValidator;
-import org.safris.maven.common.Log;
 import org.safris.xsb.runtime.BindingList;
 import org.safris.xsb.runtime.Bindings;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.xml.sax.InputSource;
 
 public class Generator {
+  private static final Logger logger = LoggerFactory.getLogger(Generator.class);
+
   public static void main(final String[] args) throws Exception {
     Generator.generate(Resources.getResource(args[0]).getURL(), new File(args[1]), false);
   }
@@ -69,7 +72,7 @@ public class Generator {
   public static void generate(final URL url, final File destDir, final boolean compile) throws GeneratorExecutionException, IOException, XMLException {
     final jsonx_json json = (jsonx_json)Bindings.parse(new InputSource(url.openStream()));
     if (json._object() == null) {
-      Log.error("Missing <object> elements: " + url.toExternalForm());
+      logger.error("Missing <object> elements: " + url.toExternalForm());
       return;
     }
 
