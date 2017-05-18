@@ -31,19 +31,7 @@
   <dependencies>
     <dependency>
       <groupId>org.safris.commons</groupId>
-      <artifactId>commons-util</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.safris.commons</groupId>
-      <artifactId>commons-lang</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.safris.commons</groupId>
       <artifactId>commons-net</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>javax.ws.rs</groupId>
-      <artifactId>javax.ws.rs-api</artifactId>
     </dependency>
   </dependencies>
 </project>
