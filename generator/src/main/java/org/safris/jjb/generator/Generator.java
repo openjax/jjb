@@ -60,7 +60,6 @@ import org.safris.xsb.runtime.BindingList;
 import org.safris.xsb.runtime.Bindings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.xml.sax.InputSource;
 
 public class Generator {
   private static final Logger logger = LoggerFactory.getLogger(Generator.class);
@@ -70,7 +69,7 @@ public class Generator {
   }
 
   public static void generate(final URL url, final File destDir, final boolean compile) throws GeneratorExecutionException, IOException, XMLException {
-    final jsonx_json json = (jsonx_json)Bindings.parse(new InputSource(url.openStream()));
+    final jsonx_json json = (jsonx_json)Bindings.parse(url);
     if (json._object() == null) {
       logger.error("Missing <object> elements: " + url.toExternalForm());
       return;
