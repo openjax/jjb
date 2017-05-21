@@ -1,21 +1,21 @@
 <img src="https://www.cohesionfirst.org/logo.png" align="right">
 
-## JJB<br>![java-enterprise][java-enterprise] <a href="https://www.cohesionfirst.org/"><img src="https://img.shields.io/badge/CohesionFirst%E2%84%A2--blue.svg"></a>
+## jJB<br>![java-enterprise][java-enterprise] <a href="https://www.cohesionfirst.org/"><img src="https://img.shields.io/badge/CohesionFirst%E2%84%A2--blue.svg"></a>
 > Java <-> JSON Binding
 
 ### Introduction
 
-**JJB** is a lightweight framework based on a XSD [JSONx Schema][jsonx-xsd] that allows one to create a schema for JSON classes. To its disadvantage, JavaScript is compiler-less, and a highly non-cohesive language that results in errors being realized in runtime. As there does not exist a formalized schema specification for JSON, developers often make repeated mistakes when designing JSON messages, encoding JSON objects, and decoding JSON strings. **JJB** presents a schema model that can be used to bring errors to edit-time and compile-time, greatly reducing the risk of the same errors to appear in run-time.
+**jJB** is a lightweight framework based on a XSD [JSONx Schema][jsonx-xsd] that allows one to create a schema for JSON classes. To its disadvantage, JavaScript is compiler-less, and a highly non-cohesive language that results in errors being realized in runtime. As there does not exist a formalized schema specification for JSON, developers often make repeated mistakes when designing JSON messages, encoding JSON objects, and decoding JSON strings. **jJB** presents a schema model that can be used to bring errors to edit-time and compile-time, greatly reducing the risk of the same errors to appear in run-time.
 
-### Why **JJB**?
+### Why **jJB**?
 
 #### CohesionFirst™
 
-Developed with the CohesionFirst™ approach, **JJB** is the cohesive alternative to the creation of JSON classes that offers validation and fail-fast execution. Made possible by the rigorous conformance to design patterns and best practices in every line of its implementation, **JJB** is a complete solution for the creation and management of a JSON interface model, both for consumers and producers.
+Developed with the CohesionFirst™ approach, **jJB** is the cohesive alternative to the creation of JSON classes that offers validation and fail-fast execution. Made possible by the rigorous conformance to design patterns and best practices in every line of its implementation, **jJB** is a complete solution for the creation and management of a JSON interface model, both for consumers and producers.
 
 #### Cohesive Binding Between JSON and Java Classes
 
-**JJB** uses a `json.jsonx` file that conforms to the [JSONx Schema][jsonx-xsd] to generate Java beans to bind the JSON classes to Java. The generated classes are strongly typed and offer the full benefits of a cohesive interface to JSON objects in Java. The generated classes can be used to parse and marshal JSON messages, confident that all messages conform to the definition in the **JJB**.
+**jJB** uses a `json.jsonx` file that conforms to the [JSONx Schema][jsonx-xsd] to generate Java beans to bind the JSON classes to Java. The generated classes are strongly typed and offer the full benefits of a cohesive interface to JSON objects in Java. The generated classes can be used to parse and marshal JSON messages, confident that all messages conform to the definition in the **jJB**.
 
 #### Support Complete JSON Spec and Abstract Types
 
@@ -23,11 +23,11 @@ The [JSONx Schema][jsonx-xsd] has constructs that allow for the definition of [t
 
 #### Support Check Constraint Triggers on Encode and Decode
 
-The [JSONx Schema][jsonx-xsd] offers semantics for the definition of check constraints on properties. Properties of different types have different check constraints -- the `String` property has a `PatternValidator` that allows a developer to assert the property to conform to a regex pattern. Additionally, all properties have semantics for `nullable` and `required`, where the former states whether a property can be `null`, and the latter states whether the property can altogether be omitted from the message. Validation of messages occurs in the **JJB** parser and marshaller, on encode of a message to be sent out, and the decode of a message coming in.
+The [JSONx Schema][jsonx-xsd] offers semantics for the definition of check constraints on properties. Properties of different types have different check constraints -- the `String` property has a `PatternValidator` that allows a developer to assert the property to conform to a regex pattern. Additionally, all properties have semantics for `nullable` and `required`, where the former states whether a property can be `null`, and the latter states whether the property can altogether be omitted from the message. Validation of messages occurs in the **jJB** parser and marshaller, on encode of a message to be sent out, and the decode of a message coming in.
 
 #### Validating and Fail-Fast
 
-**JJB** is based on the [JSONx Schema][jsonx-xsd] that allows one to define JSON classes in XML. The **JJB** XSD uses the full power of XML Validation to provide immediate feedback of errors or inconsistencies in the model. Cross-object and cross-property relations are checked using the `key`, `keyref` and `unique` facets of the XML Schema specification. Once a `json.jsonx` passes the validation checks, it is guaranteed to produce JSON-compliant objects.
+**jJB** is based on the [JSONx Schema][jsonx-xsd] that allows one to define JSON classes in XML. The **jJB** XSD uses the full power of XML Validation to provide immediate feedback of errors or inconsistencies in the model. Cross-object and cross-property relations are checked using the `key`, `keyref` and `unique` facets of the XML Schema specification. Once a `json.jsonx` passes the validation checks, it is guaranteed to produce JSON-compliant objects.
 
 ### Getting Started
 
@@ -135,15 +135,15 @@ The [JSONx Schema][jsonx-xsd] offers semantics for the definition of check const
 
 6. Upon successful execution of the [`jjb-maven-plugin`][jjb-maven-plugin] plugin, a class by the name of `json` (as was specified in the `name` attribute of the `<json>` element in `json.jsonx`) will be generated in `generated-sources/jjb`. Add this path to your Build Paths in your IDE to integrate into your project.
 
-7. The generated classes can be instantiated as any other Java objects. They are strongly typed, and will guide you in proper construction of a JSON message. The following patterns can be used for parsing and marshalling **JJB** to and from JSON:
+7. The generated classes can be instantiated as any other Java objects. They are strongly typed, and will guide you in proper construction of a JSON message. The following patterns can be used for parsing and marshalling **jJB** to and from JSON:
 
-  To parse JSON to **JJB**:
+  To parse JSON to **jJB**:
 
   ```java
   final json.Credentials credentials = (json.Credentials)JSObject.parse(rawType, new StringReader("{email: 'john@doe', password: '066b91577bc547e21aa329c74d74b0e53e29534d4cc0ad455abba050121a9557'}"))`
   ```
   
-  To marshal **JJB** to JSON:
+  To marshal **jJB** to JSON:
 
   ```java
   System.out.println(credentials.toString());
@@ -151,7 +151,7 @@ The [JSONx Schema][jsonx-xsd] offers semantics for the definition of check const
 
 #### Integration with XRS
 
-**JJB** can be used as the `MessageBodyReader` and `MessageBodyWriter` to marshal and parse JSON objects in a JAX-RS 2.0 server. Please [see here][xrs-getting-started] for an example of how to initiate **JJB** as a Provider for your JAX-RS 2.0 application. The [XRS implementation][xrs] offers a CohesionFirst™ alternative to JAX-RS 2.0.
+**jJB** can be used as the `MessageBodyReader` and `MessageBodyWriter` to marshal and parse JSON objects in a JAX-RS 2.0 server. Please [see here][xrs-getting-started] for an example of how to initiate **jJB** as a Provider for your JAX-RS 2.0 application. The [XRS implementation][xrs] offers a CohesionFirst™ alternative to JAX-RS 2.0.
 
 ### License
 
