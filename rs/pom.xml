@@ -1,5 +1,5 @@
 <!--
-  Copyright (c) 2016 Seva Safris
+  Copyright (c) 2016 lib4j
   
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to deal
@@ -20,11 +20,11 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>org.safris</groupId>
+    <groupId>org.lib4jx</groupId>
     <artifactId>jjb</artifactId>
     <version>0.9.6</version>
   </parent>
-  <groupId>org.safris.jjb</groupId>
+  <groupId>org.lib4jx.jjb</groupId>
   <artifactId>jjb-rs</artifactId>
   <version>0.9.6</version>
   <name>${project.groupId}:${project.artifactId}</name>
@@ -34,7 +34,7 @@
       <artifactId>javax.ws.rs-api</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.safris.jjb</groupId>
+      <groupId>org.lib4jx.jjb</groupId>
       <artifactId>jjb-runtime</artifactId>
     </dependency>
   </dependencies>
