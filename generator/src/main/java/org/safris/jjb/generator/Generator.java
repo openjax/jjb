@@ -28,10 +28,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
+import org.lib4j.jci.CompilationException;
+import org.lib4j.jci.JavaCompiler;
 import org.libx4j.xsb.runtime.BindingList;
 import org.libx4j.xsb.runtime.Bindings;
-import org.safris.commons.jci.CompilationException;
-import org.safris.commons.jci.JavaCompiler;
 import org.safris.commons.lang.ClassLoaders;
 import org.safris.commons.lang.Resources;
 import org.safris.commons.lang.Strings;
