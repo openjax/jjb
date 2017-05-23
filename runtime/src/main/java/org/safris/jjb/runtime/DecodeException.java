@@ -18,7 +18,7 @@ package org.safris.jjb.runtime;
 
 import java.io.IOException;
 
-import org.safris.commons.util.RewindableReader;
+import org.lib4j.util.RewindableReader;
 
 public class DecodeException extends Exception {
   private static final long serialVersionUID = -1234230677110958751L;

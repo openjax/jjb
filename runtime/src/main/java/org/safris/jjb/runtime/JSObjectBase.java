@@ -21,11 +21,11 @@ import java.io.Reader;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.safris.commons.lang.Arrays;
-import org.safris.commons.lang.PackageLoader;
-import org.safris.commons.lang.PackageNotFoundException;
-import org.safris.commons.util.Collections;
-import org.safris.commons.util.RewindableReader;
+import org.lib4j.lang.Arrays;
+import org.lib4j.lang.PackageLoader;
+import org.lib4j.lang.PackageNotFoundException;
+import org.lib4j.util.Collections;
+import org.lib4j.util.RewindableReader;
 import org.safris.jjb.runtime.decoder.BooleanDecoder;
 import org.safris.jjb.runtime.decoder.JSObjectDecoder;
 import org.safris.jjb.runtime.decoder.NumberDecoder;

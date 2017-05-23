@@ -20,9 +20,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import org.lib4j.lang.Numbers;
 import org.lib4j.net.URIComponent;
-import org.safris.commons.lang.Numbers;
-import org.safris.commons.util.RewindableReader;
+import org.lib4j.util.RewindableReader;
 import org.safris.jjb.runtime.decoder.StringDecoder;
 
 public class Property<T> {

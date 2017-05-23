@@ -18,7 +18,7 @@ package org.safris.jjb.runtime.decoder;
 
 import java.io.IOException;
 
-import org.safris.commons.util.RewindableReader;
+import org.lib4j.util.RewindableReader;
 import org.safris.jjb.runtime.Binding;
 import org.safris.jjb.runtime.DecodeException;
 import org.safris.jjb.runtime.JSObjectBase;

@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.RandomAccess;
 
-import org.safris.commons.util.Collections;
+import org.lib4j.util.Collections;
 
 public class JSArray<E> extends JSObject implements List<E>, RandomAccess, Cloneable, Serializable {
   private static final long serialVersionUID = -3764980134016799398L;

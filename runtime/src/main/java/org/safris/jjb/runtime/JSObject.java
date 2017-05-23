@@ -20,7 +20,7 @@ import java.io.IOException;
 import java.io.Reader;
 import java.util.Collection;
 
-import org.safris.commons.util.RewindableReader;
+import org.lib4j.util.RewindableReader;
 
 public abstract class JSObject extends JSObjectBase {
   @SuppressWarnings("unchecked")

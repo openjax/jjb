@@ -16,7 +16,7 @@
 
 package org.safris.jjb.runtime.validator;
 
-import org.safris.commons.lang.Numbers;
+import org.lib4j.lang.Numbers;
 
 public class NumberValidator extends Validator<Number> {
   private final boolean integer;

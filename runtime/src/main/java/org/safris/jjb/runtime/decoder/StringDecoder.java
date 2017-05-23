@@ -19,7 +19,7 @@ package org.safris.jjb.runtime.decoder;
 import java.io.IOException;
 import java.net.URLDecoder;
 
-import org.safris.commons.util.RewindableReader;
+import org.lib4j.util.RewindableReader;
 import org.safris.jjb.runtime.Binding;
 import org.safris.jjb.runtime.JSObjectBase;
 
