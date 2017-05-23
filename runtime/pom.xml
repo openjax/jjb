@@ -20,11 +20,11 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>org.lib4jx</groupId>
+    <groupId>org.libx4j</groupId>
     <artifactId>jjb</artifactId>
     <version>0.9.6</version>
   </parent>
-  <groupId>org.lib4jx.jjb</groupId>
+  <groupId>org.libx4j.jjb</groupId>
   <artifactId>jjb-runtime</artifactId>
   <version>0.9.6</version>
   <name>${project.groupId}:${project.artifactId}</name>

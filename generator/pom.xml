@@ -20,18 +20,18 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd http://maven.safris.org/common/manifest.xsd http://maven.safris.org/common/manifest.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>org.lib4jx</groupId>
+    <groupId>org.libx4j</groupId>
     <artifactId>jjb</artifactId>
     <version>0.9.6</version>
   </parent>
-  <groupId>org.lib4jx.jjb</groupId>
+  <groupId>org.libx4j.jjb</groupId>
   <artifactId>jjb-generator</artifactId>
   <version>0.9.6</version>
   <name>${project.groupId}:${project.artifactId}</name>
   <build>
     <plugins>
       <plugin>
-        <groupId>org.lib4jx.maven.plugin</groupId>
+        <groupId>org.libx4j.maven.plugin</groupId>
         <artifactId>xsb-maven-plugin</artifactId>
         <configuration>
           <manifest xmlns="http://maven.safris.org/common/manifest.xsd">
@@ -50,11 +50,11 @@
       <artifactId>lib4j-jci</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.lib4jx.jjb</groupId>
+      <groupId>org.libx4j.jjb</groupId>
       <artifactId>jjb-runtime</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.lib4jx.xsb</groupId>
+      <groupId>org.libx4j.xsb</groupId>
       <artifactId>xsb-runtime</artifactId>
     </dependency>
   </dependencies>
