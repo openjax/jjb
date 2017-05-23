@@ -28,6 +28,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
+import org.libx4j.xsb.runtime.BindingList;
+import org.libx4j.xsb.runtime.Bindings;
 import org.safris.commons.jci.CompilationException;
 import org.safris.commons.jci.JavaCompiler;
 import org.safris.commons.lang.ClassLoaders;
@@ -56,8 +58,6 @@ import org.safris.jjb.runtime.JSObject;
 import org.safris.jjb.runtime.Property;
 import org.safris.jjb.runtime.validator.NumberValidator;
 import org.safris.jjb.runtime.validator.StringValidator;
-import org.safris.xsb.runtime.BindingList;
-import org.safris.xsb.runtime.Bindings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
