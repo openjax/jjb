@@ -16,12 +16,12 @@
 -->
 <xs:schema
   elementFormDefault="qualified"
-  targetNamespace="http://jjb.safris.org/jsonx.xsd"
-  xmlns:jsonx="http://jjb.safris.org/jsonx.xsd"
-  xmlns:dt="http://commons.safris.org/xml/datatypes.xsd"
+  targetNamespace="http://jjb.libx4j.org/jsonx.xsd"
+  xmlns:jsonx="http://jjb.libx4j.org/jsonx.xsd"
+  xmlns:dt="http://xml.lib4j.org/datatypes.xsd"
   xmlns:xs="http://www.w3.org/2001/XMLSchema">
   
-  <xs:import namespace="http://commons.safris.org/xml/datatypes.xsd" schemaLocation="http://commons.safris.org/xml/datatypes.xsd"/>
+  <xs:import namespace="http://xml.lib4j.org/datatypes.xsd" schemaLocation="http://xml.lib4j.org/datatypes.xsd"/>
   
   <xs:complexType name="element" abstract="true">
     <xs:sequence minOccurs="0">
