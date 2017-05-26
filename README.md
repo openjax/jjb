@@ -67,7 +67,7 @@ The [JSONx Schema][jsonx-xsd] offers semantics for the definition of check const
   <json name="json"
     xmlns="http://jjb.lib4j.org/jsonx.xsd"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://jjb.lib4jx.org/jsonx.xsd http://jjb.lib4jx.org/jsonx.xsd">
+    xsi:schemaLocation="http://jjb.libx4j.org/jsonx.xsd http://jjb.libx4j.org/jsonx.xsd">
 
     <description>JSON class definitions for communication protocol of server API</description>
 
@@ -97,11 +97,11 @@ The [JSONx Schema][jsonx-xsd] offers semantics for the definition of check const
   </json>
   ```
 
-4. Add the [`org.lib4jx.maven.plugin:jjb-maven-plugin`][jjb-maven-plugin] to the POM.
+4. Add the [`org.libx4j.maven.plugin:jjb-maven-plugin`][jjb-maven-plugin] to the POM.
 
   ```xml
   <plugin>
-    <groupId>org.lib4jx.maven.plugin</groupId>
+    <groupId>org.libx4j.maven.plugin</groupId>
     <artifactId>jjb-maven-plugin</artifactId>
     <version>0.9.6</version>
     <executions>
@@ -123,11 +123,11 @@ The [JSONx Schema][jsonx-xsd] offers semantics for the definition of check const
   </plugin>
   ```
 
-5. Add the `org.lib4jx.jjb:jjb-generator` dependency to the POM.
+5. Add the `org.libx4j.jjb:jjb-generator` dependency to the POM.
 
   ```xml
   <dependency>
-    <groupId>org.lib4jx.jjb</groupId>
+    <groupId>org.libx4j.jjb</groupId>
     <artifactId>jjb-generator</artifactId>
     <version>0.9.6</version>
   </dependency>
@@ -159,10 +159,10 @@ This project is licensed under the MIT License - see the [LICENSE.txt](LICENSE.t
 
 [java-enterprise]: https://img.shields.io/badge/java-enterprise-blue.svg
 [jdk8-download]: http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html
-[jjb-maven-plugin]: https://github.com/lib4jx/jjb-maven-plugin
+[jjb-maven-plugin]: https://github.com/libx4j/jjb-maven-plugin
 [json]: http://www.json.org/
-[jsonx-xsd]: https://github.com/lib4jx/jjb/blob/master/generator/src/main/resources/jsonx.xsd
+[jsonx-xsd]: https://github.com/libx4j/jjb/blob/master/generator/src/main/resources/jsonx.xsd
 [maven-archetype-quickstart]: http://maven.apache.org/archetypes/maven-archetype-quickstart/
 [maven]: https://maven.apache.org/
-[xrs-getting-started]: https://github.com/lib4jx/xrs#getting-started
-[xrs]: https://github.com/lib4jx/xrs
+[xrs-getting-started]: https://github.com/libx4j/xrs#getting-started
+[xrs]: https://github.com/libx4j/xrs
