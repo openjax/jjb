@@ -22,11 +22,11 @@
   <parent>
     <groupId>org.libx4j</groupId>
     <artifactId>jjb</artifactId>
-    <version>0.9.6</version>
+    <version>0.9.7-SNAPSHOT</version>
   </parent>
   <groupId>org.libx4j.jjb</groupId>
   <artifactId>jjb-generator</artifactId>
-  <version>0.9.6</version>
+  <version>0.9.7-SNAPSHOT</version>
   <name>${project.groupId}:${project.artifactId}</name>
   <build>
     <plugins>

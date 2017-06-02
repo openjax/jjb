@@ -17,6 +17,8 @@
 package org.libx4j.jjb.runtime.decoder;
 
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 
 import org.lib4j.util.RewindableReader;
 import org.libx4j.jjb.runtime.Binding;
@@ -34,7 +36,7 @@ public class NumberDecoder extends Decoder<Number> {
       if (JSObjectBase.isNull(ch, reader))
         return null;
 
-      throw new IllegalArgumentException("Malformed JSON");
+      throw new IllegalArgumentException("Malformed JSON: Unexpected char for NumberDecoder: " + ch);
     }
 
     final StringBuilder value = new StringBuilder();
@@ -46,9 +48,9 @@ public class NumberDecoder extends Decoder<Number> {
     reader.reset();
 
     final String number = value.toString();
-    if (number.contains(".") || number.contains("e") || number.contains("E"))
-      return Double.parseDouble(number);
+    if (number.contains("."))
+      return new BigDecimal(number);
 
-    return Long.parseLong(number);
+    return new BigInteger(number);
   }
 }

@@ -19,6 +19,8 @@ package org.libx4j.jjb.generator;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
@@ -131,8 +133,16 @@ public class Generator {
     if (property instanceof $jsonx_string)
       return String.class.getName();
 
-    if (property instanceof $jsonx_number)
-      return Number.class.getName();
+    if (property instanceof $jsonx_number) {
+      final $jsonx_number numberProperty = ($jsonx_number)property;
+      if ($jsonx_number._form$.integer.text().equals(numberProperty._form$().text()))
+        return BigInteger.class.getName();
+
+      if ($jsonx_number._form$.real.text().equals(numberProperty._form$().text()))
+        return BigDecimal.class.getName();
+
+      throw new UnsupportedOperationException("Unknown number form: " + numberProperty._form$().text());
+    }
 
     if (property instanceof $jsonx_boolean)
       return Boolean.class.getName();
@@ -246,11 +256,11 @@ public class Generator {
     final boolean skipUnknown;
     if (object1 != null) {
       extendsPropertyName = !object1._extends$().isNull() ? object1._extends$().text() : null;
-      skipUnknown = $jsonx_object._unknown$.skip.text().equals(object1._unknown$().text());
+      skipUnknown = $jsonx_object._onUnknown$.skip.text().equals(object1._onUnknown$().text());
     }
     else {
       extendsPropertyName = !object2._extends$().isNull() ? object2._extends$().text() : null;
-      skipUnknown = $jsonx_object._unknown$.skip.text().equals(object2._unknown$().text());
+      skipUnknown = $jsonx_object._onUnknown$.skip.text().equals(object2._onUnknown$().text());
     }
 
     final String className = Strings.toClassCase(objectName);
@@ -342,7 +352,7 @@ public class Generator {
     if (extendsPropertyName != null) {
       out += "\n" + pad + "     final " + List.class.getName() + " bindings = new " + ArrayList.class.getName() + "<" + Binding.class.getName() + "<?>>();";
       out += "\n" + pad + "     bindings.addAll(super._bindings());";
-      out += "\n" + pad + "     bindings.addAll(bindings);";
+      out += "\n" + pad + "     bindings.addAll(this.bindings.values());";
       out += "\n" + pad + "     return bindings;";
     }
     else {
@@ -364,10 +374,11 @@ public class Generator {
       out += "\n\n" + pad + "   @" + Override.class.getName();
       out += "\n" + pad + "   protected " + String.class.getName() + " _encode(final int depth) {";
       out += "\n" + pad + "     final " + StringBuilder.class.getName() + " out = new " + StringBuilder.class.getName() + "(super._encode(depth));";
+      out += "\n" + pad + "     final int startLength = out.length();";
       for (int i = 0; i < properties.size(); i++)
         out += writeEncode(properties.get(i), depth);
 
-      out += "\n" + pad + "     return out." + (extendsPropertyName != null ? "toString()" : "substring(2)") + ";\n" + pad + "   }";
+      out += "\n" + pad + "     return startLength == out.length() || startLength != 0 ? out.toString() : out.substring(2);\n" + pad + "   }";
     }
 
     out += "\n\n" + pad + "   @" + Override.class.getName();

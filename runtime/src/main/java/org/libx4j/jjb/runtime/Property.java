@@ -28,10 +28,8 @@ import org.libx4j.jjb.runtime.decoder.StringDecoder;
 public class Property<T> {
   @SuppressWarnings("unchecked")
   private static <T>T encode(final T value, final JSObject jsObject, final Binding<T> binding) {
-    if (value instanceof Number) {
-      final Number number = (Number)value;
-      return (T)(number.intValue() == number.doubleValue() ? String.valueOf(number.intValue()) : String.valueOf(number.doubleValue()));
-    }
+    if (value instanceof Number)
+      return (T)((Number)value).toString();
 
     if (value instanceof String) {
       final String escaped = StringDecoder.escapeString((String)value);

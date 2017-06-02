@@ -89,7 +89,7 @@
         </xs:sequence>
         <xs:attribute name="name" type="dt:javaVariable" use="required"/>
         <xs:attribute name="extends" type="xs:string"/>
-        <xs:attribute name="unknown" type="jsonx:unknown" default="fail"/>
+        <xs:attribute name="onUnknown" type="jsonx:unknown" default="fail"/>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
@@ -123,7 +123,7 @@
                 <xs:attribute name="name" type="dt:javaVariable" use="required"/>
                 <xs:attribute name="extends" type="xs:string"/>
                 <xs:attribute name="abstract" type="xs:boolean" default="false"/>
-                <xs:attribute name="unknown" type="jsonx:unknown" default="fail"/>
+                <xs:attribute name="onUnknown" type="jsonx:unknown" default="fail"/>
               </xs:extension>
             </xs:complexContent>
           </xs:complexType>
