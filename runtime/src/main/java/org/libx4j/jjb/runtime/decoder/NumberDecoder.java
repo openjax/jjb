@@ -40,7 +40,12 @@ public class NumberDecoder extends Decoder<Number> {
     }
 
     final StringBuilder value = new StringBuilder();
+    char lastChar = '\0';
+    boolean isDecimal = false;
     do {
+      isDecimal = ch == '.' || ((lastChar == 'e' || lastChar == 'E') && ch == '-') || isDecimal;
+      lastChar = ch;
+
       value.append(ch);
       reader.mark(1);
     }
@@ -48,9 +53,6 @@ public class NumberDecoder extends Decoder<Number> {
     reader.reset();
 
     final String number = value.toString();
-    if (number.contains("."))
-      return new BigDecimal(number);
-
-    return new BigInteger(number);
+    return isDecimal ? new BigDecimal(number) : new BigInteger(number);
   }
 }

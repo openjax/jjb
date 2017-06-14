@@ -17,20 +17,26 @@
 package org.libx4j.jjb.runtime;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.Collection;
 
 import org.lib4j.util.RewindableReader;
 
 public abstract class JSObject extends JSObjectBase {
+  public static <T extends JSObject>T parse(final Class<?> type, final InputStream in) throws DecodeException, IOException {
+    return parse(type, new InputStreamReader(in));
+  }
+
   @SuppressWarnings("unchecked")
   public static <T extends JSObject>T parse(final Class<?> type, final Reader reader) throws DecodeException, IOException {
     try {
-      final RewindableReader rewindableReader = reader instanceof RewindableReader ? (RewindableReader) reader : new RewindableReader(reader);
+      final RewindableReader rewindableReader = reader instanceof RewindableReader ? (RewindableReader)reader : new RewindableReader(reader);
       final char ch = next(rewindableReader);
 
       if (ch == '[')
-        return (T)decodeValue(ch, rewindableReader, type, null);
+        return (T)decodeValue(ch, rewindableReader, null, Binding.ANY);
 
       if (!JSObject.class.isAssignableFrom(type))
         throw new DecodeException("Expected a JSObject type " + type.getName(), rewindableReader, null);

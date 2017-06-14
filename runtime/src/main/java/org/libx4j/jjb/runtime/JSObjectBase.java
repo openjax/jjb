@@ -173,12 +173,8 @@ public abstract class JSObjectBase {
         hasOpenBrace = true;
       }
       else {
-        if (!hasOpenBrace) {
-          if (isNull(ch, reader))
-            return null;
-
-          throw new DecodeException("Malformed JSON", reader);
-        }
+        if (!hasOpenBrace && isNull(ch, reader))
+          return null;
 
         try {
           if (ch == '"') {
@@ -236,6 +232,9 @@ public abstract class JSObjectBase {
 
               return jsObject;
             }
+
+            if (ch == '[')
+              return (JSArray)decodeValue(ch, reader, null, Binding.ANY);
 
             if (ch != ',') {
               builder.append(ch);

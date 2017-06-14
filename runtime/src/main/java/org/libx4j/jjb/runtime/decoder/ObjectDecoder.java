@@ -55,9 +55,12 @@ public class ObjectDecoder extends Decoder<Object> {
     if (ch == '{')
       return objectDecoder.decode(reader, ch, binding);
 
+    if (ch == '[')
+      return decodeValue(ch, reader, null, Binding.ANY);
+
     if (JSObjectBase.isNull(ch, reader))
       return null;
 
-    throw new IllegalArgumentException("Malformed JSON");
+    throw new IllegalArgumentException("Malformed JSON: Unexpected char for ObjectDecoder: " + ch);
   }
 }
