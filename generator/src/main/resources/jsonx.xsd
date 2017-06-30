@@ -25,7 +25,7 @@
   
   <xs:complexType name="element" abstract="true">
     <xs:sequence minOccurs="0">
-      <xs:element name="description" type="xs:string"/>
+      <xs:element name="description" type="dt:stringNonEmpty"/>
     </xs:sequence>
   </xs:complexType>
   
@@ -50,7 +50,7 @@
   <xs:complexType name="string">
     <xs:complexContent>
       <xs:extension base="jsonx:named">
-        <xs:attribute name="pattern" type="xs:string"/>
+        <xs:attribute name="pattern" type="dt:stringNonEmpty"/>
         <xs:attribute name="length" type="xs:positiveInteger"/>
         <xs:attribute name="urlDecode" type="xs:boolean" default="false"/>
         <xs:attribute name="urlEncode" type="xs:boolean" default="false"/>
@@ -88,7 +88,7 @@
           <xs:element name="property" type="jsonx:property"/>
         </xs:sequence>
         <xs:attribute name="name" type="dt:javaVariable" use="required"/>
-        <xs:attribute name="extends" type="xs:string"/>
+        <xs:attribute name="extends" type="dt:stringNonEmpty"/>
         <xs:attribute name="onUnknown" type="jsonx:unknown" default="fail"/>
       </xs:extension>
     </xs:complexContent>
@@ -112,7 +112,7 @@
   <xs:element name="json">
     <xs:complexType>
       <xs:sequence>
-        <xs:element minOccurs="0" name="description" type="xs:string"/>
+        <xs:element minOccurs="0" name="description" type="dt:stringNonEmpty"/>
         <xs:element name="object" minOccurs="1" maxOccurs="unbounded">
           <xs:complexType>
             <xs:complexContent>
@@ -121,7 +121,7 @@
                   <xs:element name="property" type="jsonx:property"/>
                 </xs:sequence>
                 <xs:attribute name="name" type="dt:javaVariable" use="required"/>
-                <xs:attribute name="extends" type="xs:string"/>
+                <xs:attribute name="extends" type="dt:stringNonEmpty"/>
                 <xs:attribute name="abstract" type="xs:boolean" default="false"/>
                 <xs:attribute name="onUnknown" type="jsonx:unknown" default="fail"/>
               </xs:extension>
