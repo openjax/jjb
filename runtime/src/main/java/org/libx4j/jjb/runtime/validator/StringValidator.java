@@ -29,6 +29,11 @@ public class StringValidator extends Validator<String> {
 
   @Override
   public String validate(final String value) {
+    // The check whether this property can be null happens in a higher layer,
+    // so return no error
+    if (value == null)
+      return null;
+
     final String patternError = pattern == null || value.matches(pattern) ? null : "does not match pattern \"" + StringDecoder.escapeString(pattern) + "\"";
     final String lengthError = length == null || value.length() <= length ? null : "is longer than length \"" + length + "\"";
     if (patternError == null) {

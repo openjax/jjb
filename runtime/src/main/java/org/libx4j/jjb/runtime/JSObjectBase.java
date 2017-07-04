@@ -79,9 +79,8 @@ public abstract class JSObjectBase {
   protected static char next(final Reader reader) throws IOException {
     int ch;
     while (true) {
-      if ((ch = reader.read()) == -1) {
+      if ((ch = reader.read()) == -1)
         throw new IOException("EOS");
-      }
 
       if (ch != ' ' && ch != '\t' && ch != '\n' && ch != '\r')
         return (char)ch;
