@@ -45,7 +45,7 @@ public abstract class JSObjectBase {
 
   static {
     try {
-      PackageLoader.getSystemPackageLoader().loadPackage("json");
+      PackageLoader.getSystemContextPackageLoader().loadPackage("json");
     }
     catch (final PackageNotFoundException e) {
       throw new ExceptionInInitializerError(e);
