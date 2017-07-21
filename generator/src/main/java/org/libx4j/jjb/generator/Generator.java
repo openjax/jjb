@@ -171,7 +171,7 @@ public class Generator {
     if (property instanceof $jsonx_object)
       return (($jsonx_object)property)._name$().text();
 
-    throw new UnsupportedOperationException("Unexpected type: " + property);
+    throw new UnsupportedOperationException("Unsupported type: " + property);
   }
 
   private static String getInstanceName(final $jsonx_property property) {

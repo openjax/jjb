@@ -21,11 +21,9 @@ import java.io.Reader;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.mail.search.ReceivedDateTerm;
-
-import org.lib4j.lang.Arrays;
 import org.lib4j.lang.PackageLoader;
 import org.lib4j.lang.PackageNotFoundException;
+import org.lib4j.util.Arrays;
 import org.lib4j.util.Collections;
 import org.lib4j.util.RewindableReader;
 import org.libx4j.jjb.runtime.decoder.BooleanDecoder;
@@ -156,7 +154,7 @@ public abstract class JSObjectBase {
     if (Number.class.isAssignableFrom(type))
       return isArray ? Collections.asCollection(JSArray.class, numberDecoder.recurse(reader, 0, binding)) : numberDecoder.decode(reader, ch, binding);
 
-    throw new UnsupportedOperationException("Unexpected type: " + type);
+    throw new UnsupportedOperationException("Unsupported type: " + type);
   }
 
   @SuppressWarnings({"rawtypes", "unchecked"})
