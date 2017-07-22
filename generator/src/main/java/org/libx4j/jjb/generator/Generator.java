@@ -148,9 +148,8 @@ public class Generator {
 
     if (property instanceof $jsonx_object) {
       final $jsonx_object object = ($jsonx_object)property;
-      final String objectName = object._extends$().text();
-      if (!property.elementIterator().hasNext())
-        return Strings.toClassCase(objectName);
+      if (!object._extends$().isNull() && !property.elementIterator().hasNext())
+        return Strings.toClassCase(object._extends$().text());
 
       return Collections.toString(parent, ".") + "." + Strings.toClassCase((($jsonx_object)property)._name$().text());
     }
@@ -234,10 +233,10 @@ public class Generator {
     final boolean isAbstract;
     final BindingList<$jsonx_property> properties;
     if (object instanceof $jsonx_object) {
-      if (!object.elementIterator().hasNext())
+      final $jsonx_object object1 = ($jsonx_object)object;
+      if (!object1._extends$().isNull() && !object.elementIterator().hasNext())
         return "";
 
-      final $jsonx_object object1 = ($jsonx_object)object;
       objectName = object1._name$().text();
       extendsPropertyName = !object1._extends$().isNull() ? object1._extends$().text() : null;
       skipUnknown = $jsonx_object._onUnknown$.skip.text().equals(object1._onUnknown$().text());
@@ -335,10 +334,11 @@ public class Generator {
     out += "\n" + pad + "   protected " + Binding.class.getName() + "<?> _getBinding(final " + String.class.getName() + " name) {";
     if (extendsPropertyName != null) {
       out += "\n" + pad + "     final " + Binding.class.getName() + " binding = super._getBinding(name);";
-      out += "\n" + pad + "     if (binding != null)";
-      out += "\n" + pad + "       return binding;\n";
+      out += "\n" + pad + "     return binding != null ? binding : bindings.get(name);";
     }
-    out += "\n" + pad + "     return bindings.get(name);";
+    else {
+      out += "\n" + pad + "     return bindings.get(name);";
+    }
     out += "\n" + pad + "   }\n";
     out += "\n" + pad + "   @" + Override.class.getName();
     out += "\n" + pad + "   protected " + Collection.class.getName() + "<" + Binding.class.getName() + "<?>> _bindings() {";

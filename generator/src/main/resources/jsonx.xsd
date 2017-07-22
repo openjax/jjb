@@ -32,9 +32,21 @@
   <xs:complexType name="property" abstract="true">
     <xs:complexContent>
       <xs:extension base="jsonx:element">
-        <xs:attribute name="array" type="xs:boolean" default="false"/>
-        <xs:attribute name="required" type="xs:boolean" default="true"/>
-        <xs:attribute name="null" type="xs:boolean" default="true"/>
+        <xs:attribute name="array" type="xs:boolean" default="false">
+          <xs:annotation>
+            <xs:documentation>Is property an array. Default: false.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="required" type="xs:boolean" default="true">
+          <xs:annotation>
+            <xs:documentation>Is property required to appear in object. Default: true.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="null" type="xs:boolean" default="true">
+          <xs:annotation>
+            <xs:documentation>Can property be set to null. Default: true.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
@@ -51,9 +63,21 @@
     <xs:complexContent>
       <xs:extension base="jsonx:named">
         <xs:attribute name="pattern" type="dt:stringNonEmpty"/>
-        <xs:attribute name="length" type="xs:positiveInteger"/>
-        <xs:attribute name="urlDecode" type="xs:boolean" default="false"/>
-        <xs:attribute name="urlEncode" type="xs:boolean" default="false"/>
+        <xs:attribute name="length" type="xs:positiveInteger">
+          <xs:annotation>
+            <xs:documentation>Maximum length of the string, inclusive. Default: unbounded.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="urlDecode" type="xs:boolean" default="false">
+          <xs:annotation>
+            <xs:documentation>Should string be url-decoded. Default: false.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="urlEncode" type="xs:boolean" default="false">
+          <xs:annotation>
+            <xs:documentation>Should string be url-encoded. Default: false.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
