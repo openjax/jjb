@@ -32,7 +32,7 @@
   <xs:complexType name="property" abstract="true">
     <xs:complexContent>
       <xs:extension base="jsonx:element">
-        <xs:attribute name="array" type="xs:boolean"/>
+        <xs:attribute name="array" type="xs:boolean" default="false"/>
         <xs:attribute name="required" type="xs:boolean" default="true"/>
         <xs:attribute name="null" type="xs:boolean" default="true"/>
       </xs:extension>
@@ -90,14 +90,6 @@
         <xs:attribute name="name" type="dt:javaVariable" use="required"/>
         <xs:attribute name="extends" type="dt:stringNonEmpty"/>
         <xs:attribute name="onUnknown" type="jsonx:unknown" default="fail"/>
-      </xs:extension>
-    </xs:complexContent>
-  </xs:complexType>
-  
-  <xs:complexType name="ref">
-    <xs:complexContent>
-      <xs:extension base="jsonx:property">
-        <xs:attribute name="object" type="dt:javaVariable" use="required"/>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
