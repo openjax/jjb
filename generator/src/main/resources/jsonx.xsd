@@ -25,7 +25,11 @@
   
   <xs:complexType name="element" abstract="true">
     <xs:sequence minOccurs="0">
-      <xs:element name="description" type="dt:stringNonEmpty"/>
+      <xs:element name="description" type="dt:stringNonEmpty">
+        <xs:annotation>
+          <xs:documentation>General description.</xs:documentation>
+        </xs:annotation>
+      </xs:element>
     </xs:sequence>
   </xs:complexType>
   
@@ -54,7 +58,11 @@
   <xs:complexType name="named" abstract="true">
     <xs:complexContent>
       <xs:extension base="jsonx:property">
-        <xs:attribute name="name" type="dt:javaVariable" use="required"/>
+        <xs:attribute name="name" type="dt:javaVariable" use="required">
+          <xs:annotation>
+            <xs:documentation>Name of property.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
@@ -62,7 +70,11 @@
   <xs:complexType name="string">
     <xs:complexContent>
       <xs:extension base="jsonx:named">
-        <xs:attribute name="pattern" type="dt:stringNonEmpty"/>
+        <xs:attribute name="pattern" type="dt:stringNonEmpty">
+          <xs:annotation>
+            <xs:documentation>Regex pattern for string.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
         <xs:attribute name="length" type="xs:positiveInteger">
           <xs:annotation>
             <xs:documentation>Maximum length of the string, inclusive. Default: unbounded.</xs:documentation>
@@ -111,9 +123,21 @@
         <xs:sequence minOccurs="0" maxOccurs="unbounded">
           <xs:element name="property" type="jsonx:property"/>
         </xs:sequence>
-        <xs:attribute name="name" type="dt:javaVariable" use="required"/>
-        <xs:attribute name="extends" type="dt:stringNonEmpty"/>
-        <xs:attribute name="onUnknown" type="jsonx:unknown" default="fail"/>
+        <xs:attribute name="name" type="dt:javaVariable" use="required">
+          <xs:annotation>
+            <xs:documentation>Name of object.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="extends" type="dt:stringNonEmpty">
+          <xs:annotation>
+            <xs:documentation>Parent type of object.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="onUnknown" type="jsonx:unknown" default="fail">
+          <xs:annotation>
+            <xs:documentation>Action when unknown encountered unknown property. Default: fail.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
@@ -136,10 +160,26 @@
                 <xs:sequence minOccurs="0" maxOccurs="unbounded">
                   <xs:element name="property" type="jsonx:property"/>
                 </xs:sequence>
-                <xs:attribute name="name" type="dt:javaVariable" use="required"/>
-                <xs:attribute name="extends" type="dt:stringNonEmpty"/>
-                <xs:attribute name="abstract" type="xs:boolean" default="false"/>
-                <xs:attribute name="onUnknown" type="jsonx:unknown" default="fail"/>
+                <xs:attribute name="name" type="dt:javaVariable" use="required">
+                  <xs:annotation>
+                    <xs:documentation>Name of object.</xs:documentation>
+                  </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="abstract" type="xs:boolean" default="false">
+                  <xs:annotation>
+                    <xs:documentation>Is object abstract. Default: false.</xs:documentation>
+                  </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="extends" type="dt:stringNonEmpty">
+                  <xs:annotation>
+                    <xs:documentation>Parent type of object.</xs:documentation>
+                  </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="onUnknown" type="jsonx:unknown" default="fail">
+                  <xs:annotation>
+                    <xs:documentation>Action when unknown encountered unknown property. Default: fail.</xs:documentation>
+                  </xs:annotation>
+                </xs:attribute>
               </xs:extension>
             </xs:complexContent>
           </xs:complexType>

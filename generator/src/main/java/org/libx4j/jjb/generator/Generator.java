@@ -88,8 +88,11 @@ public class Generator {
 
     String out = "";
 
-    out += "package " + packageName + ";";
-    out += "\n\n@" + SuppressWarnings.class.getName() + "(\"all\")";
+    out += "package " + packageName + ";\n";
+    if (!json._description(0).isNull())
+      out += "\n/**\n * " + json._description(0).text() + "\n */";
+
+    out += "\n@" + SuppressWarnings.class.getName() + "(\"all\")";
     out += "\npublic class " + name + " extends " + JSBundle.class.getName() + " {";
     out += "\n  public static final " + String.class.getName() + " mimeType = \"" + json._mimeType$().text() + "\";";
     out += "\n  private static " + name + " instance = null;";
@@ -180,16 +183,31 @@ public class Generator {
     final String instanceName = getInstanceName(property);
 
     final String pad = Strings.padFixed("", depth * 2, false);
-    String out = "";
-    out += "\n\n" + pad + "   public final " + Property.class.getName() + "<" + type + "> " + instanceName + " = new " + Property.class.getName() + "<" + type + ">(this, (" + Binding.class.getName() + "<" + type + ">)bindings.get(\"" + valueName + "\"));";
-    out += "\n\n" + pad + "   public " + type + " " + instanceName + "() {";
+    String out = "\n";
+    if (!property._description(0).isNull())
+      out += "\n" + pad + "   /**\n" + pad + "    * " + property._description(0).text() + "\n" + pad + "    */";
+
+    out += "\n" + pad + "   public final " + Property.class.getName() + "<" + type + "> " + instanceName + " = new " + Property.class.getName() + "<" + type + ">(this, (" + Binding.class.getName() + "<" + type + ">)bindings.get(\"" + valueName + "\"));";
+    out += "\n";
+    if (!property._description(0).isNull())
+      out += "\n" + pad + "   /**\n" + pad + "    * " + property._description(0).text() + "\n" + pad + "    */";
+
+    out += "\n" + pad + "   public " + type + " " + instanceName + "() {";
     out += "\n" + pad + "     return get(" + instanceName + ");";
     out += "\n" + pad + "   }";
-    out += "\n\n" + pad + "   public final void " + instanceName + "(final " + type + " _value) {";
+    out += "\n";
+    if (!property._description(0).isNull())
+      out += "\n" + pad + "   /**\n" + pad + "    * " + property._description(0).text() + "\n" + pad + "    */";
+
+    out += "\n" + pad + "   public final void " + instanceName + "(final " + type + " _value) {";
     out += "\n" + pad + "     set(" + instanceName + ", _value);";
     out += "\n" + pad + "   }";
     if (isArray) {
-      out += "\n\n" + pad + "   public final void " + instanceName + "(final " + rawType + " ... value) {";
+      out += "\n";
+      if (!property._description(0).isNull())
+        out += "\n" + pad + "   /**\n" + pad + "    * " + property._description(0).text() + "\n" + pad + "    */";
+
+      out += "\n" + pad + "   public final void " + instanceName + "(final " + rawType + " ... value) {";
       out += "\n" + pad + "     set(" + instanceName + ", " + Collections.class.getName() + ".asCollection(" + ArrayList.class.getName() + ".class, value));";
       out += "\n" + pad + "   }";
     }
@@ -255,13 +273,15 @@ public class Generator {
       throw new UnsupportedOperationException("Unsupported object type: " + object.getClass().getName());
     }
 
-    String out = "";
 
     final String className = Strings.toClassCase(objectName);
     parent.add(className);
 
     final String pad = Strings.padFixed("", depth * 2, false);
-    out += "\n\n" + pad + " ";
+    String out = "\n";
+    if (!object._description(0).isNull())
+      out += "\n" + pad + " /**\n" + pad + "  * " + object._description(0).text() + "\n" + pad + "  */";
+
     out += "\n" + pad + " public static" + (isAbstract ? " abstract" : "") + " class " + className + " extends " + (extendsPropertyName != null ? parent.get(0) + "." + Strings.toClassCase(extendsPropertyName) : JSObject.class.getName()) + " {";
     out += "\n" + pad + "   private static final " + String.class.getName() + " _name = \"" + objectName + "\";\n";
     out += "\n" + pad + "   private static final " + Map.class.getName() + "<" + String.class.getName() + "," + Binding.class.getName() + "<?>> bindings = new " + HashMap.class.getName() + "<" + String.class.getName() + "," + Binding.class.getName() + "<?>>(" + (properties != null ? properties.size() : 0) + ");";
