@@ -188,29 +188,6 @@ public class Generator {
       out += "\n" + pad + "   /**\n" + pad + "    * " + property._description(0).text() + "\n" + pad + "    */";
 
     out += "\n" + pad + "   public final " + Property.class.getName() + "<" + type + "> " + instanceName + " = new " + Property.class.getName() + "<" + type + ">(this, (" + Binding.class.getName() + "<" + type + ">)bindings.get(\"" + valueName + "\"));";
-    out += "\n";
-    if (!property._description(0).isNull())
-      out += "\n" + pad + "   /**\n" + pad + "    * " + property._description(0).text() + "\n" + pad + "    */";
-
-    out += "\n" + pad + "   public " + type + " " + instanceName + "() {";
-    out += "\n" + pad + "     return get(" + instanceName + ");";
-    out += "\n" + pad + "   }";
-    out += "\n";
-    if (!property._description(0).isNull())
-      out += "\n" + pad + "   /**\n" + pad + "    * " + property._description(0).text() + "\n" + pad + "    */";
-
-    out += "\n" + pad + "   public final void " + instanceName + "(final " + type + " _value) {";
-    out += "\n" + pad + "     set(" + instanceName + ", _value);";
-    out += "\n" + pad + "   }";
-    if (isArray) {
-      out += "\n";
-      if (!property._description(0).isNull())
-        out += "\n" + pad + "   /**\n" + pad + "    * " + property._description(0).text() + "\n" + pad + "    */";
-
-      out += "\n" + pad + "   public final void " + instanceName + "(final " + rawType + " ... value) {";
-      out += "\n" + pad + "     set(" + instanceName + ", " + Collections.class.getName() + ".asCollection(" + ArrayList.class.getName() + ".class, value));";
-      out += "\n" + pad + "   }";
-    }
     return out;
   }
 
@@ -226,20 +203,20 @@ public class Generator {
     }
 
     if (!property._null$().text()) {
-      out += "\n" + pad + "     if (" + instanceName + ".present() && get(" + instanceName + ") == null)";
+      out += "\n" + pad + "     if (" + instanceName + ".present() && " + instanceName + ".get() == null)";
       out += "\n" + pad + "       throw new " + EncodeException.class.getName() + "(\"\\\"" + valueName + "\\\" cannot be null\", this);\n";
     }
 
-    out += "\n" + pad + "     if (" + instanceName + ".present())";
+    out += "\n" + pad + "     if (" + instanceName + ".present() || required(" + instanceName + "))";
     out += "\n" + pad + "       out.append(\",\\n\").append(pad(depth)).append(\"\\\"" + valueName + "\\\": \").append(";
     if (property._array$().text())
       return out + JSArray.class.getName() + ".toString(encode(" + instanceName + "), depth + 1));\n";
 
     if (property instanceof $jsonx_object)
-      return out + "get(" + instanceName + ") != null ? encode(encode(" + instanceName + "), depth + 1) : \"null\");\n";
+      return out + "" + instanceName + ".get() != null ? encode(encode(" + instanceName + "), depth + 1) : \"null\");\n";
 
     if (property instanceof $jsonx_string)
-      return out + "get(" + instanceName + ") != null ? \"\\\"\" + encode(" + instanceName + ") + \"\\\"\" : \"null\");\n";
+      return out + "" + instanceName + ".get() != null ? \"\\\"\" + encode(" + instanceName + ") + \"\\\"\" : \"null\");\n";
 
     return out + "encode(" + instanceName + "));\n";
   }
@@ -252,7 +229,7 @@ public class Generator {
     final BindingList<$jsonx_property> properties;
     if (object instanceof $jsonx_object) {
       final $jsonx_object object1 = ($jsonx_object)object;
-      if (!object1._extends$().isNull() && !object.elementIterator().hasNext())
+      if (!object1._extends$().isNull() && !object.elementIterator().hasNext() && !objectNameToObject.get(object1._extends$().text())._abstract$().text())
         return "";
 
       objectName = object1._name$().text();
@@ -272,7 +249,6 @@ public class Generator {
     else {
       throw new UnsupportedOperationException("Unsupported object type: " + object.getClass().getName());
     }
-
 
     final String className = Strings.toClassCase(objectName);
     parent.add(className);

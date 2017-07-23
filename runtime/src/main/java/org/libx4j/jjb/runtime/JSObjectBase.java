@@ -54,14 +54,6 @@ public abstract class JSObjectBase {
     property.clone(clone);
   }
 
-  protected static <T>T get(final Property<T> property) {
-    return property.get();
-  }
-
-  protected static <T>void set(final Property<T> property, final T value) {
-    property.set(value);
-  }
-
   protected static <T>T encode(final Property<T> property) throws EncodeException {
     return property.encode();
   }
@@ -118,6 +110,10 @@ public abstract class JSObjectBase {
     }
 
     return true;
+  }
+
+  protected static boolean required(final Property<?> property) {
+    return property.required();
   }
 
   protected static char[] pad(final int depth) {

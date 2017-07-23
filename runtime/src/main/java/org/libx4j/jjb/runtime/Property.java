@@ -46,12 +46,14 @@ public class Property<T> {
 
   private final JSObject jsObject;
   private final Binding<T> binding;
+  private boolean required;
   private boolean present = false;
   private T value;
 
   public Property(final JSObject jsObject, final Binding<T> binding) {
     this.jsObject = jsObject;
     this.binding = binding;
+    this.required = binding.required;
   }
 
   protected void clone(final Property<T> clone) {
@@ -59,11 +61,11 @@ public class Property<T> {
     this.value = clone.value;
   }
 
-  protected T get() {
+  public T get() {
     return value;
   }
 
-  protected void set(final T value) {
+  public void set(final T value) {
     this.present = true;
     this.value = value;
   }
@@ -71,6 +73,10 @@ public class Property<T> {
   public void clear() {
     this.present = false;
     this.value = null;
+  }
+
+  protected boolean required() {
+    return required;
   }
 
   public boolean present() {
@@ -86,8 +92,8 @@ public class Property<T> {
     if (value instanceof Collection<?>) {
       final Collection<T> collection = (Collection<T>)value;
       final Collection<T> encoded = new JSArray<T>(collection.size());
-      for (final T item : collection)
-        encoded.add(encode(item, jsObject, binding));
+      for (final T member : collection)
+        encoded.add(encode(member, jsObject, binding));
 
       return (T)encoded;
     }
@@ -104,8 +110,8 @@ public class Property<T> {
     if (value instanceof Collection<?>) {
       final Collection<T> collection = (Collection<T>)value;
       final Collection<T> decoded = new ArrayList<T>(collection.size());
-      for (final T item : collection)
-        decoded.add(decode(item, jsObject));
+      for (final T member : collection)
+        decoded.add(decode(member, jsObject));
 
       this.value = (T)decoded;
     }
