@@ -19,11 +19,12 @@ package org.libx4j.jjb.runtime;
 import java.io.IOException;
 import java.io.Reader;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import org.lib4j.lang.Arrays;
 import org.lib4j.lang.PackageLoader;
 import org.lib4j.lang.PackageNotFoundException;
-import org.lib4j.util.Arrays;
 import org.lib4j.util.Collections;
 import org.lib4j.util.RewindableReader;
 import org.libx4j.jjb.runtime.decoder.BooleanDecoder;
@@ -199,6 +200,9 @@ public abstract class JSObjectBase {
 
               if (member != Binding.ANY) {
                 final Property property = (Property)member.property.get(jsObject);
+                if (!property.binding.isAssignable(value))
+                  throw new DecodeException("\"" + property.binding.name + "\": " + property.binding.type.getName() + " incompatible with " + (property.binding.array ? List.class.getName() + "<" + value.getClass().getName() + ">" : value.getClass().getName()), reader);
+
                 property.set(value);
                 property.decode(reader);
               }

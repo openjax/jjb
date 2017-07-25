@@ -61,6 +61,6 @@ public class ObjectDecoder extends Decoder<Object> {
     if (JSObjectBase.isNull(ch, reader))
       return null;
 
-    throw new IllegalArgumentException("Malformed JSON: Unexpected char for ObjectDecoder: " + ch);
+    throw new DecodeException("Illegal char for " + getClass().getSimpleName() + ": " + ch, reader);
   }
 }

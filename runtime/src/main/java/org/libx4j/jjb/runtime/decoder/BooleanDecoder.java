@@ -20,6 +20,7 @@ import java.io.IOException;
 
 import org.lib4j.util.RewindableReader;
 import org.libx4j.jjb.runtime.Binding;
+import org.libx4j.jjb.runtime.DecodeException;
 import org.libx4j.jjb.runtime.JSObjectBase;
 
 public class BooleanDecoder extends Decoder<Boolean> {
@@ -29,12 +30,12 @@ public class BooleanDecoder extends Decoder<Boolean> {
   }
 
   @Override
-  public Boolean decode(final RewindableReader reader, char ch, final Binding<?> binding) throws IOException {
+  public Boolean decode(final RewindableReader reader, char ch, final Binding<?> binding) throws DecodeException, IOException {
     if (ch != 'f' && ch != 't') {
       if (JSObjectBase.isNull(ch, reader))
         return null;
 
-      throw new IllegalArgumentException("Malformed JSON");
+      throw new DecodeException("Illegal char for " + getClass().getSimpleName() + ": " + ch, reader);
     }
 
     final StringBuilder value = new StringBuilder(5);

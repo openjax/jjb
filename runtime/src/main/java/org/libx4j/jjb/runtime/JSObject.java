@@ -24,7 +24,7 @@ import java.util.Collection;
 
 import org.lib4j.util.RewindableReader;
 
-public abstract class JSObject extends JSObjectBase {
+public abstract class JSObject extends JSObjectBase implements Cloneable {
   public static <T extends JSObject>T parse(final Class<?> type, final InputStream in) throws DecodeException, IOException {
     return parse(type, new InputStreamReader(in));
   }
@@ -63,4 +63,7 @@ public abstract class JSObject extends JSObjectBase {
   protected abstract Collection<Binding<?>> _bindings();
   protected abstract boolean _skipUnknown();
   protected abstract JSBundle _bundle();
+
+  @Override
+  public abstract JSObject clone();
 }

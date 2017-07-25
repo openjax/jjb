@@ -21,6 +21,7 @@ import java.net.URLDecoder;
 
 import org.lib4j.util.RewindableReader;
 import org.libx4j.jjb.runtime.Binding;
+import org.libx4j.jjb.runtime.DecodeException;
 import org.libx4j.jjb.runtime.JSObjectBase;
 
 public class StringDecoder extends Decoder<String> {
@@ -34,12 +35,12 @@ public class StringDecoder extends Decoder<String> {
   }
 
   @Override
-  public String decode(final RewindableReader reader, char ch, final Binding<?> binding) throws IOException {
+  public String decode(final RewindableReader reader, char ch, final Binding<?> binding) throws DecodeException, IOException {
     if (ch != '"') {
       if (JSObjectBase.isNull(ch, reader))
         return null;
 
-      throw new IllegalArgumentException("Malformed JSON");
+      throw new DecodeException("Illegal char for " + getClass().getSimpleName() + ": " + ch, reader);
     }
 
     boolean escape = false;

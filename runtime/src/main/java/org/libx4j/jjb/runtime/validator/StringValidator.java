@@ -23,6 +23,7 @@ public class StringValidator extends Validator<String> {
   private final Integer length;
 
   public StringValidator(final String pattern, final Integer length) {
+    super(String.class);
     this.pattern = pattern;
     this.length = length;
   }

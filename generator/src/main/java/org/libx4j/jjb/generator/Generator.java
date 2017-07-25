@@ -370,10 +370,12 @@ public class Generator {
       out += "\n" + pad + "     return startLength == out.length() || startLength != 0 ? out.toString() : out.substring(2);\n" + pad + "   }";
     }
 
-    out += "\n\n" + pad + "   @" + Override.class.getName();
-    out += "\n" + pad + "   public " + String.class.getName() + " toString() {";
-    out += "\n" + pad + "     return encode(this, 1);";
-    out += "\n" + pad + "   }";
+    if (!isAbstract) {
+      out += "\n\n" + pad + "   @" + Override.class.getName();
+      out += "\n" + pad + "   public " + className + " clone() {";
+      out += "\n" + pad + "     return new " + className + "(this);";
+      out += "\n" + pad + "   }";
+    }
 
     out += "\n\n" + pad + "   @" + Override.class.getName();
     out += "\n" + pad + "   public boolean equals(final " + Object.class.getName() + " obj) {";
@@ -406,6 +408,11 @@ public class Generator {
     else {
       out += "\n" + pad + "     return " + className.hashCode() + (extendsPropertyName != null ? " ^ 31 * super.hashCode()" : "") + ";";
     }
+    out += "\n" + pad + "   }";
+
+    out += "\n\n" + pad + "   @" + Override.class.getName();
+    out += "\n" + pad + "   public " + String.class.getName() + " toString() {";
+    out += "\n" + pad + "     return encode(this, 1);";
     out += "\n" + pad + "   }";
 
     out += "\n" + pad + " }";

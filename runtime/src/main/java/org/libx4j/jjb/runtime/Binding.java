@@ -18,7 +18,9 @@ package org.libx4j.jjb.runtime;
 
 import java.lang.reflect.Field;
 import java.util.Collection;
+import java.util.List;
 
+import org.lib4j.util.Collections;
 import org.libx4j.jjb.runtime.validator.Validator;
 
 public class Binding<T> {
@@ -59,13 +61,18 @@ public class Binding<T> {
     this(name, property, type, isAbstract, array, required, notNull, false, false, validators);
   }
 
+  protected boolean isAssignable(final T value) {
+    final Class<?> type;
+    return value == null || (array ? value instanceof List && ((type = Collections.getComponentType((List<?>)value)) == null || type.isAssignableFrom(type)) : this.type.isAssignableFrom(type = value.getClass()));
+  }
+
   private String errorsToString(final String[] errors) {
     if (errors == null || errors.length == 0)
       return null;
 
     final StringBuilder message = new StringBuilder();
     for (final String error : errors)
-      message.append("\n\"").append(name).append("\" ").append(error);
+      message.append("\n\"").append(name).append("\": ").append(error);
 
     return message.substring(1);
   }

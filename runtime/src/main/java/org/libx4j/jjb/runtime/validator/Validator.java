@@ -32,6 +32,9 @@ public abstract class Validator<T> {
     if (index == validators.length)
       return new String[depth];
 
+    if (value != null && !validators[index].type.isAssignableFrom(value.getClass()))
+      return new String[] {value.getClass().getName() + " cannot be encoded as " + validators[index].type.getName()};
+
     final String error = validators[index].validate(value);
     final String[] errors = validate(validators, value, index + 1, error != null ? depth + 1 : depth);
     if (error != null)
@@ -48,12 +51,22 @@ public abstract class Validator<T> {
       return validate(validators, values, values.iterator(), index + 1, depth);
     }
 
-    final String error = validators[index].validate(iterator.next());
+    final T value = iterator.next();
+    if (value != null && !validators[index].type.isAssignableFrom(value.getClass()))
+      return new String[] {value.getClass().getName() + " cannot be encoded as " + validators[index].type.getName()};
+
+    final String error = validators[index].validate(value);
     final String[] errors = validate(validators, values, iterator, index, error != null ? depth + 1 : depth);
     if (error != null)
       errors[depth] = error;
 
     return errors;
+  }
+
+  private final Class<T> type;
+
+  protected Validator(final Class<T> type) {
+    this.type = type;
   }
 
   public abstract String validate(final T value);

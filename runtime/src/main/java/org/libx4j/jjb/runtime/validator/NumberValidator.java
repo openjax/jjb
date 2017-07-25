@@ -24,6 +24,7 @@ public class NumberValidator extends Validator<Number> {
   private final Integer max;
 
   public NumberValidator(final boolean integer, final Integer min, final Integer max) {
+    super(Number.class);
     this.integer = integer;
     this.min = min;
     this.max = max;
@@ -34,11 +35,11 @@ public class NumberValidator extends Validator<Number> {
     if (value == null)
       return null;
 
-    final String formError = !integer || value instanceof BigInteger ? null : "is not a \"integer\" number";
+    final String formError = !integer || value instanceof BigInteger ? null : "is not an \"integer\" number";
 
     final double doubleValue = value.doubleValue();
     final String minError = min == null || min <= doubleValue ? null : "is less than \"" + min + "\" min value";
-    final String maxError = max == null || max >= doubleValue ? null : "is more than \"" + max + "\" max value";
+    final String maxError = max == null || max >= doubleValue ? null : "is greater than \"" + max + "\" max value";
 
     if (formError == null && minError == null && maxError == null)
       return null;

@@ -45,18 +45,23 @@ public class JSArray<E> extends JSObject implements List<E>, RandomAccess, Clone
     return string.append("]").toString();
   }
 
-  private final List<E> list;
+  private final ArrayList<E> list;
 
   public JSArray() {
-    list = new ArrayList<E>();
+    this.list = new ArrayList<E>();
   }
 
   public JSArray(final Collection<? extends E> c) {
-    list = new ArrayList<E>(c);
+    this.list = new ArrayList<E>(c);
   }
 
   public JSArray(final int size) {
-    list = new ArrayList<E>(size);
+    this.list = new ArrayList<E>(size);
+  }
+
+  @SuppressWarnings("unchecked")
+  private JSArray(final JSArray<E> copy) {
+    this.list = (ArrayList<E>)copy.list.clone();
   }
 
   @Override
@@ -205,8 +210,8 @@ public class JSArray<E> extends JSObject implements List<E>, RandomAccess, Clone
   }
 
   @Override
-  protected Object clone() throws CloneNotSupportedException {
-    return super.clone();
+  public JSArray<E> clone() {
+    return new JSArray<E>(this);
   }
 
   @Override
