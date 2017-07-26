@@ -156,30 +156,30 @@ public abstract class JSObjectBase {
 
   @SuppressWarnings({"rawtypes", "unchecked"})
   protected static JSObject decode(final RewindableReader reader, char ch, final JSObject jsObject) throws DecodeException, IOException {
-    boolean hasOpenBrace = false;
-    boolean hasStartQuote = false;
+    boolean inObject = false;
+    boolean inQuote = false;
     final StringBuilder builder = new StringBuilder();
     while (true) {
       if (ch == '{') {
-        if (hasOpenBrace)
+        if (inObject)
           throw new DecodeException("Malformed JSON", reader);
 
-        hasOpenBrace = true;
+        inObject = true;
       }
       else {
-        if (!hasOpenBrace && isNull(ch, reader))
+        if (!inObject && isNull(ch, reader))
           return null;
 
         try {
           if (ch == '"') {
-            if (!hasStartQuote) {
-              hasStartQuote = true;
+            if (!inQuote) {
+              inQuote = true;
             }
             else {
-              hasStartQuote = false;
+              inQuote = false;
               ch = next(reader);
               if (ch != ':')
-                throw new DecodeException("Malformed JSON", reader);
+                throw new DecodeException("Expected \":\" character", reader);
 
               // Special case for parsing the container object
               Binding<?> member = jsObject == null ? Binding.ANY : jsObject._getBinding(builder.toString());
@@ -233,12 +233,13 @@ public abstract class JSObjectBase {
             if (ch == '[')
               return (JSArray)decodeValue(ch, reader, null, Binding.ANY);
 
-            if (ch != ',') {
+            if (ch != ',')
               builder.append(ch);
-            }
+            else if (!inQuote && builder.length() > 0)
+              throw new DecodeException("Expected \"{}\" but found \"" + builder + "\"", reader);
           }
         }
-        catch (final ReflectiveOperationException e) {
+        catch (final IllegalAccessException e) {
           throw new UnsupportedOperationException(e);
         }
       }
