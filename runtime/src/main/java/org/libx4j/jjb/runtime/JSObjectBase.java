@@ -137,19 +137,19 @@ public abstract class JSObjectBase {
   protected static Object decodeValue(final char ch, final RewindableReader reader, final Class<?> type, final Binding<?> binding) throws DecodeException, IOException {
     final boolean isArray = ch == '[';
     if (type == null)
-      return isArray ? Collections.asCollection(new JSArray(), objectDecoder.recurse(reader, 0, binding)) : objectDecoder.decode(reader, ch, binding);
+      return isArray ? Collections.asCollection(new JSArray<Object>(), objectDecoder.recurse(reader, 0, binding)) : objectDecoder.decode(reader, ch, binding);
 
     if (JSObject.class.isAssignableFrom(type))
-      return isArray ? Collections.asCollection(new JSArray(), jsObjectDecoder.recurse(reader, 0, binding)) : jsObjectDecoder.decode(reader, ch, binding);
+      return isArray ? Collections.asCollection(new JSArray<JSObject>(), jsObjectDecoder.recurse(reader, 0, binding)) : jsObjectDecoder.decode(reader, ch, binding);
 
     if (type == String.class)
-      return isArray ? Collections.asCollection(new JSArray(), stringDecoder.recurse(reader, 0, binding)) : stringDecoder.decode(reader, ch, binding);
+      return isArray ? Collections.asCollection(new JSArray<String>(), stringDecoder.recurse(reader, 0, binding)) : stringDecoder.decode(reader, ch, binding);
 
     if (type == Boolean.class)
-      return isArray ? Collections.asCollection(new JSArray(), booleanDecoder.recurse(reader, 0, binding)) : booleanDecoder.decode(reader, ch, binding);
+      return isArray ? Collections.asCollection(new JSArray<Boolean>(), booleanDecoder.recurse(reader, 0, binding)) : booleanDecoder.decode(reader, ch, binding);
 
     if (Number.class.isAssignableFrom(type))
-      return isArray ? Collections.asCollection(new JSArray(), numberDecoder.recurse(reader, 0, binding)) : numberDecoder.decode(reader, ch, binding);
+      return isArray ? Collections.asCollection(new JSArray<Number>(), numberDecoder.recurse(reader, 0, binding)) : numberDecoder.decode(reader, ch, binding);
 
     throw new UnsupportedOperationException("Unsupported type: " + type);
   }
