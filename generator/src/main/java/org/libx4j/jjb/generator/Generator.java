@@ -124,8 +124,6 @@ public class Generator {
       catch (final CompilationException e) {
         throw new UnsupportedOperationException(e);
       }
-
-      ClassLoaders.addURL((URLClassLoader)ClassLoader.getSystemClassLoader(), destDir.toURI().toURL());
     }
   }
 
