@@ -22,7 +22,6 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.net.URL;
-import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -32,7 +31,6 @@ import java.util.Stack;
 
 import org.lib4j.jci.CompilationException;
 import org.lib4j.jci.JavaCompiler;
-import org.lib4j.lang.ClassLoaders;
 import org.lib4j.lang.Resources;
 import org.lib4j.lang.Strings;
 import org.lib4j.util.Collections;
