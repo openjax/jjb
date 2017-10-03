@@ -152,7 +152,7 @@ public class Property<T> {
 
     final Property<?> that = (Property<?>)obj;
     if (that.value instanceof Number)
-      return Numbers.equivalent((Number)value, (Number)that.value);
+      return Numbers.equivalent((Number)value, (Number)that.value, 10 * Math.max(Math.ulp(((Number)value).doubleValue()), Math.ulp(((Number)that.value).doubleValue())));
 
     return that.value != null ? that.value.equals(value) : value == null;
   }
