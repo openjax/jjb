@@ -129,7 +129,7 @@ The [JSONx Schema][jsonx-xsd] offers semantics for the definition of check const
   <dependency>
     <groupId>org.libx4j.jjb</groupId>
     <artifactId>jjb-generator</artifactId>
-    <version>0.9.6</version>
+    <version>0.9.7-SNAPSHOT</version>
   </dependency>
   ```
 
