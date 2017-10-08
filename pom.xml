@@ -42,14 +42,6 @@
     <module>rs</module>
     <module>runtime</module>
   </modules>
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.libx4j.maven.plugin</groupId>
-        <artifactId>xml-maven-plugin</artifactId>
-      </plugin>
-    </plugins>
-  </build>
   <repositories>
     <repository>
       <id>mvn.repo.lib4j.org</id>
