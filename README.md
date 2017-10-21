@@ -103,20 +103,17 @@ The [JSONx Schema][jsonx-xsd] offers semantics for the definition of check const
   <plugin>
     <groupId>org.libx4j.maven.plugin</groupId>
     <artifactId>jjb-maven-plugin</artifactId>
-    <version>0.9.6</version>
+    <version>0.9.7-SNAPSHOT</version>
     <executions>
       <execution>
-        <phase>generate-sources</phase>
         <goals>
           <goal>generate</goal>
         </goals>
         <configuration>
-          <manifest xmlns="http://maven.lib4j.org/common/manifest.xsd">
-            <destdir>generated-sources/jjb</destdir>
-            <resources>
-              <resource>src/main/resources/json.jsonx</resource>
-            </resources>
-          </manifest>
+          <destDir>${project.build.directory}/generated-sources/jjb</destDir>
+          <schemas>
+            <schema>src/main/resources/json.jsonx</schema>
+          </schemas>
         </configuration>
       </execution>
     </executions>
