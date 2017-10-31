@@ -34,7 +34,6 @@ import org.lib4j.jci.JavaCompiler;
 import org.lib4j.lang.Resources;
 import org.lib4j.lang.Strings;
 import org.lib4j.util.Collections;
-import org.lib4j.xml.XMLException;
 import org.lib4j.xml.XMLText;
 import org.lib4j.xml.dom.DOMStyle;
 import org.lib4j.xml.dom.DOMs;
@@ -67,7 +66,7 @@ public class Generator {
     Generator.generate(Resources.getResource(args[0]).getURL(), new File(args[1]), false);
   }
 
-  public static void generate(final URL url, final File destDir, final boolean compile) throws GeneratorExecutionException, IOException, XMLException {
+  public static void generate(final URL url, final File destDir, final boolean compile) throws GeneratorExecutionException, IOException {
     final jsonx_json json = (jsonx_json)Bindings.parse(url);
     if (json._object() == null) {
       logger.error("Missing <object> elements: " + url.toExternalForm());
@@ -87,8 +86,8 @@ public class Generator {
     String out = "";
 
     out += "package " + packageName + ";\n";
-    if (!json._description(0).isNull())
-      out += "\n/**\n * " + json._description(0).text() + "\n */";
+    if (json._description() != null)
+      out += "\n/**\n * " + json._description().text() + "\n */";
 
     out += "\n@" + SuppressWarnings.class.getName() + "(\"all\")";
     out += "\npublic class " + name + " extends " + JSBundle.class.getName() + " {";
@@ -147,7 +146,7 @@ public class Generator {
 
     if (property instanceof $jsonx_object) {
       final $jsonx_object object = ($jsonx_object)property;
-      if (!object._extends$().isNull() && !property.elementIterator().hasNext())
+      if (object._extends$() != null && !property.elementIterator().hasNext())
         return Strings.toClassCase(object._extends$().text());
 
       return Collections.toString(parent, ".") + "." + Strings.toClassCase((($jsonx_object)property)._name$().text());
@@ -180,8 +179,8 @@ public class Generator {
 
     final String pad = Strings.padFixed("", depth * 2, false);
     String out = "\n";
-    if (!property._description(0).isNull())
-      out += "\n" + pad + "   /**\n" + pad + "    * " + property._description(0).text() + "\n" + pad + "    */";
+    if (property._description() != null)
+      out += "\n" + pad + "   /**\n" + pad + "    * " + property._description().text() + "\n" + pad + "    */";
 
     out += "\n" + pad + "   public final " + Property.class.getName() + "<" + type + "> " + instanceName + " = new " + Property.class.getName() + "<" + type + ">(this, (" + Binding.class.getName() + "<" + type + ">)bindings.get(\"" + valueName + "\"));";
     return out;
@@ -225,11 +224,11 @@ public class Generator {
     final BindingList<$jsonx_property> properties;
     if (object instanceof $jsonx_object) {
       final $jsonx_object object1 = ($jsonx_object)object;
-      if (!object1._extends$().isNull() && !object.elementIterator().hasNext() && !objectNameToObject.get(object1._extends$().text())._abstract$().text())
+      if (object1._extends$() != null && !object.elementIterator().hasNext() && !objectNameToObject.get(object1._extends$().text())._abstract$().text())
         return "";
 
       objectName = object1._name$().text();
-      extendsPropertyName = !object1._extends$().isNull() ? object1._extends$().text() : null;
+      extendsPropertyName = object1._extends$() != null ? object1._extends$().text() : null;
       skipUnknown = $jsonx_object._onUnknown$.skip.text().equals(object1._onUnknown$().text());
       isAbstract = false;
       properties = object1._property();
@@ -237,7 +236,7 @@ public class Generator {
     else if (object instanceof jsonx_json._object) {
       final jsonx_json._object object2 = (jsonx_json._object)object;
       objectName = object2._name$().text();
-      extendsPropertyName = !object2._extends$().isNull() ? object2._extends$().text() : null;
+      extendsPropertyName = object2._extends$() != null ? object2._extends$().text() : null;
       skipUnknown = $jsonx_object._onUnknown$.skip.text().equals(object2._onUnknown$().text());
       isAbstract = object2._abstract$().text();
       properties = object2._property();
@@ -251,8 +250,8 @@ public class Generator {
 
     final String pad = Strings.padFixed("", depth * 2, false);
     String out = "\n";
-    if (!object._description(0).isNull())
-      out += "\n" + pad + " /**\n" + pad + "  * " + object._description(0).text() + "\n" + pad + "  */";
+    if (object._description() != null)
+      out += "\n" + pad + " /**\n" + pad + "  * " + object._description().text() + "\n" + pad + "  */";
 
     out += "\n" + pad + " public static" + (isAbstract ? " abstract" : "") + " class " + className + " extends " + (extendsPropertyName != null ? parent.get(0) + "." + Strings.toClassCase(extendsPropertyName) : JSObject.class.getName()) + " {";
     out += "\n" + pad + "   private static final " + String.class.getName() + " _name = \"" + objectName + "\";\n";
@@ -271,16 +270,16 @@ public class Generator {
         out += "\n" + pad + "       bindings.put(\"" + propertyName + "\", new " + Binding.class.getName() + "<" + type + ">(\"" + propertyName + "\", " + className + ".class.getDeclaredField(\"" + getInstanceName(property) + "\"), " + rawType + ".class, " + isAbstract + ", " + isArray + ", " + property._required$().text() + ", " + !property._null$().text() + (property instanceof $jsonx_string ? ", " + (($jsonx_string)property)._urlDecode$().text() + ", " + (($jsonx_string)property)._urlEncode$().text() : "");
         if (property instanceof $jsonx_string) {
           final $jsonx_string string = ($jsonx_string)property;
-          if (string._pattern$().text() != null || string._length$().text() != null)
-            out += ", new " + StringValidator.class.getName() + "(" + (string._pattern$().isNull() ? "null" : "\"" + XMLText.unescapeXMLText(string._pattern$().text()).replace("\\", "\\\\").replace("\"", "\\\"") + "\"") + ", " + (string._length$().isNull() ? "null" : string._length$().text()) + ")";
+          if (string._pattern$() != null || string._length$() != null)
+            out += ", new " + StringValidator.class.getName() + "(" + (string._pattern$() == null ? "null" : "\"" + XMLText.unescapeXMLText(string._pattern$().text()).replace("\\", "\\\\").replace("\"", "\\\"") + "\"") + ", " + (string._length$() == null ? "null" : string._length$().text()) + ")";
         }
         else if (property instanceof $jsonx_number) {
           final $jsonx_number string = ($jsonx_number)property;
-          if (_form$.integer.text().equals(string._form$().text()) || string._min$().text() != null || string._max$().text() != null) {
-            if (string._min$().text() != null && string._max$().text() != null && string._min$().text() > string._max$().text())
+          if (_form$.integer.text().equals(string._form$().text()) || string._min$() != null || string._max$() != null) {
+            if (string._min$() != null && string._max$() != null && string._min$().text() > string._max$().text())
               throw new GeneratorExecutionException("min (" + string._min$().text() + ") > max (" + string._max$().text() + ") on property: " + objectName + "." + propertyName);
 
-            out += ", new " + NumberValidator.class.getName() + "(" + _form$.integer.text().equals(string._form$().text()) + ", " + (string._min$().isNull() ? "null" : string._min$().text().intValue()) + ", " + (string._max$().isNull() ? "null" : string._max$().text().intValue()) + ")";
+            out += ", new " + NumberValidator.class.getName() + "(" + _form$.integer.text().equals(string._form$().text()) + ", " + (string._min$() == null ? "null" : string._min$().text().intValue()) + ", " + (string._max$() == null ? "null" : string._max$().text().intValue()) + ")";
           }
         }
 
