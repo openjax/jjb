@@ -34,18 +34,19 @@ import org.lib4j.jci.JavaCompiler;
 import org.lib4j.lang.Resources;
 import org.lib4j.lang.Strings;
 import org.lib4j.util.Collections;
+import org.lib4j.util.JavaIdentifiers;
 import org.lib4j.xml.XMLText;
 import org.lib4j.xml.dom.DOMStyle;
 import org.lib4j.xml.dom.DOMs;
-import org.libx4j.jjb.jsonx.xe.$jsonx_boolean;
-import org.libx4j.jjb.jsonx.xe.$jsonx_element;
-import org.libx4j.jjb.jsonx.xe.$jsonx_named;
-import org.libx4j.jjb.jsonx.xe.$jsonx_number;
-import org.libx4j.jjb.jsonx.xe.$jsonx_number._form$;
-import org.libx4j.jjb.jsonx.xe.$jsonx_object;
-import org.libx4j.jjb.jsonx.xe.$jsonx_property;
-import org.libx4j.jjb.jsonx.xe.$jsonx_string;
-import org.libx4j.jjb.jsonx.xe.jsonx_json;
+import org.libx4j.jjb.jsonx.xIEcGGcJdtCXciFzw5sg.$Boolean;
+import org.libx4j.jjb.jsonx.xIEcGGcJdtCXciFzw5sg.$Element;
+import org.libx4j.jjb.jsonx.xIEcGGcJdtCXciFzw5sg.$Named;
+import org.libx4j.jjb.jsonx.xIEcGGcJdtCXciFzw5sg.$Number;
+import org.libx4j.jjb.jsonx.xIEcGGcJdtCXciFzw5sg.$Number.Form$;
+import org.libx4j.jjb.jsonx.xIEcGGcJdtCXciFzw5sg.$Object;
+import org.libx4j.jjb.jsonx.xIEcGGcJdtCXciFzw5sg.$Property;
+import org.libx4j.jjb.jsonx.xIEcGGcJdtCXciFzw5sg.$String;
+import org.libx4j.jjb.jsonx.xIEcGGcJdtCXciFzw5sg.Json;
 import org.libx4j.jjb.runtime.Binding;
 import org.libx4j.jjb.runtime.EncodeException;
 import org.libx4j.jjb.runtime.JSArray;
@@ -67,8 +68,8 @@ public class Generator {
   }
 
   public static void generate(final URL url, final File destDir, final boolean compile) throws GeneratorExecutionException, IOException {
-    final jsonx_json json = (jsonx_json)Bindings.parse(url);
-    if (json._object() == null) {
+    final Json json = (Json)Bindings.parse(url);
+    if (json.getObject() == null) {
       logger.error("Missing <object> elements: " + url.toExternalForm());
       return;
     }
@@ -78,20 +79,20 @@ public class Generator {
     if (!outDir.exists() && !outDir.mkdirs())
       throw new IOException("Unable to mkdirs: " + outDir.getAbsolutePath());
 
-    for (final jsonx_json._object object : json._object())
-      objectNameToObject.put(object._name$().text(), object);
+    for (final Json.Object object : json.getObject())
+      objectNameToObject.put(object.getName$().text(), object);
 
-    final String name = json._name$().text();
+    final String name = json.getName$().text();
 
     String out = "";
 
     out += "package " + packageName + ";\n";
-    if (json._description() != null)
-      out += "\n/**\n * " + json._description().text() + "\n */";
+    if (json.getDescription() != null)
+      out += "\n/**\n * " + json.getDescription().text() + "\n */";
 
     out += "\n@" + SuppressWarnings.class.getName() + "(\"all\")";
     out += "\npublic class " + name + " extends " + JSBundle.class.getName() + " {";
-    out += "\n  public static final " + String.class.getName() + " mimeType = \"" + json._mimeType$().text() + "\";";
+    out += "\n  public static final " + String.class.getName() + " mimeType = \"" + json.getMimeType$().text() + "\";";
     out += "\n  private static " + name + " instance = null;";
     out += "\n\n  protected static " + name + " instance() {";
     out += "\n    return instance == null ? instance = new " + name + "() : instance;";
@@ -104,7 +105,7 @@ public class Generator {
 
     final Stack<String> parents = new Stack<String>();
     parents.push(name);
-    for (final jsonx_json._object object : json._object())
+    for (final Json.Object object : json.getObject())
       out += writeJavaClass(parents, object, 0);
 
     out += "\n\n  private " + name + "() {";
@@ -124,54 +125,54 @@ public class Generator {
     }
   }
 
-  private static final Map<String,jsonx_json._object> objectNameToObject = new HashMap<String,jsonx_json._object>();
+  private static final Map<String,Json.Object> objectNameToObject = new HashMap<String,Json.Object>();
 
-  private static String getType(final Stack<String> parent, final $jsonx_property property) {
-    if (property instanceof $jsonx_string)
+  private static String getType(final Stack<String> parent, final $Property property) {
+    if (property instanceof $String)
       return String.class.getName();
 
-    if (property instanceof $jsonx_number) {
-      final $jsonx_number numberProperty = ($jsonx_number)property;
-      if ($jsonx_number._form$.integer.text().equals(numberProperty._form$().text()))
+    if (property instanceof $Number) {
+      final $Number numberProperty = ($Number)property;
+      if ($Number.Form$.integer.text().equals(numberProperty.getForm$().text()))
         return BigInteger.class.getName();
 
-      if ($jsonx_number._form$.real.text().equals(numberProperty._form$().text()))
+      if ($Number.Form$.real.text().equals(numberProperty.getForm$().text()))
         return BigDecimal.class.getName();
 
-      throw new UnsupportedOperationException("Unknown number form: " + numberProperty._form$().text());
+      throw new UnsupportedOperationException("Unknown number form: " + numberProperty.getForm$().text());
     }
 
-    if (property instanceof $jsonx_boolean)
+    if (property instanceof $Boolean)
       return Boolean.class.getName();
 
-    if (property instanceof $jsonx_object) {
-      final $jsonx_object object = ($jsonx_object)property;
-      if (object._extends$() != null && !property.elementIterator().hasNext())
-        return Strings.toClassCase(object._extends$().text());
+    if (property instanceof $Object) {
+      final $Object object = ($Object)property;
+      if (object.getExtends$() != null && !property.elementIterator().hasNext())
+        return JavaIdentifiers.toClassCase(object.getExtends$().text());
 
-      return Collections.toString(parent, ".") + "." + Strings.toClassCase((($jsonx_object)property)._name$().text());
+      return Collections.toString(parent, ".") + "." + JavaIdentifiers.toClassCase((($Object)property).getName$().text());
     }
 
     throw new UnsupportedOperationException("Unknown type: " + property.getClass().getName());
   }
 
-  private static String getPropertyName(final $jsonx_property property) {
-    if (property instanceof $jsonx_named)
-      return (($jsonx_named)property)._name$().text();
+  private static String getPropertyName(final $Property property) {
+    if (property instanceof $Named)
+      return (($Named)property).getName$().text();
 
-    if (property instanceof $jsonx_object)
-      return (($jsonx_object)property)._name$().text();
+    if (property instanceof $Object)
+      return (($Object)property).getName$().text();
 
     throw new UnsupportedOperationException("Unsupported type: " + property);
   }
 
-  private static String getInstanceName(final $jsonx_property property) {
-    return Strings.toInstanceCase(getPropertyName(property));
+  private static String getInstanceName(final $Property property) {
+    return JavaIdentifiers.toInstanceCase(getPropertyName(property));
   }
 
-  private static String writeField(final Stack<String> parent, final $jsonx_property property, final int depth) {
+  private static String writeField(final Stack<String> parent, final $Property property, final int depth) {
     final String valueName = getPropertyName(property);
-    final boolean isArray = property._array$().text();
+    final boolean isArray = property.getArray$().text();
     final String rawType = getType(parent, property);
     final String type = isArray ? List.class.getName() + "<" + rawType + ">" : rawType;
 
@@ -179,81 +180,81 @@ public class Generator {
 
     final String pad = Strings.padFixed("", depth * 2, false);
     String out = "\n";
-    if (property._description() != null)
-      out += "\n" + pad + "   /**\n" + pad + "    * " + property._description().text() + "\n" + pad + "    */";
+    if (property.getDescription() != null)
+      out += "\n" + pad + "   /**\n" + pad + "    * " + property.getDescription().text() + "\n" + pad + "    */";
 
     out += "\n" + pad + "   public final " + Property.class.getName() + "<" + type + "> " + instanceName + " = new " + Property.class.getName() + "<" + type + ">(this, (" + Binding.class.getName() + "<" + type + ">)bindings.get(\"" + valueName + "\"));";
     return out;
   }
 
-  private static String writeEncode(final $jsonx_property property, final int depth) {
+  private static String writeEncode(final $Property property, final int depth) {
     final String valueName = getPropertyName(property);
     final String instanceName = getInstanceName(property);
     final String pad = Strings.padFixed("", depth * 2, false);
 
     String out = "";
-    if (property._required$().text()) {
+    if (property.getRequired$().text()) {
       out += "\n" + pad + "     if (!" + instanceName + ".present())";
       out += "\n" + pad + "       throw new " + EncodeException.class.getName() + "(\"\\\"" + valueName + "\\\" is required\", this);\n";
     }
 
-    if (!property._null$().text()) {
+    if (!property.getNull$().text()) {
       out += "\n" + pad + "     if (" + instanceName + ".present() && " + instanceName + ".get() == null)";
       out += "\n" + pad + "       throw new " + EncodeException.class.getName() + "(\"\\\"" + valueName + "\\\" cannot be null\", this);\n";
     }
 
     out += "\n" + pad + "     if (" + instanceName + ".present() || required(" + instanceName + "))";
     out += "\n" + pad + "       out.append(\",\\n\").append(pad(depth)).append(\"\\\"" + valueName + "\\\": \").append(";
-    if (property._array$().text())
+    if (property.getArray$().text())
       return out + JSArray.class.getName() + ".toString(encode(" + instanceName + "), depth + 1));\n";
 
-    if (property instanceof $jsonx_object)
+    if (property instanceof $Object)
       return out + "" + instanceName + ".get() != null ? encode(encode(" + instanceName + "), depth + 1) : \"null\");\n";
 
-    if (property instanceof $jsonx_string)
+    if (property instanceof $String)
       return out + "" + instanceName + ".get() != null ? \"\\\"\" + encode(" + instanceName + ") + \"\\\"\" : \"null\");\n";
 
     return out + "encode(" + instanceName + "));\n";
   }
 
-  private static String writeJavaClass(final Stack<String> parent, final $jsonx_element object, final int depth) throws GeneratorExecutionException {
+  private static String writeJavaClass(final Stack<String> parent, final $Element object, final int depth) throws GeneratorExecutionException {
     final String objectName;
     final String extendsPropertyName;
     final boolean skipUnknown;
     final boolean isAbstract;
-    final BindingList<$jsonx_property> properties;
-    if (object instanceof $jsonx_object) {
-      final $jsonx_object object1 = ($jsonx_object)object;
-      if (object1._extends$() != null && !object.elementIterator().hasNext() && !objectNameToObject.get(object1._extends$().text())._abstract$().text())
+    final BindingList<$Property> properties;
+    if (object instanceof $Object) {
+      final $Object object1 = ($Object)object;
+      if (object1.getExtends$() != null && !object.elementIterator().hasNext() && !objectNameToObject.get(object1.getExtends$().text()).getAbstract$().text())
         return "";
 
-      objectName = object1._name$().text();
-      extendsPropertyName = object1._extends$() != null ? object1._extends$().text() : null;
-      skipUnknown = $jsonx_object._onUnknown$.skip.text().equals(object1._onUnknown$().text());
+      objectName = object1.getName$().text();
+      extendsPropertyName = object1.getExtends$() != null ? object1.getExtends$().text() : null;
+      skipUnknown = $Object.OnUnknown$.skip.text().equals(object1.getOnUnknown$().text());
       isAbstract = false;
-      properties = object1._property();
+      properties = object1.getProperty();
     }
-    else if (object instanceof jsonx_json._object) {
-      final jsonx_json._object object2 = (jsonx_json._object)object;
-      objectName = object2._name$().text();
-      extendsPropertyName = object2._extends$() != null ? object2._extends$().text() : null;
-      skipUnknown = $jsonx_object._onUnknown$.skip.text().equals(object2._onUnknown$().text());
-      isAbstract = object2._abstract$().text();
-      properties = object2._property();
+    else if (object instanceof Json.Object) {
+      final Json.Object object2 = (Json.Object)object;
+      objectName = object2.getName$().text();
+      extendsPropertyName = object2.getExtends$() != null ? object2.getExtends$().text() : null;
+      skipUnknown = $Object.OnUnknown$.skip.text().equals(object2.getOnUnknown$().text());
+      isAbstract = object2.getAbstract$().text();
+      properties = object2.getProperty();
     }
     else {
       throw new UnsupportedOperationException("Unsupported object type: " + object.getClass().getName());
     }
 
-    final String className = Strings.toClassCase(objectName);
+    final String className = JavaIdentifiers.toClassCase(objectName);
     parent.add(className);
 
     final String pad = Strings.padFixed("", depth * 2, false);
     String out = "\n";
-    if (object._description() != null)
-      out += "\n" + pad + " /**\n" + pad + "  * " + object._description().text() + "\n" + pad + "  */";
+    if (object.getDescription() != null)
+      out += "\n" + pad + " /**\n" + pad + "  * " + object.getDescription().text() + "\n" + pad + "  */";
 
-    out += "\n" + pad + " public static" + (isAbstract ? " abstract" : "") + " class " + className + " extends " + (extendsPropertyName != null ? parent.get(0) + "." + Strings.toClassCase(extendsPropertyName) : JSObject.class.getName()) + " {";
+    out += "\n" + pad + " public static" + (isAbstract ? " abstract" : "") + " class " + className + " extends " + (extendsPropertyName != null ? parent.get(0) + "." + JavaIdentifiers.toClassCase(extendsPropertyName) : JSObject.class.getName()) + " {";
     out += "\n" + pad + "   private static final " + String.class.getName() + " _name = \"" + objectName + "\";\n";
     out += "\n" + pad + "   private static final " + Map.class.getName() + "<" + String.class.getName() + "," + Binding.class.getName() + "<?>> bindings = new " + HashMap.class.getName() + "<" + String.class.getName() + "," + Binding.class.getName() + "<?>>(" + (properties != null ? properties.size() : 0) + ");";
 
@@ -261,25 +262,25 @@ public class Generator {
     out += "\n" + pad + "     registerBinding(_name, " + className + ".class);";
     if (properties != null) {
       out += "\n" + pad + "     try {";
-      for (final $jsonx_property property : properties) {
+      for (final $Property property : properties) {
         final String propertyName = getPropertyName(property);
         final String rawType = getType(parent, property);
-        final boolean isArray = property._array$().text();
+        final boolean isArray = property.getArray$().text();
         final String type = isArray ? List.class.getName() + "<" + rawType + ">" : rawType;
 
-        out += "\n" + pad + "       bindings.put(\"" + propertyName + "\", new " + Binding.class.getName() + "<" + type + ">(\"" + propertyName + "\", " + className + ".class.getDeclaredField(\"" + getInstanceName(property) + "\"), " + rawType + ".class, " + isAbstract + ", " + isArray + ", " + property._required$().text() + ", " + !property._null$().text() + (property instanceof $jsonx_string ? ", " + (($jsonx_string)property)._urlDecode$().text() + ", " + (($jsonx_string)property)._urlEncode$().text() : "");
-        if (property instanceof $jsonx_string) {
-          final $jsonx_string string = ($jsonx_string)property;
-          if (string._pattern$() != null || string._length$() != null)
-            out += ", new " + StringValidator.class.getName() + "(" + (string._pattern$() == null ? "null" : "\"" + XMLText.unescapeXMLText(string._pattern$().text()).replace("\\", "\\\\").replace("\"", "\\\"") + "\"") + ", " + (string._length$() == null ? "null" : string._length$().text()) + ")";
+        out += "\n" + pad + "       bindings.put(\"" + propertyName + "\", new " + Binding.class.getName() + "<" + type + ">(\"" + propertyName + "\", " + className + ".class.getDeclaredField(\"" + getInstanceName(property) + "\"), " + rawType + ".class, " + isAbstract + ", " + isArray + ", " + property.getRequired$().text() + ", " + !property.getNull$().text() + (property instanceof $String ? ", " + (($String)property).getUrlDecode$().text() + ", " + (($String)property).getUrlEncode$().text() : "");
+        if (property instanceof $String) {
+          final $String string = ($String)property;
+          if (string.getPattern$() != null || string.getLength$() != null)
+            out += ", new " + StringValidator.class.getName() + "(" + (string.getPattern$() == null ? "null" : "\"" + XMLText.unescapeXMLText(string.getPattern$().text()).replace("\\", "\\\\").replace("\"", "\\\"") + "\"") + ", " + (string.getLength$() == null ? "null" : string.getLength$().text()) + ")";
         }
-        else if (property instanceof $jsonx_number) {
-          final $jsonx_number string = ($jsonx_number)property;
-          if (_form$.integer.text().equals(string._form$().text()) || string._min$() != null || string._max$() != null) {
-            if (string._min$() != null && string._max$() != null && string._min$().text() > string._max$().text())
-              throw new GeneratorExecutionException("min (" + string._min$().text() + ") > max (" + string._max$().text() + ") on property: " + objectName + "." + propertyName);
+        else if (property instanceof $Number) {
+          final $Number string = ($Number)property;
+          if (Form$.integer.text().equals(string.getForm$().text()) || string.getMin$() != null || string.getMax$() != null) {
+            if (string.getMin$() != null && string.getMax$() != null && string.getMin$().text() > string.getMax$().text())
+              throw new GeneratorExecutionException("min (" + string.getMin$().text() + ") > max (" + string.getMax$().text() + ") on property: " + objectName + "." + propertyName);
 
-            out += ", new " + NumberValidator.class.getName() + "(" + _form$.integer.text().equals(string._form$().text()) + ", " + (string._min$() == null ? "null" : string._min$().text().intValue()) + ", " + (string._max$() == null ? "null" : string._max$().text().intValue()) + ")";
+            out += ", new " + NumberValidator.class.getName() + "(" + Form$.integer.text().equals(string.getForm$().text()) + ", " + (string.getMin$() == null ? "null" : string.getMin$().text().intValue()) + ", " + (string.getMax$() == null ? "null" : string.getMax$().text().intValue()) + ")";
           }
         }
 
@@ -294,8 +295,8 @@ public class Generator {
     out += "\n" + pad + "   }";
 
     if (properties != null)
-      for (final $jsonx_property property : properties)
-        if (property instanceof $jsonx_object)
+      for (final $Property property : properties)
+        if (property instanceof $Object)
           out += writeJavaClass(parent, property, depth + 1);
 
     out += "\n\n" + pad + "   public " + className + "(final " + JSObject.class.getName() + " object) {";
@@ -304,7 +305,7 @@ public class Generator {
       out += "\n" + pad + "     if (!(object instanceof " + className + "))";
       out += "\n" + pad + "       return;";
       out += "\n\n" + pad + "     final " + className + " that = (" + className + ")object;";
-      for (final $jsonx_property property : properties) {
+      for (final $Property property : properties) {
         final String instanceName = getInstanceName(property);
         out += "\n" + pad + "     clone(this." + instanceName + ", that." + instanceName + ");";
       }
@@ -352,7 +353,7 @@ public class Generator {
     out += "\n" + pad + "     return _name;";
     out += "\n" + pad + "   }";
     if (properties != null) {
-      for (final $jsonx_property property : properties)
+      for (final $Property property : properties)
         out += writeField(parent, property, depth);
 
       out += "\n\n" + pad + "   @" + Override.class.getName();
@@ -380,7 +381,7 @@ public class Generator {
     out += "\n" + pad + "       return false;\n";
     if (properties != null) {
       out += "\n" + pad + "     final " + className + " that = (" + className + ")obj;";
-      for (final $jsonx_property property : properties) {
+      for (final $Property property : properties) {
         final String instanceName = getInstanceName(property);
         out += "\n" + pad + "     if (that." + instanceName + " != null ? !that." + instanceName + ".equals(" + instanceName + ") : " + instanceName + " != null)";
         out += "\n" + pad + "       return false;\n";
@@ -393,7 +394,7 @@ public class Generator {
     out += "\n" + pad + "   public int hashCode() {";
     if (properties != null) {
       out += "\n" + pad + "     int hashCode = " + className.hashCode() + (extendsPropertyName != null ? " ^ 31 * super.hashCode()" : "") + ";";
-      for (final $jsonx_property property : properties) {
+      for (final $Property property : properties) {
         final String instanceName = getInstanceName(property);
         out += "\n" + pad + "     if (" + instanceName + " != null)";
         out += "\n" + pad + "       hashCode ^= 31 * " + instanceName + ".hashCode();\n";
