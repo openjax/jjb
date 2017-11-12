@@ -17,6 +17,7 @@
 package org.libx4j.jjb.runtime.decoder;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 
 import org.lib4j.util.RewindableReader;
 import org.libx4j.jjb.runtime.Binding;
@@ -33,9 +34,9 @@ public class JSObjectDecoder extends Decoder<JSObject> {
   @Override
   public JSObject decode(final RewindableReader reader, char ch, final Binding<?> clazz) throws DecodeException, IOException {
     try {
-      return JSObjectBase.decode(reader, ch, clazz.type == null ? null : (JSObject)clazz.type.newInstance());
+      return JSObjectBase.decode(reader, ch, clazz.type == null ? null : (JSObject)clazz.type.getDeclaredConstructor().newInstance());
     }
-    catch (final ReflectiveOperationException e) {
+    catch (final IllegalAccessException | InstantiationException | InvocationTargetException | NoSuchMethodException e) {
       throw new UnsupportedOperationException(e);
     }
   }

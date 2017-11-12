@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 
 import org.lib4j.util.RewindableReader;
@@ -41,9 +42,9 @@ public abstract class JSObject extends JSObjectBase implements Cloneable {
       if (!JSObject.class.isAssignableFrom(type))
         throw new DecodeException("Expected a JSObject type " + type.getName(), rewindableReader, null);
 
-      return (T)decode(rewindableReader, ch, ((Class<T>)type).newInstance());
+      return (T)decode(rewindableReader, ch, ((Class<T>)type).getDeclaredConstructor().newInstance());
     }
-    catch (final ReflectiveOperationException e) {
+    catch (final IllegalAccessException | InstantiationException | InvocationTargetException | NoSuchMethodException e) {
       throw new UnsupportedOperationException(e);
     }
   }
