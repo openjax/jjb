@@ -60,8 +60,12 @@ public class NumberDecoder extends Decoder<Number> {
     if (binding.type != null && binding.type != BigInteger.class)
       throw new UnsupportedOperationException("Unsupported number type: " + binding.type.getName());
 
-    if (isDecimal)
+    if (isDecimal) {
+      if (binding.type == null)
+        return new BigDecimal(number);
+
       throw new DecodeException("is not an \"integer\" number: \"" + value + "\"", reader);
+    }
 
     return new BigInteger(number);
   }
