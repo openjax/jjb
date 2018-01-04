@@ -19,18 +19,14 @@ package org.libx4j.jjb.rs;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.Consumes;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.ext.MessageBodyReader;
-import javax.ws.rs.ext.MessageBodyWriter;
 import javax.ws.rs.ext.Provider;
 
 import org.libx4j.jjb.runtime.DecodeException;
@@ -38,8 +34,7 @@ import org.libx4j.jjb.runtime.JSObject;
 
 @Provider
 @Consumes(MediaType.APPLICATION_JSON)
-@Produces(MediaType.APPLICATION_JSON)
-public class JSObjectProvider implements MessageBodyReader<JSObject>, MessageBodyWriter<JSObject> {
+public class JSObjectReader implements MessageBodyReader<JSObject> {
   @Override
   public boolean isReadable(final Class<?> rawType, final Type genericType, final Annotation[] annotations, final MediaType mediaType) {
     return JSObject.class.isAssignableFrom(rawType);
@@ -53,22 +48,5 @@ public class JSObjectProvider implements MessageBodyReader<JSObject>, MessageBod
     catch (final DecodeException e) {
       throw new BadRequestException(e);
     }
-  }
-
-  @Override
-  public long getSize(final JSObject t, final Class<?> rawType, final Type genericType, final Annotation[] annotations, final MediaType mediaType) {
-    return t.toString().length();
-  }
-
-  @Override
-  public boolean isWriteable(final Class<?> rawType, final Type genericType, final Annotation[] annotations, final MediaType mediaType) {
-    return JSObject.class.isAssignableFrom(rawType);
-  }
-
-  @Override
-  public void writeTo(final JSObject t, final Class<?> rawType, final Type genericType, final Annotation[] annotations, final MediaType mediaType, final MultivaluedMap<String,Object> httpHeaders, final OutputStream entityStream) throws IOException {
-    final byte[] bytes = t.toString().getBytes();
-    entityStream.write(bytes);
-    httpHeaders.putSingle(HttpHeaders.CONTENT_LENGTH, bytes.length);
   }
 }
