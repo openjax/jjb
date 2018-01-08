@@ -114,7 +114,7 @@ public abstract class JSObjectBase {
   }
 
   protected static boolean required(final Property<?> property) {
-    return property.required();
+    return property.required() == Required.TRUE || property.required() == Required.ENCODE;
   }
 
   protected static char[] pad(final int depth) {
@@ -195,7 +195,7 @@ public abstract class JSObjectBase {
 
               final Object value = decodeValue(ch, reader, member.type, member);
 
-              if (member.required && member.notNull && value == null)
+              if ((member.required == Required.TRUE || member.required == Required.DECODE) && member.notNull && value == null)
                 throw new DecodeException("\"" + member.name + "\" cannot be null", reader);
 
               if (member != Binding.ANY) {
@@ -215,7 +215,7 @@ public abstract class JSObjectBase {
 
               for (final Binding<?> binding : jsObject._bindings()) {
                 final Property<?> property = (Property<?>)binding.property.get(jsObject);
-                if (binding.required) {
+                if (binding.required == Required.TRUE || binding.required == Required.DECODE) {
                   if (!property.present())
                     throw new DecodeException("\"" + binding.name + "\" is required", reader);
 

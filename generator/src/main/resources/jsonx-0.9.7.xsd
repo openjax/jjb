@@ -41,10 +41,18 @@
             <xs:documentation>Is property an array. Default: false.</xs:documentation>
           </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="required" type="xs:boolean" default="true">
+        <xs:attribute name="required" default="true">
           <xs:annotation>
-            <xs:documentation>Is property required to appear in object. Default: true.</xs:documentation>
+            <xs:documentation>Is property required always (true), never (false), only on encode (encode), or only on decode (decode). Default: true.</xs:documentation>
           </xs:annotation>
+          <xs:simpleType>
+            <xs:restriction base="xs:string">
+              <xs:enumeration value="true"/>
+              <xs:enumeration value="false"/>
+              <xs:enumeration value="encode"/>
+              <xs:enumeration value="decode"/>
+            </xs:restriction>
+          </xs:simpleType>
         </xs:attribute>
         <xs:attribute name="null" type="xs:boolean" default="true">
           <xs:annotation>

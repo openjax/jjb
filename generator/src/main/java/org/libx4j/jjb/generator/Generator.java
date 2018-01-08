@@ -53,6 +53,7 @@ import org.libx4j.jjb.runtime.JSArray;
 import org.libx4j.jjb.runtime.JSBundle;
 import org.libx4j.jjb.runtime.JSObject;
 import org.libx4j.jjb.runtime.Property;
+import org.libx4j.jjb.runtime.Required;
 import org.libx4j.jjb.runtime.validator.NumberValidator;
 import org.libx4j.jjb.runtime.validator.StringValidator;
 import org.libx4j.xsb.runtime.BindingList;
@@ -193,7 +194,7 @@ public class Generator {
     final String pad = Strings.padFixed("", depth * 2, false);
 
     String out = "";
-    if (property.getRequired$().text()) {
+    if ("true".equals(property.getRequired$().text()) || "encode".equals(property.getRequired$().text())) {
       out += "\n" + pad + "     if (!" + instanceName + ".present())";
       out += "\n" + pad + "       throw new " + EncodeException.class.getName() + "(\"\\\"" + valueName + "\\\" is required\", this);\n";
     }
@@ -268,7 +269,7 @@ public class Generator {
         final boolean isArray = property.getArray$().text();
         final String type = isArray ? List.class.getName() + "<" + rawType + ">" : rawType;
 
-        out += "\n" + pad + "       bindings.put(\"" + propertyName + "\", new " + Binding.class.getName() + "<" + type + ">(\"" + propertyName + "\", " + className + ".class.getDeclaredField(\"" + getInstanceName(property) + "\"), " + rawType + ".class, " + isAbstract + ", " + isArray + ", " + property.getRequired$().text() + ", " + !property.getNull$().text() + (property instanceof $String ? ", " + (($String)property).getUrlDecode$().text() + ", " + (($String)property).getUrlEncode$().text() : "");
+        out += "\n" + pad + "       bindings.put(\"" + propertyName + "\", new " + Binding.class.getName() + "<" + type + ">(\"" + propertyName + "\", " + className + ".class.getDeclaredField(\"" + getInstanceName(property) + "\"), " + rawType + ".class, " + isAbstract + ", " + isArray + ", " + Required.class.getName() + "." + property.getRequired$().text().toUpperCase() + ", " + !property.getNull$().text() + (property instanceof $String ? ", " + (($String)property).getUrlDecode$().text() + ", " + (($String)property).getUrlEncode$().text() : "");
         if (property instanceof $String) {
           final $String string = ($String)property;
           if (string.getPattern$() != null || string.getLength$() != null)

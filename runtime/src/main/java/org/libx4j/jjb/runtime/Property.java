@@ -48,7 +48,7 @@ public class Property<T> {
 
   private final JSObject jsObject;
   protected final Binding<T> binding;
-  private boolean required;
+  private Required required;
   private boolean present = false;
   private T value;
 
@@ -88,7 +88,7 @@ public class Property<T> {
     this.value = null;
   }
 
-  protected boolean required() {
+  protected Required required() {
     return required;
   }
 

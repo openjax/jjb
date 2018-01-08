@@ -24,14 +24,14 @@ import org.lib4j.util.Collections;
 import org.libx4j.jjb.runtime.validator.Validator;
 
 public class Binding<T> {
-  public static final Binding<?> ANY = new Binding<Object>(null, null, null, false, false, false, false);
+  public static final Binding<?> ANY = new Binding<Object>(null, null, null, false, false, Required.FALSE, false);
 
   public final String name;
   public final Field property;
   public final Class<?> type;
   public final boolean isAbstract;
   public final boolean array;
-  public final boolean required;
+  public final Required required;
   public final boolean notNull;
   public final boolean urlDecode;
   public final boolean urlEncode;
@@ -39,7 +39,7 @@ public class Binding<T> {
 
   // string
   @SafeVarargs
-  public Binding(final String name, final Field property, final Class<?> type, final boolean isAbstract, final boolean array, final boolean required, final boolean notNull, final boolean urlDecode, final boolean urlEncode, final Validator<?> ... validators) {
+  public Binding(final String name, final Field property, final Class<?> type, final boolean isAbstract, final boolean array, final Required required, final boolean notNull, final boolean urlDecode, final boolean urlEncode, final Validator<?> ... validators) {
     this.name = name;
     this.property = property;
     if (this.property != null)
@@ -57,7 +57,7 @@ public class Binding<T> {
 
   // [other]
   @SafeVarargs
-  public Binding(final String name, final Field property, final Class<?> type, final boolean isAbstract, final boolean array, final boolean required, final boolean notNull, final Validator<?> ... validators) {
+  public Binding(final String name, final Field property, final Class<?> type, final boolean isAbstract, final boolean array, final Required required, final boolean notNull, final Validator<?> ... validators) {
     this(name, property, type, isAbstract, array, required, notNull, false, false, validators);
   }
 
