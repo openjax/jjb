@@ -27,15 +27,13 @@ import org.libx4j.jjb.runtime.DecodeException;
 public class BadRequestExceptionMapper implements ExceptionMapper<BadRequestException> {
   @Override
   public Response toResponse(final BadRequestException exception) {
-    final StringBuilder builder = new StringBuilder("{\"status\":");
-    builder.append(exception.getResponse().getStatus());
-
+    final StringBuilder builder = new StringBuilder("{\"status\":").append(exception.getResponse().getStatus());
     final String message = exception.getMessage();
     if (message != null) {
       final String prefix = "HTTP " + exception.getResponse().getStatus() + " ";
       builder.append(",\"message\":\"").append(message.startsWith(prefix) ? message.substring(prefix.length()) : message).append('"');
       if (exception.getCause() instanceof DecodeException)
-        builder.append(",\"cause\":\"").append(exception.getCause().getMessage().replace("\"", "\\\"")).append('"');
+        builder.append(",\"cause\":\"").append(exception.getCause().getMessage().replace("\\", "\\\\").replace("\"", "\\\"")).append('"');
     }
 
     return Response.fromResponse(exception.getResponse()).entity(builder.append('}').toString()).build();
