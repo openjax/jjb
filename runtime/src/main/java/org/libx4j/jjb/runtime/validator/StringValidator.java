@@ -47,6 +47,6 @@ public class StringValidator extends Validator<String> {
     if (lengthError == null)
       return patternError + ": \"" + StringDecoder.escapeString(value) + "\"";
 
-    return patternError + ", and " + lengthError + ": \"" + StringDecoder.escapeString(value) + "\"";
+    return patternError + ", and " + lengthError + "(\"" + StringDecoder.escapeString(value) + "\")";
   }
 }

@@ -33,6 +33,7 @@ import org.lib4j.jci.CompilationException;
 import org.lib4j.jci.JavaCompiler;
 import org.lib4j.lang.Resources;
 import org.lib4j.lang.Strings;
+import org.lib4j.math.BigDecimals;
 import org.lib4j.util.Collections;
 import org.lib4j.util.JavaIdentifiers;
 import org.lib4j.xml.XMLText;
@@ -276,12 +277,12 @@ public class Generator {
             out += ", new " + StringValidator.class.getName() + "(" + (string.getPattern$() == null ? "null" : "\"" + XMLText.unescapeXMLText(string.getPattern$().text()).replace("\\", "\\\\").replace("\"", "\\\"") + "\"") + ", " + (string.getLength$() == null ? "null" : string.getLength$().text()) + ")";
         }
         else if (property instanceof $Number) {
-          final $Number string = ($Number)property;
-          if (Form$.integer.text().equals(string.getForm$().text()) || string.getMin$() != null || string.getMax$() != null) {
-            if (string.getMin$() != null && string.getMax$() != null && string.getMin$().text() > string.getMax$().text())
-              throw new GeneratorExecutionException("min (" + string.getMin$().text() + ") > max (" + string.getMax$().text() + ") on property: " + objectName + "." + propertyName);
+          final $Number number = ($Number)property;
+          if (Form$.integer.text().equals(number.getForm$().text()) || number.getMin$() != null || number.getMax$() != null) {
+            if (number.getMin$() != null && number.getMax$() != null && number.getMin$().text().compareTo(number.getMax$().text()) > 0)
+              throw new GeneratorExecutionException("min (" + number.getMin$().text() + ") > max (" + number.getMax$().text() + ") on property: " + objectName + "." + propertyName);
 
-            out += ", new " + NumberValidator.class.getName() + "(" + Form$.integer.text().equals(string.getForm$().text()) + ", " + (string.getMin$() == null ? "null" : string.getMin$().text().intValue()) + ", " + (string.getMax$() == null ? "null" : string.getMax$().text().intValue()) + ")";
+            out += ", new " + NumberValidator.class.getName() + "(" + Form$.integer.text().equals(number.getForm$().text()) + ", " + (number.getMin$() == null ? "null" : (BigDecimals.class.getName() + ".instance(\"" +  number.getMin$().text().stripTrailingZeros().toPlainString()) + "\")") + ", " + $Number.MinBound$.inclusive.text().equals(number.getMinBound$().text()) + ", " + (number.getMax$() == null ? "null" : (BigDecimals.class.getName() + ".instance(\"" +  number.getMax$().text().stripTrailingZeros().toPlainString()) + "\")") + ", " + $Number.MinBound$.inclusive.text().equals(number.getMaxBound$().text()) + ")";
           }
         }
 

@@ -102,6 +102,13 @@
     </xs:complexContent>
   </xs:complexType>
   
+  <xs:simpleType name="bound">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="exclusive"/>
+      <xs:enumeration value="inclusive"/>
+    </xs:restriction>
+  </xs:simpleType>
+  
   <xs:complexType name="number">
     <xs:complexContent>
       <xs:extension base="jsonx:named">
@@ -113,8 +120,10 @@
             </xs:restriction>
           </xs:simpleType>
         </xs:attribute>
-        <xs:attribute name="min" type="xs:double"/>
-        <xs:attribute name="max" type="xs:double"/>
+        <xs:attribute name="min" type="xs:decimal"/>
+        <xs:attribute name="minBound" type="jsonx:bound" default="inclusive"/>
+        <xs:attribute name="max" type="xs:decimal"/>
+        <xs:attribute name="maxBound" type="jsonx:bound" default="inclusive"/>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
