@@ -96,9 +96,13 @@ public class Property<T> {
     return present;
   }
 
+  protected String getPath() {
+    return jsObject._getPath() + "." + binding.name;
+  }
+
   @SuppressWarnings("unchecked")
   protected T encode() throws EncodeException {
-    final String error = binding.validate(value);
+    final String error = binding.validate(this, value);
     if (error != null)
       throw new EncodeException(error, jsObject);
 
@@ -119,7 +123,7 @@ public class Property<T> {
 
   @SuppressWarnings("unchecked")
   protected void decode(final RewindableReader reader) throws DecodeException, IOException {
-    final String error = binding.validate(value);
+    final String error = binding.validate(this, value);
     if (error != null)
       throw new DecodeException(error, reader);
 

@@ -26,6 +26,17 @@ import org.libx4j.jjb.runtime.validator.Validator;
 public class Binding<T> {
   public static final Binding<?> ANY = new Binding<Object>(null, null, null, false, false, Required.FALSE, false);
 
+  private static String errorsToString(final Property<?> property, final String[] errors) {
+    if (errors == null || errors.length == 0)
+      return null;
+
+    final StringBuilder message = new StringBuilder();
+    for (final String error : errors)
+      message.append("\n").append(property.getPath()).append(" ").append(error);
+
+    return message.substring(1);
+  }
+
   public final String name;
   public final Field property;
   public final Class<?> type;
@@ -66,19 +77,8 @@ public class Binding<T> {
     return value == null || (array ? value instanceof List && ((type = Collections.getComponentType((List<?>)value)) == null || type.isAssignableFrom(type)) : this.type.isAssignableFrom(type = value.getClass()));
   }
 
-  private String errorsToString(final String[] errors) {
-    if (errors == null || errors.length == 0)
-      return null;
-
-    final StringBuilder message = new StringBuilder();
-    for (final String error : errors)
-      message.append("\n\"").append(name).append("\": ").append(error);
-
-    return message.substring(1);
-  }
-
   @SuppressWarnings("unchecked")
-  protected String validate(final Object value) {
-    return errorsToString(value instanceof Collection ? Validator.validate((Validator<T>[])validators, (Collection<T>)value) : Validator.validate((Validator<T>[])validators, (T)value));
+  protected String validate(final Property<?> property, final Object value) {
+    return errorsToString(property, value instanceof Collection ? Validator.validate((Validator<T>[])validators, (Collection<T>)value) : Validator.validate((Validator<T>[])validators, (T)value));
   }
 }

@@ -55,6 +55,8 @@ public abstract class JSObject extends JSObjectBase implements Cloneable {
   public JSObject() {
   }
 
+  protected abstract String _getPath();
+
   protected String _encode(final int depth) {
     return "";
   }

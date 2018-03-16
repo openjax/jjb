@@ -85,6 +85,11 @@ public class JSArray<E> extends JSObject implements List<E>, RandomAccess, Clone
   }
 
   @Override
+  protected String _getPath() {
+    return null;
+  }
+
+  @Override
   protected String _encode(final int depth) {
     return toString(this, depth);
   }

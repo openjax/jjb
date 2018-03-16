@@ -34,7 +34,6 @@ import org.lib4j.jci.JavaCompiler;
 import org.lib4j.lang.Resources;
 import org.lib4j.lang.Strings;
 import org.lib4j.math.BigDecimals;
-import org.lib4j.util.Collections;
 import org.lib4j.util.JavaIdentifiers;
 import org.lib4j.xml.XMLText;
 import org.lib4j.xml.dom.DOMStyle;
@@ -129,7 +128,7 @@ public class Generator {
 
   private static final Map<String,Json.Object> objectNameToObject = new HashMap<String,Json.Object>();
 
-  private static String getType(final Stack<String> parent, final $Property property) {
+  private static String getType(final Stack<String> parents, final $Property property) {
     if (property instanceof $String)
       return String.class.getName();
 
@@ -152,7 +151,11 @@ public class Generator {
       if (object.getExtends$() != null && !property.elementIterator().hasNext())
         return JavaIdentifiers.toClassCase(object.getExtends$().text());
 
-      return Collections.toString(parent, ".") + "." + JavaIdentifiers.toClassCase((($Object)property).getName$().text());
+      final StringBuilder builder = new StringBuilder(parents.get(0));
+      for (int i = 1; i < parents.size(); i++)
+        builder.append('.').append(JavaIdentifiers.toClassCase(parents.get(i)));
+
+      return builder + "." + JavaIdentifiers.toClassCase((($Object)property).getName$().text());
     }
 
     throw new UnsupportedOperationException("Unknown type: " + property.getClass().getName());
@@ -197,12 +200,12 @@ public class Generator {
     String out = "";
     if ("true".equals(property.getRequired$().text()) || "encode".equals(property.getRequired$().text())) {
       out += "\n" + pad + "     if (!" + instanceName + ".present())";
-      out += "\n" + pad + "       throw new " + EncodeException.class.getName() + "(\"\\\"" + valueName + "\\\" is required\", this);\n";
+      out += "\n" + pad + "       throw new " + EncodeException.class.getName() + "(_getPath() + \"." + valueName + " is required\", this);\n";
     }
 
     if (!property.getNull$().text()) {
       out += "\n" + pad + "     if (" + instanceName + ".present() && " + instanceName + ".get() == null)";
-      out += "\n" + pad + "       throw new " + EncodeException.class.getName() + "(\"\\\"" + valueName + "\\\" cannot be null\", this);\n";
+      out += "\n" + pad + "       throw new " + EncodeException.class.getName() + "(_getPath() + \"." + valueName + " cannot be null\", this);\n";
     }
 
     out += "\n" + pad + "     if (" + instanceName + ".present() || required(" + instanceName + "))";
@@ -219,7 +222,7 @@ public class Generator {
     return out + "encode(" + instanceName + "));\n";
   }
 
-  private static String writeJavaClass(final Stack<String> parent, final $Element object, final int depth) throws GeneratorExecutionException {
+  private static String writeJavaClass(final Stack<String> parents, final $Element object, final int depth) throws GeneratorExecutionException {
     final String objectName;
     final String extendsPropertyName;
     final boolean skipUnknown;
@@ -248,15 +251,15 @@ public class Generator {
       throw new UnsupportedOperationException("Unsupported object type: " + object.getClass().getName());
     }
 
+    parents.push(objectName);
     final String className = JavaIdentifiers.toClassCase(objectName);
-    parent.add(className);
 
     final String pad = Strings.padFixed("", depth * 2, false);
     String out = "\n";
     if (object.getDescription() != null)
       out += "\n" + pad + " /**\n" + pad + "  * " + object.getDescription().text() + "\n" + pad + "  */";
 
-    out += "\n" + pad + " public static" + (isAbstract ? " abstract" : "") + " class " + className + " extends " + (extendsPropertyName != null ? parent.get(0) + "." + JavaIdentifiers.toClassCase(extendsPropertyName) : JSObject.class.getName()) + " {";
+    out += "\n" + pad + " public static" + (isAbstract ? " abstract" : "") + " class " + className + " extends " + (extendsPropertyName != null ? parents.get(0) + "." + JavaIdentifiers.toClassCase(extendsPropertyName) : JSObject.class.getName()) + " {";
     out += "\n" + pad + "   private static final " + String.class.getName() + " _name = \"" + objectName + "\";\n";
     out += "\n" + pad + "   private static final " + Map.class.getName() + "<" + String.class.getName() + "," + Binding.class.getName() + "<?>> bindings = new " + HashMap.class.getName() + "<" + String.class.getName() + "," + Binding.class.getName() + "<?>>(" + (properties != null ? properties.size() : 0) + ");";
 
@@ -266,7 +269,7 @@ public class Generator {
       out += "\n" + pad + "     try {";
       for (final $Property property : properties) {
         final String propertyName = getPropertyName(property);
-        final String rawType = getType(parent, property);
+        final String rawType = getType(parents, property);
         final boolean isArray = property.getArray$().text();
         final String type = isArray ? List.class.getName() + "<" + rawType + ">" : rawType;
 
@@ -299,7 +302,7 @@ public class Generator {
     if (properties != null)
       for (final $Property property : properties)
         if (property instanceof $Object)
-          out += writeJavaClass(parent, property, depth + 1);
+          out += writeJavaClass(parents, property, depth + 1);
 
     out += "\n\n" + pad + "   public " + className + "(final " + JSObject.class.getName() + " object) {";
     out += "\n" + pad + "     super(object);";
@@ -319,9 +322,20 @@ public class Generator {
     out += "\n" + pad + "     super();";
     out += "\n" + pad + "   }";
 
+    if (!isAbstract) {
+      out += "\n\n" + pad + "   @" + Override.class.getName();
+      out += "\n" + pad + "   protected " + String.class.getName() + " _getPath() {";
+      final StringBuilder builder = new StringBuilder(parents.get(1));
+      for (int i = 2; i < parents.size(); i++)
+        builder.append('.').append(parents.get(i));
+
+      out += "\n" + pad + "     return \"" + builder + "\";";
+      out += "\n" + pad + "   }\n";
+    }
+
     out += "\n\n" + pad + "   @" + Override.class.getName();
     out += "\n" + pad + "   protected boolean _skipUnknown() {";
-      out += "\n" + pad + "     return " + skipUnknown + ";";
+    out += "\n" + pad + "     return " + skipUnknown + ";";
     out += "\n" + pad + "   }\n";
 
     out += "\n\n" + pad + "   @" + Override.class.getName();
@@ -348,7 +362,7 @@ public class Generator {
     out += "\n" + pad + "   }";
     out += "\n\n" + pad + "   @" + Override.class.getName();
     out += "\n" + pad + "   protected " + JSBundle.class.getName() + " _bundle() {";
-    out += "\n" + pad + "     return " + parent.get(0) + ".instance();";
+    out += "\n" + pad + "     return " + parents.get(0) + ".instance();";
     out += "\n" + pad + "   }";
     out += "\n\n" + pad + "   @" + Override.class.getName();
     out += "\n" + pad + "   protected " + String.class.getName() + " _name() {";
@@ -356,7 +370,7 @@ public class Generator {
     out += "\n" + pad + "   }";
     if (properties != null) {
       for (final $Property property : properties)
-        out += writeField(parent, property, depth);
+        out += writeField(parents, property, depth);
 
       out += "\n\n" + pad + "   @" + Override.class.getName();
       out += "\n" + pad + "   protected " + String.class.getName() + " _encode(final int depth) {";
@@ -415,7 +429,7 @@ public class Generator {
 
     out += "\n" + pad + " }";
 
-    parent.pop();
+    parents.pop();
     return out.toString();
   }
 }

@@ -60,6 +60,6 @@ public class NumberValidator extends Validator<Number> {
     if (maxError != null)
       builder.append(", and ").append(maxError);
 
-    return builder.append("(\"").append(value).append("\")").substring(6);
+    return builder.append(" (\"").append(value).append("\")").substring(6);
   }
 }

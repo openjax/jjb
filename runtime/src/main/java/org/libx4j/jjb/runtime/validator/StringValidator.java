@@ -41,12 +41,12 @@ public class StringValidator extends Validator<String> {
       if (lengthError == null)
         return null;
 
-      return lengthError + ": \"" + StringDecoder.escapeString(value) + "\"";
+      return lengthError + " (\"" + StringDecoder.escapeString(value) + "\")";
     }
 
     if (lengthError == null)
-      return patternError + ": \"" + StringDecoder.escapeString(value) + "\"";
+      return patternError + " (\"" + StringDecoder.escapeString(value) + "\")";
 
-    return patternError + ", and " + lengthError + "(\"" + StringDecoder.escapeString(value) + "\")";
+    return patternError + ", and " + lengthError + " (\"" + StringDecoder.escapeString(value) + "\")";
   }
 }
