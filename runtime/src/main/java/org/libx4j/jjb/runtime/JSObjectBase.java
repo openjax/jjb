@@ -125,9 +125,9 @@ public abstract class JSObjectBase {
     if (object instanceof JSArray)
       return object._encode(depth);
 
-    final StringBuilder string = new StringBuilder("{\n");
-    string.append(object._encode(depth)).append("\n").append(pad(depth - 1)).append("}");
-    return string.toString();
+    final StringBuilder builder = new StringBuilder("{\n");
+    builder.append(object._encode(depth)).append("\n").append(pad(depth - 1)).append('}');
+    return builder.toString();
   }
 
   protected static String toString(final Object part, final int depth) {

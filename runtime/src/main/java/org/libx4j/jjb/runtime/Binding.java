@@ -32,7 +32,7 @@ public class Binding<T> {
 
     final StringBuilder message = new StringBuilder();
     for (final String error : errors)
-      message.append("\n").append(property.getPath()).append(" ").append(error);
+      message.append("\n").append(property.getPath()).append(' ').append(error);
 
     return message.substring(1);
   }

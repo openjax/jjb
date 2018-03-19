@@ -36,13 +36,13 @@ public class JSArray<E> extends JSObject implements List<E>, RandomAccess, Clone
     if (value.size() == 0)
       return "[]";
 
-    final StringBuilder string = new StringBuilder("[");
+    final StringBuilder builder = new StringBuilder("[");
     final Iterator<T> iterator = value.iterator();
-    string.append(toString(iterator.next(), depth));
+    builder.append(toString(iterator.next(), depth));
     while (iterator.hasNext())
-      string.append(", ").append(toString(iterator.next(), depth));
+      builder.append(", ").append(toString(iterator.next(), depth));
 
-    return string.append("]").toString();
+    return builder.append(']').toString();
   }
 
   private final ArrayList<E> list;
