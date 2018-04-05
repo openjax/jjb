@@ -199,27 +199,27 @@ public class Generator {
 
     String out = "";
     if ("true".equals(property.getRequired$().text()) || "encode".equals(property.getRequired$().text())) {
-      out += "\n" + pad + "     if (!" + instanceName + ".present())";
+      out += "\n" + pad + "     if (!this." + instanceName + ".present())";
       out += "\n" + pad + "       throw new " + EncodeException.class.getName() + "(_getPath() + \"." + valueName + " is required\", this);\n";
     }
 
     if (!property.getNull$().text()) {
-      out += "\n" + pad + "     if (" + instanceName + ".present() && " + instanceName + ".get() == null)";
+      out += "\n" + pad + "     if (this." + instanceName + ".present() && this." + instanceName + ".get() == null)";
       out += "\n" + pad + "       throw new " + EncodeException.class.getName() + "(_getPath() + \"." + valueName + " cannot be null\", this);\n";
     }
 
-    out += "\n" + pad + "     if (" + instanceName + ".present() || required(" + instanceName + "))";
+    out += "\n" + pad + "     if (this." + instanceName + ".present() || required(this." + instanceName + "))";
     out += "\n" + pad + "       out.append(\",\\n\").append(pad(depth)).append(\"\\\"" + valueName + "\\\": \").append(";
     if (property.getArray$().text())
-      return out + JSArray.class.getName() + ".toString(encode(" + instanceName + "), depth + 1));\n";
+      return out + JSArray.class.getName() + ".toString(encode(this." + instanceName + "), depth + 1));\n";
 
     if (property instanceof $Object)
-      return out + "" + instanceName + ".get() != null ? encode(encode(" + instanceName + "), depth + 1) : \"null\");\n";
+      return out + "this." + instanceName + ".get() != null ? encode(encode(this." + instanceName + "), depth + 1) : \"null\");\n";
 
     if (property instanceof $String)
-      return out + "" + instanceName + ".get() != null ? \"\\\"\" + encode(" + instanceName + ") + \"\\\"\" : \"null\");\n";
+      return out + "this." + instanceName + ".get() != null ? \"\\\"\" + encode(this." + instanceName + ") + \"\\\"\" : \"null\");\n";
 
-    return out + "encode(" + instanceName + "));\n";
+    return out + "encode(this." + instanceName + "));\n";
   }
 
   private static String writeJavaClass(final Stack<String> parents, final $Element object, final int depth) throws GeneratorExecutionException {
