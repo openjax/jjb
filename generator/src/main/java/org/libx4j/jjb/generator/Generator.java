@@ -85,35 +85,35 @@ public class Generator {
 
     final String name = json.getName$().text();
 
-    String out = "";
+    final StringBuilder builder = new StringBuilder();
 
-    out += "package " + packageName + ";\n";
+    builder.append("package ").append(packageName).append(";\n");
     if (json.getDescription() != null)
-      out += "\n/**\n * " + json.getDescription().text() + "\n */";
+      builder.append("\n/**\n * ").append(json.getDescription().text()).append("\n */");
 
-    out += "\n@" + SuppressWarnings.class.getName() + "(\"all\")";
-    out += "\npublic class " + name + " extends " + JSBundle.class.getName() + " {";
-    out += "\n  public static final " + String.class.getName() + " mimeType = \"" + json.getMimeType$().text() + "\";";
-    out += "\n  private static " + name + " instance = null;";
-    out += "\n\n  protected static " + name + " instance() {";
-    out += "\n    return instance == null ? instance = new " + name + "() : instance;";
-    out += "\n  }";
+    builder.append("\n@").append(SuppressWarnings.class.getName()).append("(\"all\")");
+    builder.append("\npublic class ").append(name).append(" extends ").append(JSBundle.class.getName()).append(" {");
+    builder.append("\n  public static final ").append(String.class.getName()).append(" mimeType = \"").append(json.getMimeType$().text()).append("\";");
+    builder.append("\n  private static ").append(name).append(" instance = null;");
+    builder.append("\n\n  protected static ").append(name).append(" instance() {");
+    builder.append("\n    return instance == null ? instance = new ").append(name).append("() : instance;");
+    builder.append("\n  }");
 
-    out += "\n\n  @" + Override.class.getName();
-    out += "\n  protected " + String.class.getName() + " getSpec() {";
-    out += "\n    return \"" + DOMs.domToString(json.marshal(), DOMStyle.INDENT).replace("\\", "\\\\").replace("\"", "\\\"").replace("\n", "\\n") + "\";";
-    out += "\n  }";
+    builder.append("\n\n  @").append(Override.class.getName());
+    builder.append("\n  protected ").append(String.class.getName()).append(" getSpec() {");
+    builder.append("\n    return \"").append(DOMs.domToString(json.marshal(), DOMStyle.INDENT).replace("\\", "\\\\").replace("\"", "\\\"").replace("\n", "\\n")).append("\";");
+    builder.append("\n  }");
 
     final Stack<String> parents = new Stack<String>();
     parents.push(name);
     for (final Json.Object object : json.getObject())
-      out += writeJavaClass(parents, object, 0);
+      builder.append(writeJavaClass(parents, object, 0));
 
-    out += "\n\n  private " + name + "() {";
-    out += "\n  }";
-    out += "\n}";
+    builder.append("\n\n  private ").append(name).append("() {");
+    builder.append("\n  }");
+    builder.append("\n}");
     try (final FileOutputStream fos = new FileOutputStream(new File(outDir, name + ".java"))) {
-      fos.write(out.toString().getBytes());
+      fos.write(builder.toString().getBytes());
     }
 
     if (compile) {
@@ -155,10 +155,10 @@ public class Generator {
       for (int i = 1; i < parents.size(); i++)
         builder.append('.').append(JavaIdentifiers.toClassCase(parents.get(i)));
 
-      return builder + "." + JavaIdentifiers.toClassCase((($Object)property).getName$().text());
+      return builder.append(".").append(JavaIdentifiers.toClassCase((($Object)property).getName$().text())).toString();
     }
 
-    throw new UnsupportedOperationException("Unknown type: " + property.getClass().getName());
+    throw new UnsupportedOperationException("Unsupported type: " + property.getClass().getName());
   }
 
   private static String getPropertyName(final $Property property) {
@@ -184,12 +184,12 @@ public class Generator {
     final String instanceName = getInstanceName(property);
 
     final String pad = Strings.padFixed("", depth * 2, false);
-    String out = "\n";
+    final StringBuilder builder = new StringBuilder("\n");
     if (property.getDescription() != null)
-      out += "\n" + pad + "   /**\n" + pad + "    * " + property.getDescription().text() + "\n" + pad + "    */";
+      builder.append("\n").append(pad).append("   /**\n").append(pad).append("    * ").append(property.getDescription().text()).append("\n").append(pad).append("    */");
 
-    out += "\n" + pad + "   public final " + Property.class.getName() + "<" + type + "> " + instanceName + " = new " + Property.class.getName() + "<" + type + ">(this, (" + Binding.class.getName() + "<" + type + ">)bindings.get(\"" + valueName + "\"));";
-    return out;
+    builder.append("\n").append(pad).append("   public final ").append(Property.class.getName()).append("<").append(type).append("> ").append(instanceName).append(" = new ").append(Property.class.getName()).append("<").append(type).append(">(this, (").append(Binding.class.getName()).append("<").append(type).append(">)bindings.get(\"").append(valueName).append("\"));");
+    return builder.toString();
   }
 
   private static String writeEncode(final $Property property, final int depth) {
@@ -197,29 +197,29 @@ public class Generator {
     final String instanceName = getInstanceName(property);
     final String pad = Strings.padFixed("", depth * 2, false);
 
-    String out = "";
+    final StringBuilder builder = new StringBuilder();
     if ("true".equals(property.getRequired$().text()) || "encode".equals(property.getRequired$().text())) {
-      out += "\n" + pad + "     if (!this." + instanceName + ".present())";
-      out += "\n" + pad + "       throw new " + EncodeException.class.getName() + "(_getPath() + \"." + valueName + " is required\", this);\n";
+      builder.append("\n").append(pad).append("     if (!this.").append(instanceName).append(".present())");
+      builder.append("\n").append(pad).append("       throw new ").append(EncodeException.class.getName()).append("(_getPath() + \".").append(valueName).append(" is required\", this);\n");
     }
 
     if (!property.getNull$().text()) {
-      out += "\n" + pad + "     if (this." + instanceName + ".present() && this." + instanceName + ".get() == null)";
-      out += "\n" + pad + "       throw new " + EncodeException.class.getName() + "(_getPath() + \"." + valueName + " cannot be null\", this);\n";
+      builder.append("\n").append(pad).append("     if (this.").append(instanceName).append(".present() && this.").append(instanceName).append(".get() == null && required(this.").append(instanceName).append("))");
+      builder.append("\n").append(pad).append("       throw new ").append(EncodeException.class.getName()).append("(_getPath() + \".").append(valueName).append(" cannot be null\", this);\n");
     }
 
-    out += "\n" + pad + "     if (this." + instanceName + ".present() || required(this." + instanceName + "))";
-    out += "\n" + pad + "       out.append(\",\\n\").append(pad(depth)).append(\"\\\"" + valueName + "\\\": \").append(";
+    builder.append("\n").append(pad).append("     if (this.").append(instanceName).append(".present() || required(this.").append(instanceName).append("))");
+    builder.append("\n").append(pad).append("       builder.append(delim).append(\"\\\"").append(valueName).append("\\\":\").append(sp).append(");
     if (property.getArray$().text())
-      return out + JSArray.class.getName() + ".toString(encode(this." + instanceName + "), depth + 1));\n";
+      return builder.append(JSArray.class.getName()).append(".toString(encode(this.").append(instanceName).append("), depth == -1 ? -1 : depth + 1));\n").toString();
 
     if (property instanceof $Object)
-      return out + "this." + instanceName + ".get() != null ? encode(encode(this." + instanceName + "), depth + 1) : \"null\");\n";
+      return builder.append("this.").append(instanceName).append(".get() != null ? encode(encode(this.").append(instanceName).append("), depth == -1 ? -1 : depth + 1) : \"null\");\n").toString();
 
     if (property instanceof $String)
-      return out + "this." + instanceName + ".get() != null ? \"\\\"\" + encode(this." + instanceName + ") + \"\\\"\" : \"null\");\n";
+      return builder.append("this.").append(instanceName).append(".get() != null ? \"\\\"\" + encode(this.").append(instanceName).append(") + \"\\\"\" : \"null\");\n").toString();
 
-    return out + "encode(this." + instanceName + "));\n";
+    return builder.append("encode(this.").append(instanceName).append("));\n").toString();
   }
 
   private static String writeJavaClass(final Stack<String> parents, final $Element object, final int depth) throws GeneratorExecutionException {
@@ -255,29 +255,29 @@ public class Generator {
     final String className = JavaIdentifiers.toClassCase(objectName);
 
     final String pad = Strings.padFixed("", depth * 2, false);
-    String out = "\n";
+    final StringBuilder builder = new StringBuilder("\n");
     if (object.getDescription() != null)
-      out += "\n" + pad + " /**\n" + pad + "  * " + object.getDescription().text() + "\n" + pad + "  */";
+      builder.append("\n").append(pad).append(" /**\n").append(pad).append("  * ").append(object.getDescription().text()).append("\n").append(pad).append("  */");
 
-    out += "\n" + pad + " public static" + (isAbstract ? " abstract" : "") + " class " + className + " extends " + (extendsPropertyName != null ? parents.get(0) + "." + JavaIdentifiers.toClassCase(extendsPropertyName) : JSObject.class.getName()) + " {";
-    out += "\n" + pad + "   private static final " + String.class.getName() + " _name = \"" + objectName + "\";\n";
-    out += "\n" + pad + "   private static final " + Map.class.getName() + "<" + String.class.getName() + "," + Binding.class.getName() + "<?>> bindings = new " + HashMap.class.getName() + "<" + String.class.getName() + "," + Binding.class.getName() + "<?>>(" + (properties != null ? properties.size() : 0) + ");";
+    builder.append("\n").append(pad).append(" public static").append((isAbstract ? " abstract" : "")).append(" class ").append(className).append(" extends ").append((extendsPropertyName != null ? parents.get(0) + "." + JavaIdentifiers.toClassCase(extendsPropertyName) : JSObject.class.getName()) + " {");
+    builder.append("\n").append(pad).append("   private static final ").append(String.class.getName()).append(" _name = \"").append(objectName).append("\";\n");
+    builder.append("\n").append(pad).append("   private static final ").append(Map.class.getName()).append("<").append(String.class.getName()).append(",").append(Binding.class.getName()).append("<?>> bindings = new ").append(HashMap.class.getName()).append("<").append(String.class.getName()).append(",").append(Binding.class.getName()).append("<?>>(").append((properties != null ? properties.size() : 0)).append(");");
 
-    out += "\n" + pad + "   static {";
-    out += "\n" + pad + "     registerBinding(_name, " + className + ".class);";
+    builder.append("\n").append(pad).append("   static {");
+    builder.append("\n").append(pad).append("     registerBinding(_name, ").append(className).append(".class);");
     if (properties != null) {
-      out += "\n" + pad + "     try {";
+      builder.append("\n").append(pad).append("     try {");
       for (final $Property property : properties) {
         final String propertyName = getPropertyName(property);
         final String rawType = getType(parents, property);
         final boolean isArray = property.getArray$().text();
         final String type = isArray ? List.class.getName() + "<" + rawType + ">" : rawType;
 
-        out += "\n" + pad + "       bindings.put(\"" + propertyName + "\", new " + Binding.class.getName() + "<" + type + ">(\"" + propertyName + "\", " + className + ".class.getDeclaredField(\"" + getInstanceName(property) + "\"), " + rawType + ".class, " + isAbstract + ", " + isArray + ", " + Required.class.getName() + "." + property.getRequired$().text().toUpperCase() + ", " + !property.getNull$().text() + (property instanceof $String ? ", " + (($String)property).getUrlDecode$().text() + ", " + (($String)property).getUrlEncode$().text() : "");
+        builder.append("\n").append(pad).append("       bindings.put(\"").append(propertyName).append("\", new ").append(Binding.class.getName()).append("<").append(type).append(">(\"").append(propertyName).append("\", ").append(className).append(".class.getDeclaredField(\"").append(getInstanceName(property)).append("\"), ").append(rawType).append(".class, ").append(isAbstract).append(", ").append(isArray).append(", ").append(Required.class.getName()).append(".").append(property.getRequired$().text().toUpperCase()).append(", ").append(!property.getNull$().text()).append((property instanceof $String ? ", " + (($String)property).getUrlDecode$().text() + ", " + (($String)property).getUrlEncode$().text() : ""));
         if (property instanceof $String) {
           final $String string = ($String)property;
           if (string.getPattern$() != null || string.getLength$() != null)
-            out += ", new " + StringValidator.class.getName() + "(" + (string.getPattern$() == null ? "null" : "\"" + XMLText.unescapeXMLText(string.getPattern$().text()).replace("\\", "\\\\").replace("\"", "\\\"") + "\"") + ", " + (string.getLength$() == null ? "null" : string.getLength$().text()) + ")";
+            builder.append(", new ").append(StringValidator.class.getName()).append("(").append((string.getPattern$() == null ? "null" : "\"" + XMLText.unescapeXMLText(string.getPattern$().text()).replace("\\", "\\\\").replace("\"", "\\\"") + "\"")).append(", ").append((string.getLength$() == null ? "null" : string.getLength$().text())).append(")");
         }
         else if (property instanceof $Number) {
           final $Number number = ($Number)property;
@@ -285,151 +285,160 @@ public class Generator {
             if (number.getMin$() != null && number.getMax$() != null && number.getMin$().text().compareTo(number.getMax$().text()) > 0)
               throw new GeneratorExecutionException("min (" + number.getMin$().text() + ") > max (" + number.getMax$().text() + ") on property: " + objectName + "." + propertyName);
 
-            out += ", new " + NumberValidator.class.getName() + "(" + Form$.integer.text().equals(number.getForm$().text()) + ", " + (number.getMin$() == null ? "null" : (BigDecimals.class.getName() + ".instance(\"" +  number.getMin$().text().stripTrailingZeros().toPlainString()) + "\")") + ", " + $Number.MinBound$.inclusive.text().equals(number.getMinBound$().text()) + ", " + (number.getMax$() == null ? "null" : (BigDecimals.class.getName() + ".instance(\"" +  number.getMax$().text().stripTrailingZeros().toPlainString()) + "\")") + ", " + $Number.MinBound$.inclusive.text().equals(number.getMaxBound$().text()) + ")";
+            builder.append(", new ").append(NumberValidator.class.getName()).append("(").append(Form$.integer.text().equals(number.getForm$().text())).append(", ").append((number.getMin$() == null ? "null" : (BigDecimals.class.getName() + ".instance(\"" +  number.getMin$().text().stripTrailingZeros().toPlainString()) + "\")")).append(", ").append($Number.MinBound$.inclusive.text().equals(number.getMinBound$().text())).append(", ").append((number.getMax$() == null ? "null" : (BigDecimals.class.getName() + ".instance(\"" +  number.getMax$().text().stripTrailingZeros().toPlainString()) + "\")")).append(", ").append($Number.MinBound$.inclusive.text().equals(number.getMaxBound$().text())).append(")");
           }
         }
 
-        out += "));";
+        builder.append("));");
       }
 
-      out += "\n" + pad + "     }";
-      out += "\n" + pad + "     catch (final " + ReflectiveOperationException.class.getName() + " e) {";
-      out += "\n" + pad + "       throw new " + ExceptionInInitializerError.class.getName() + "(e);";
-      out += "\n" + pad + "     }";
+      builder.append("\n").append(pad).append("     }");
+      builder.append("\n").append(pad).append("     catch (final ").append(ReflectiveOperationException.class.getName()).append(" e) {");
+      builder.append("\n").append(pad).append("       throw new ").append(ExceptionInInitializerError.class.getName()).append("(e);");
+      builder.append("\n").append(pad).append("     }");
     }
-    out += "\n" + pad + "   }";
+    builder.append("\n").append(pad).append("   }");
 
     if (properties != null)
       for (final $Property property : properties)
         if (property instanceof $Object)
-          out += writeJavaClass(parents, property, depth + 1);
+          builder.append(writeJavaClass(parents, property, depth + 1));
 
-    out += "\n\n" + pad + "   public " + className + "(final " + JSObject.class.getName() + " object) {";
-    out += "\n" + pad + "     super(object);";
+    builder.append("\n\n").append(pad).append("   public ").append(className).append("(final ").append(JSObject.class.getName()).append(" object) {");
+    builder.append("\n").append(pad).append("     super(object);");
     if (properties != null) {
-      out += "\n" + pad + "     if (!(object instanceof " + className + "))";
-      out += "\n" + pad + "       return;";
-      out += "\n\n" + pad + "     final " + className + " that = (" + className + ")object;";
+      builder.append("\n").append(pad).append("     if (!(object instanceof ").append(className).append("))");
+      builder.append("\n").append(pad).append("       return;");
+      builder.append("\n\n").append(pad).append("     final ").append(className).append(" that = (").append(className).append(")object;");
       for (final $Property property : properties) {
         final String instanceName = getInstanceName(property);
-        out += "\n" + pad + "     clone(this." + instanceName + ", that." + instanceName + ");";
+        builder.append("\n").append(pad).append("     clone(this.").append(instanceName).append(", that.").append(instanceName).append(");");
       }
     }
 
-    out += "\n" + pad + "   }";
+    builder.append("\n").append(pad).append("   }");
 
-    out += "\n\n" + pad + "   public " + className + "() {";
-    out += "\n" + pad + "     super();";
-    out += "\n" + pad + "   }";
+    builder.append("\n\n").append(pad).append("   public ").append(className).append("() {");
+    builder.append("\n").append(pad).append("     super();");
+    builder.append("\n").append(pad).append("   }");
 
     if (!isAbstract) {
-      out += "\n\n" + pad + "   @" + Override.class.getName();
-      out += "\n" + pad + "   protected " + String.class.getName() + " _getPath() {";
-      final StringBuilder builder = new StringBuilder(parents.get(1));
+      builder.append("\n\n").append(pad).append("   @").append(Override.class.getName());
+      builder.append("\n").append(pad).append("   protected ").append(String.class.getName()).append(" _getPath() {");
+      final StringBuilder path = new StringBuilder(parents.get(1));
       for (int i = 2; i < parents.size(); i++)
-        builder.append('.').append(parents.get(i));
+        path.append('.').append(parents.get(i));
 
-      out += "\n" + pad + "     return \"" + builder + "\";";
-      out += "\n" + pad + "   }\n";
+      builder.append("\n").append(pad).append("     return \"").append(path).append("\";");
+      builder.append("\n").append(pad).append("   }\n");
     }
 
-    out += "\n\n" + pad + "   @" + Override.class.getName();
-    out += "\n" + pad + "   protected boolean _skipUnknown() {";
-    out += "\n" + pad + "     return " + skipUnknown + ";";
-    out += "\n" + pad + "   }\n";
+    builder.append("\n\n").append(pad).append("   @").append(Override.class.getName());
+    builder.append("\n").append(pad).append("   protected boolean _skipUnknown() {");
+    builder.append("\n").append(pad).append("     return ").append(skipUnknown).append(";");
+    builder.append("\n").append(pad).append("   }\n");
 
-    out += "\n\n" + pad + "   @" + Override.class.getName();
-    out += "\n" + pad + "   protected " + Binding.class.getName() + "<?> _getBinding(final " + String.class.getName() + " name) {";
+    builder.append("\n\n").append(pad).append("   @").append(Override.class.getName());
+    builder.append("\n").append(pad).append("   protected ").append(Binding.class.getName()).append("<?> _getBinding(final ").append(String.class.getName()).append(" name) {");
     if (extendsPropertyName != null) {
-      out += "\n" + pad + "     final " + Binding.class.getName() + " binding = super._getBinding(name);";
-      out += "\n" + pad + "     return binding != null ? binding : bindings.get(name);";
+      builder.append("\n").append(pad).append("     final ").append(Binding.class.getName()).append(" binding = super._getBinding(name);");
+      builder.append("\n").append(pad).append("     return binding != null ? binding : bindings.get(name);");
     }
     else {
-      out += "\n" + pad + "     return bindings.get(name);";
+      builder.append("\n").append(pad).append("     return bindings.get(name);");
     }
-    out += "\n" + pad + "   }\n";
-    out += "\n" + pad + "   @" + Override.class.getName();
-    out += "\n" + pad + "   protected " + Collection.class.getName() + "<" + Binding.class.getName() + "<?>> _bindings() {";
+    builder.append("\n").append(pad).append("   }\n");
+    builder.append("\n").append(pad).append("   @").append(Override.class.getName());
+    builder.append("\n").append(pad).append("   protected ").append(Collection.class.getName()).append("<").append(Binding.class.getName()).append("<?>> _bindings() {");
     if (extendsPropertyName != null) {
-      out += "\n" + pad + "     final " + List.class.getName() + " bindings = new " + ArrayList.class.getName() + "<" + Binding.class.getName() + "<?>>();";
-      out += "\n" + pad + "     bindings.addAll(super._bindings());";
-      out += "\n" + pad + "     bindings.addAll(this.bindings.values());";
-      out += "\n" + pad + "     return bindings;";
+      builder.append("\n").append(pad).append("     final ").append(List.class.getName()).append(" bindings = new ").append(ArrayList.class.getName()).append("<").append(Binding.class.getName()).append("<?>>();");
+      builder.append("\n").append(pad).append("     bindings.addAll(super._bindings());");
+      builder.append("\n").append(pad).append("     bindings.addAll(this.bindings.values());");
+      builder.append("\n").append(pad).append("     return bindings;");
     }
     else {
-      out += "\n" + pad + "     return bindings.values();";
+      builder.append("\n").append(pad).append("     return bindings.values();");
     }
-    out += "\n" + pad + "   }";
-    out += "\n\n" + pad + "   @" + Override.class.getName();
-    out += "\n" + pad + "   protected " + JSBundle.class.getName() + " _bundle() {";
-    out += "\n" + pad + "     return " + parents.get(0) + ".instance();";
-    out += "\n" + pad + "   }";
-    out += "\n\n" + pad + "   @" + Override.class.getName();
-    out += "\n" + pad + "   protected " + String.class.getName() + " _name() {";
-    out += "\n" + pad + "     return _name;";
-    out += "\n" + pad + "   }";
+    builder.append("\n").append(pad).append("   }");
+    builder.append("\n\n").append(pad).append("   @").append(Override.class.getName());
+    builder.append("\n").append(pad).append("   protected ").append(JSBundle.class.getName()).append(" _bundle() {");
+    builder.append("\n").append(pad).append("     return ").append(parents.get(0)).append(".instance();");
+    builder.append("\n").append(pad).append("   }");
+    builder.append("\n\n").append(pad).append("   @").append(Override.class.getName());
+    builder.append("\n").append(pad).append("   protected ").append(String.class.getName()).append(" _name() {");
+    builder.append("\n").append(pad).append("     return _name;");
+    builder.append("\n").append(pad).append("   }");
     if (properties != null) {
       for (final $Property property : properties)
-        out += writeField(parents, property, depth);
+        builder.append(writeField(parents, property, depth));
 
-      out += "\n\n" + pad + "   @" + Override.class.getName();
-      out += "\n" + pad + "   protected " + String.class.getName() + " _encode(final int depth) {";
-      out += "\n" + pad + "     final " + StringBuilder.class.getName() + " out = new " + StringBuilder.class.getName() + "(super._encode(depth));";
-      out += "\n" + pad + "     final int startLength = out.length();";
+      builder.append("\n\n").append(pad).append("   @").append(Override.class.getName());
+      builder.append("\n").append(pad).append("   protected ").append(String.class.getName()).append(" _encode(final int depth) {");
+      builder.append("\n").append(pad).append("     final ").append(StringBuilder.class.getName()).append(" builder = new ").append(StringBuilder.class.getName()).append("(super._encode(depth));");
+      builder.append("\n").append(pad).append("     final int startLength = builder.length();");
+      builder.append("\n").append(pad).append("     if (depth == -1 && startLength == 0)");
+      builder.append("\n").append(pad).append("       builder.append(' ');");
+      builder.append("\n").append(pad).append("     final String sp = depth > -1 ? \" \" : \"\";");
+      builder.append("\n").append(pad).append("     final String delim = depth > -1 ? \",\\n\" + pad(depth) : \",\";");
       for (int i = 0; i < properties.size(); i++)
-        out += writeEncode(properties.get(i), depth);
+        builder.append(writeEncode(properties.get(i), depth));
 
-      out += "\n" + pad + "     return startLength == out.length() || startLength != 0 ? out.toString() : out.substring(2);\n" + pad + "   }";
+      builder.append("\n").append(pad).append("     return startLength == builder.length() || startLength != 0 ? builder.toString() : builder.substring(2);\n").append(pad).append("   }");
     }
 
     if (!isAbstract) {
-      out += "\n\n" + pad + "   @" + Override.class.getName();
-      out += "\n" + pad + "   public " + className + " clone() {";
-      out += "\n" + pad + "     return new " + className + "(this);";
-      out += "\n" + pad + "   }";
+      builder.append("\n\n").append(pad).append("   @").append(Override.class.getName());
+      builder.append("\n").append(pad).append("   public ").append(className).append(" clone() {");
+      builder.append("\n").append(pad).append("     return new ").append(className).append("(this);");
+      builder.append("\n").append(pad).append("   }");
     }
 
-    out += "\n\n" + pad + "   @" + Override.class.getName();
-    out += "\n" + pad + "   public boolean equals(final " + Object.class.getName() + " obj) {";
-    out += "\n" + pad + "     if (obj == this)";
-    out += "\n" + pad + "       return true;";
-    out += "\n\n" + pad + "     if (!(obj instanceof " + className + ")" + (extendsPropertyName != null ? " || !super.equals(obj)" : "") + ")";
-    out += "\n" + pad + "       return false;\n";
+    builder.append("\n\n").append(pad).append("   @").append(Override.class.getName());
+    builder.append("\n").append(pad).append("   public boolean equals(final ").append(Object.class.getName()).append(" obj) {");
+    builder.append("\n").append(pad).append("     if (obj == this)");
+    builder.append("\n").append(pad).append("       return true;");
+    builder.append("\n\n").append(pad).append("     if (!(obj instanceof ").append(className).append(")").append((extendsPropertyName != null ? " || !super.equals(obj)" : "")).append(")");
+    builder.append("\n").append(pad).append("       return false;\n");
     if (properties != null) {
-      out += "\n" + pad + "     final " + className + " that = (" + className + ")obj;";
+      builder.append("\n").append(pad).append("     final ").append(className).append(" that = (").append(className).append(")obj;");
       for (final $Property property : properties) {
         final String instanceName = getInstanceName(property);
-        out += "\n" + pad + "     if (that." + instanceName + " != null ? !that." + instanceName + ".equals(" + instanceName + ") : " + instanceName + " != null)";
-        out += "\n" + pad + "       return false;\n";
+        builder.append("\n").append(pad).append("     if (that.").append(instanceName).append(" != null ? !that.").append(instanceName).append(".equals(").append(instanceName).append(") : ").append(instanceName).append(" != null)");
+        builder.append("\n").append(pad).append("       return false;\n");
       }
     }
-    out += "\n" + pad + "     return true;";
-    out += "\n" + pad + "   }";
+    builder.append("\n").append(pad).append("     return true;");
+    builder.append("\n").append(pad).append("   }");
 
-    out += "\n\n" + pad + "   @" + Override.class.getName();
-    out += "\n" + pad + "   public int hashCode() {";
+    builder.append("\n\n").append(pad).append("   @").append(Override.class.getName());
+    builder.append("\n").append(pad).append("   public int hashCode() {");
     if (properties != null) {
-      out += "\n" + pad + "     int hashCode = " + className.hashCode() + (extendsPropertyName != null ? " ^ 31 * super.hashCode()" : "") + ";";
+      builder.append("\n").append(pad).append("     int hashCode = ").append(className.hashCode()).append((extendsPropertyName != null ? " ^ 31 * super.hashCode()" : "")).append(";");
       for (final $Property property : properties) {
         final String instanceName = getInstanceName(property);
-        out += "\n" + pad + "     if (" + instanceName + " != null)";
-        out += "\n" + pad + "       hashCode ^= 31 * " + instanceName + ".hashCode();\n";
+        builder.append("\n").append(pad).append("     if (").append(instanceName).append(" != null)");
+        builder.append("\n").append(pad).append("       hashCode ^= 31 * ").append(instanceName).append(".hashCode();\n");
       }
-      out += "\n" + pad + "     return hashCode;";
+      builder.append("\n").append(pad).append("     return hashCode;");
     }
     else {
-      out += "\n" + pad + "     return " + className.hashCode() + (extendsPropertyName != null ? " ^ 31 * super.hashCode()" : "") + ";";
+      builder.append("\n").append(pad).append("     return ").append(className.hashCode()).append((extendsPropertyName != null ? " ^ 31 * super.hashCode()" : "")).append(";");
     }
-    out += "\n" + pad + "   }";
+    builder.append("\n").append(pad).append("   }");
 
-    out += "\n\n" + pad + "   @" + Override.class.getName();
-    out += "\n" + pad + "   public " + String.class.getName() + " toString() {";
-    out += "\n" + pad + "     return encode(this, 1);";
-    out += "\n" + pad + "   }";
+    builder.append("\n\n").append(pad).append("   @").append(Override.class.getName());
+    builder.append("\n").append(pad).append("   public ").append(String.class.getName()).append(" toString() {");
+    builder.append("\n").append(pad).append("     return encode(this, 1);");
+    builder.append("\n").append(pad).append("   }");
 
-    out += "\n" + pad + " }";
+    builder.append("\n\n").append(pad).append("   @").append(Override.class.getName());
+    builder.append("\n").append(pad).append("   public ").append(String.class.getName()).append(" toExternalForm() {");
+    builder.append("\n").append(pad).append("     return encode(this, -1);");
+    builder.append("\n").append(pad).append("   }");
+
+    builder.append("\n").append(pad).append(" }");
 
     parents.pop();
-    return out.toString();
+    return builder.toString();
   }
 }

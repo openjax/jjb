@@ -39,8 +39,9 @@ public class JSArray<E> extends JSObject implements List<E>, RandomAccess, Clone
     final StringBuilder builder = new StringBuilder("[");
     final Iterator<T> iterator = value.iterator();
     builder.append(toString(iterator.next(), depth));
+    final String delim = depth == -1 ? "," : ", ";
     while (iterator.hasNext())
-      builder.append(", ").append(toString(iterator.next(), depth));
+      builder.append(delim).append(toString(iterator.next(), depth));
 
     return builder.append(']').toString();
   }
@@ -239,5 +240,10 @@ public class JSArray<E> extends JSObject implements List<E>, RandomAccess, Clone
   @Override
   public String toString() {
     return _encode(1);
+  }
+
+  @Override
+  public String toExternalForm() {
+    return _encode(-1);
   }
 }

@@ -117,13 +117,16 @@ public abstract class JSObjectBase {
     return property.required() == Required.TRUE || property.required() == Required.ENCODE;
   }
 
-  protected static char[] pad(final int depth) {
-    return Arrays.createRepeat(' ', depth * 2);
+  protected static String pad(final int depth) {
+    return depth <= 0 ? "" : new String(Arrays.createRepeat(' ', depth * 2));
   }
 
   protected static String encode(final JSObject object, final int depth) {
     if (object instanceof JSArray)
       return object._encode(depth);
+
+    if (depth == -1)
+      return "{" + object._encode(depth) + "}";
 
     final StringBuilder builder = new StringBuilder("{\n");
     builder.append(object._encode(depth)).append("\n").append(pad(depth - 1)).append('}');

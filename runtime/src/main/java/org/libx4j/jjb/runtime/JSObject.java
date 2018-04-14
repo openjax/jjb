@@ -69,4 +69,6 @@ public abstract class JSObject extends JSObjectBase implements Cloneable {
 
   @Override
   public abstract JSObject clone();
+
+  public abstract java.lang.String toExternalForm();
 }

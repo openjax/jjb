@@ -42,8 +42,8 @@ public class Property<T> {
   }
 
   @SuppressWarnings("unchecked")
-  private static <T>T decode(final T value, final JSObject jsObject) {
-    return value instanceof String ? (T)URIComponent.decode(((String)value)) : value;
+  private static <T>T decode(final T value, final JSObject jsObject, final Binding<T> binding) {
+    return value instanceof String && binding.urlDecode ? (T)URIComponent.decode(((String)value)) : value;
   }
 
   private final JSObject jsObject;
@@ -131,12 +131,12 @@ public class Property<T> {
       final Collection<T> collection = (Collection<T>)value;
       final Collection<T> decoded = new ArrayList<T>(collection.size());
       for (final T member : collection)
-        decoded.add(decode(member, jsObject));
+        decoded.add(decode(member, jsObject, binding));
 
       this.value = (T)decoded;
     }
     else {
-      this.value = decode(value, jsObject);
+      this.value = decode(value, jsObject, binding);
     }
   }
 
