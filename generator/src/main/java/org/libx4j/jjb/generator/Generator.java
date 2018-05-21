@@ -35,6 +35,7 @@ import org.lib4j.lang.Resources;
 import org.lib4j.lang.Strings;
 import org.lib4j.math.BigDecimals;
 import org.lib4j.util.JavaIdentifiers;
+import org.lib4j.xml.ValidationException;
 import org.lib4j.xml.dom.DOMStyle;
 import org.lib4j.xml.dom.DOMs;
 import org.libx4j.jjb.jsonx_0_9_8.xL0gluGCXYYJc.$Boolean;
@@ -67,7 +68,7 @@ public class Generator {
     Generator.generate(Resources.getResource(args[0]).getURL(), new File(args[1]), false);
   }
 
-  public static void generate(final URL url, final File destDir, final boolean compile) throws GeneratorExecutionException, IOException {
+  public static void generate(final URL url, final File destDir, final boolean compile) throws GeneratorExecutionException, IOException, ValidationException {
     final Json json = (Json)Bindings.parse(url);
     if (json.getObject() == null) {
       logger.error("Missing <object> elements: " + url.toExternalForm());
