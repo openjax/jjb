@@ -23,8 +23,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.lib4j.lang.Arrays;
-import org.lib4j.lang.PackageLoader;
-import org.lib4j.lang.PackageNotFoundException;
 import org.lib4j.util.Collections;
 import org.lib4j.util.RewindableReader;
 import org.libx4j.jjb.runtime.decoder.BooleanDecoder;
@@ -41,15 +39,6 @@ public abstract class JSObjectBase {
   private static final ObjectDecoder objectDecoder = new ObjectDecoder(jsObjectDecoder, stringDecoder, numberDecoder, booleanDecoder);
 
   private static final Map<String,Class<? extends JSObject>> bindings = new HashMap<String,Class<? extends JSObject>>();
-
-  static {
-    try {
-      PackageLoader.getSystemContextPackageLoader().loadPackage("json");
-    }
-    catch (final PackageNotFoundException e) {
-      throw new ExceptionInInitializerError(e);
-    }
-  }
 
   protected static <T>void clone(final Property<T> property, final Property<T> clone) {
     property.clone(clone);

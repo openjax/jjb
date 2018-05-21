@@ -35,7 +35,6 @@ import org.lib4j.lang.Resources;
 import org.lib4j.lang.Strings;
 import org.lib4j.math.BigDecimals;
 import org.lib4j.util.JavaIdentifiers;
-import org.lib4j.xml.XMLText;
 import org.lib4j.xml.dom.DOMStyle;
 import org.lib4j.xml.dom.DOMs;
 import org.libx4j.jjb.jsonx_0_9_8.xL0gluGCXYYJc.$Boolean;
