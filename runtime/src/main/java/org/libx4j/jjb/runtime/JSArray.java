@@ -26,7 +26,7 @@ import java.util.RandomAccess;
 
 import org.lib4j.util.Collections;
 
-public class JSArray<E> extends JSObject implements List<E>, RandomAccess, Cloneable, Serializable {
+public class JSArray<E> extends JSObject implements List<E>, RandomAccess, Serializable {
   private static final long serialVersionUID = -3764980134016799398L;
 
   protected static <T> String toString(final Collection<T> value, final int depth) {
