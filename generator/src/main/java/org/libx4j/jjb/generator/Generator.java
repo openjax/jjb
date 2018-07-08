@@ -65,7 +65,7 @@ public class Generator {
   private static final Logger logger = LoggerFactory.getLogger(Generator.class);
 
   public static void main(final String[] args) throws Exception {
-    Generator.generate(Resources.getResource(args[0]).getURL(), new File(args[1]), false);
+    Generator.generate(Thread.currentThread().getContextClassLoader().getResource(args[0]), new File(args[1]), false);
   }
 
   public static void generate(final URL url, final File destDir, final boolean compile) throws GeneratorExecutionException, IOException, ValidationException {
