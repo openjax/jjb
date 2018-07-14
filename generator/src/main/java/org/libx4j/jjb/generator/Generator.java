@@ -32,7 +32,6 @@ import java.util.Stack;
 import org.lib4j.jci.CompilationException;
 import org.lib4j.jci.JavaCompiler;
 import org.lib4j.lang.JavaIdentifiers;
-import org.lib4j.lang.Resources;
 import org.lib4j.lang.Strings;
 import org.lib4j.math.BigDecimals;
 import org.lib4j.xml.ValidationException;
@@ -104,7 +103,7 @@ public class Generator {
     builder.append("\n    return \"").append(DOMs.domToString(json.marshal(), DOMStyle.INDENT).replace("\\", "\\\\").replace("\"", "\\\"").replace("\n", "\\n")).append("\";");
     builder.append("\n  }");
 
-    final Stack<String> parents = new Stack<String>();
+    final Stack<String> parents = new Stack<>();
     parents.push(name);
     for (final Json.Object object : json.getObject())
       builder.append(writeJavaClass(parents, object, 0));
@@ -126,7 +125,7 @@ public class Generator {
     }
   }
 
-  private static final Map<String,Json.Object> objectNameToObject = new HashMap<String,Json.Object>();
+  private static final Map<String,Json.Object> objectNameToObject = new HashMap<>();
 
   private static String getType(final Stack<String> parents, final $Property property) {
     if (property instanceof $String)

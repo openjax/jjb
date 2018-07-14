@@ -20,7 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class XMLText {
-  private static final Map<String,Integer> characterMap = new HashMap<String,Integer>();
+  private static final Map<String,Integer> characterMap = new HashMap<>();
 
   static {
     characterMap.put("nbsp", 160);
