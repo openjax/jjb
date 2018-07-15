@@ -17,8 +17,9 @@
 package org.libx4j.jjb.generator;
 
 import java.io.File;
-import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.net.URL;
@@ -111,8 +112,8 @@ public class Generator {
     builder.append("\n\n  private ").append(name).append("() {");
     builder.append("\n  }");
     builder.append("\n}");
-    try (final FileOutputStream fos = new FileOutputStream(new File(outDir, name + ".java"))) {
-      fos.write(builder.toString().getBytes());
+    try (final OutputStreamWriter out = new FileWriter(new File(outDir, name + ".java"))) {
+      out.write(builder.toString());
     }
 
     if (compile) {
