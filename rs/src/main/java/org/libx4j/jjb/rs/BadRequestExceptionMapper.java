@@ -21,6 +21,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
+import org.lib4j.lang.Strings;
 import org.libx4j.jjb.runtime.DecodeException;
 
 @Provider
@@ -33,7 +34,7 @@ public class BadRequestExceptionMapper implements ExceptionMapper<BadRequestExce
       final String prefix = "HTTP " + exception.getResponse().getStatus() + " ";
       builder.append(",\"message\":\"").append(message.startsWith(prefix) ? message.substring(prefix.length()) : message).append('"');
       if (exception.getCause() instanceof DecodeException)
-        builder.append(",\"cause\":\"").append(exception.getCause().getMessage().replace("\\", "\\\\").replace("\"", "\\\"")).append('"');
+        builder.append(",\"cause\":\"").append(Strings.escapeForJava(exception.getCause().getMessage())).append('"');
     }
 
     return Response.fromResponse(exception.getResponse()).entity(builder.append('}').toString()).build();

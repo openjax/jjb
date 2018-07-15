@@ -101,7 +101,7 @@ public class Generator {
 
     builder.append("\n\n  @").append(Override.class.getName());
     builder.append("\n  protected ").append(String.class.getName()).append(" getSpec() {");
-    builder.append("\n    return \"").append(DOMs.domToString(json.marshal(), DOMStyle.INDENT).replace("\\", "\\\\").replace("\"", "\\\"").replace("\n", "\\n")).append("\";");
+    builder.append("\n    return \"").append(Strings.escapeForJava(DOMs.domToString(json.marshal(), DOMStyle.INDENT)).replace("\n", "\\n")).append("\";");
     builder.append("\n  }");
 
     final Stack<String> parents = new Stack<>();
@@ -277,7 +277,7 @@ public class Generator {
         if (property instanceof $String) {
           final $String string = ($String)property;
           if (string.getPattern$() != null || string.getLength$() != null)
-            builder.append(", new ").append(StringValidator.class.getName()).append("(").append((string.getPattern$() == null ? "null" : "\"" + XMLText.unescapeXMLText(string.getPattern$().text()).replace("\\", "\\\\").replace("\"", "\\\"") + "\"")).append(", ").append((string.getLength$() == null ? "null" : string.getLength$().text())).append(")");
+            builder.append(", new ").append(StringValidator.class.getName()).append("(").append((string.getPattern$() == null ? "null" : "\"" + Strings.escapeForJava(XMLText.unescapeXMLText(string.getPattern$().text())) + "\"")).append(", ").append((string.getLength$() == null ? "null" : string.getLength$().text())).append(")");
         }
         else if (property instanceof $Number) {
           final $Number number = ($Number)property;
