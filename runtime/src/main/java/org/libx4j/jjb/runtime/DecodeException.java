@@ -18,27 +18,25 @@ package org.libx4j.jjb.runtime;
 
 import java.io.IOException;
 
-import org.lib4j.util.RewindableReader;
-
 public class DecodeException extends Exception {
   private static final long serialVersionUID = -1234230677110958751L;
 
   private final String json;
 
-  public DecodeException(final RewindableReader json) throws IOException {
+  public DecodeException(final JsonReader json) throws IOException {
     this(null, json, null);
   }
 
-  public DecodeException(final String message, final RewindableReader json) throws IOException {
+  public DecodeException(final String message, final JsonReader json) throws IOException {
     this(message, json, null);
   }
 
-  public DecodeException(final RewindableReader json, final Throwable cause) throws IOException {
+  public DecodeException(final JsonReader json, final Throwable cause) throws IOException {
     this(null, json, cause);
   }
 
-  public DecodeException(final String message, final RewindableReader json, final Throwable cause) throws IOException {
-    super(message != null ? message + " [" + json.getLength() + "] " + json.readFully() : "[" + json.getLength() + "] " + json.readFully(), cause);
+  public DecodeException(final String message, final JsonReader json, final Throwable cause) throws IOException {
+    super(message != null ? message + " [" + json.getPosition() + "] " + json.readFully() : "[" + json.getPosition() + "] " + json.readFully(), cause);
     this.json = json.readFully();
   }
 

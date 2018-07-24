@@ -24,7 +24,6 @@ import java.util.List;
 import org.lib4j.lang.Numbers;
 import org.lib4j.net.URIComponent;
 import org.lib4j.util.Collections;
-import org.lib4j.util.RewindableReader;
 import org.libx4j.jjb.runtime.decoder.StringDecoder;
 
 public class Property<T> {
@@ -122,7 +121,7 @@ public class Property<T> {
   }
 
   @SuppressWarnings("unchecked")
-  protected void decode(final RewindableReader reader) throws DecodeException, IOException {
+  protected void decode(final JsonReader reader) throws DecodeException, IOException {
     final String error = binding.validate(this, value);
     if (error != null)
       throw new DecodeException(error, reader);

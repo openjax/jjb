@@ -19,10 +19,10 @@ package org.libx4j.jjb.runtime.decoder;
 import java.io.IOException;
 import java.net.URLDecoder;
 
-import org.lib4j.util.RewindableReader;
 import org.libx4j.jjb.runtime.Binding;
 import org.libx4j.jjb.runtime.DecodeException;
 import org.libx4j.jjb.runtime.JSObjectBase;
+import org.libx4j.jjb.runtime.JsonReader;
 
 public class StringDecoder extends Decoder<String> {
   public static String escapeString(final String string) {
@@ -35,7 +35,7 @@ public class StringDecoder extends Decoder<String> {
   }
 
   @Override
-  public String decode(final RewindableReader reader, char ch, final Binding<?> binding) throws DecodeException, IOException {
+  public String decode(final JsonReader reader, char ch, final Binding<?> binding) throws DecodeException, IOException {
     if (ch != '"') {
       if (JSObjectBase.isNull(ch, reader))
         return null;

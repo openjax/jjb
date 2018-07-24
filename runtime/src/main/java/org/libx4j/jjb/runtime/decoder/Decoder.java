@@ -18,18 +18,18 @@ package org.libx4j.jjb.runtime.decoder;
 
 import java.io.IOException;
 
-import org.lib4j.util.RewindableReader;
 import org.libx4j.jjb.runtime.Binding;
 import org.libx4j.jjb.runtime.DecodeException;
 import org.libx4j.jjb.runtime.JSObjectBase;
+import org.libx4j.jjb.runtime.JsonReader;
 
 public abstract class Decoder<T> extends JSObjectBase {
   protected abstract T[] newInstance(final int depth);
 
-  public abstract T decode(final RewindableReader reader, char ch, final Binding<?> binding) throws DecodeException, IOException;
+  public abstract T decode(final JsonReader reader, char ch, final Binding<?> binding) throws DecodeException, IOException;
 
-  public final T[] recurse(final RewindableReader reader, final int depth, final Binding<?> binding) throws DecodeException, IOException {
-    char ch = JSObjectBase.next(reader);
+  public final T[] recurse(final JsonReader reader, final int depth, final Binding<?> binding) throws DecodeException, IOException {
+    final char ch = JSObjectBase.next(reader);
     if (ch == ']')
       return newInstance(depth);
 

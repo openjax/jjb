@@ -18,10 +18,10 @@ package org.libx4j.jjb.runtime.decoder;
 
 import java.io.IOException;
 
-import org.lib4j.util.RewindableReader;
 import org.libx4j.jjb.runtime.Binding;
 import org.libx4j.jjb.runtime.DecodeException;
 import org.libx4j.jjb.runtime.JSObjectBase;
+import org.libx4j.jjb.runtime.JsonReader;
 
 public class ObjectDecoder extends Decoder<Object> {
   private final JSObjectDecoder objectDecoder;
@@ -42,7 +42,7 @@ public class ObjectDecoder extends Decoder<Object> {
   }
 
   @Override
-  public Object decode(final RewindableReader reader, char ch, final Binding<?> binding) throws DecodeException, IOException {
+  public Object decode(final JsonReader reader, char ch, final Binding<?> binding) throws DecodeException, IOException {
     if (ch == '"')
       return stringDecoder.decode(reader, ch, binding);
 

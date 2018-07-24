@@ -19,11 +19,11 @@ package org.libx4j.jjb.runtime.decoder;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 
-import org.lib4j.util.RewindableReader;
 import org.libx4j.jjb.runtime.Binding;
 import org.libx4j.jjb.runtime.DecodeException;
 import org.libx4j.jjb.runtime.JSObject;
 import org.libx4j.jjb.runtime.JSObjectBase;
+import org.libx4j.jjb.runtime.JsonReader;
 
 public class JSObjectDecoder extends Decoder<JSObject> {
   @Override
@@ -32,7 +32,7 @@ public class JSObjectDecoder extends Decoder<JSObject> {
   }
 
   @Override
-  public JSObject decode(final RewindableReader reader, char ch, final Binding<?> clazz) throws DecodeException, IOException {
+  public JSObject decode(final JsonReader reader, char ch, final Binding<?> clazz) throws DecodeException, IOException {
     try {
       return JSObjectBase.decode(reader, ch, clazz.type == null ? null : (JSObject)clazz.type.getDeclaredConstructor().newInstance());
     }

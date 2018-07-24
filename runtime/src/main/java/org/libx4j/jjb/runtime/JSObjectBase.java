@@ -24,7 +24,6 @@ import java.util.Map;
 
 import org.lib4j.lang.Arrays;
 import org.lib4j.util.Collections;
-import org.lib4j.util.RewindableReader;
 import org.libx4j.jjb.runtime.decoder.BooleanDecoder;
 import org.libx4j.jjb.runtime.decoder.JSObjectDecoder;
 import org.libx4j.jjb.runtime.decoder.NumberDecoder;
@@ -48,7 +47,7 @@ public abstract class JSObjectBase {
     return property.encode();
   }
 
-  protected static <T>void decode(final Property<T> property, final RewindableReader reader) throws DecodeException, IOException {
+  protected static <T>void decode(final Property<T> property, final JsonReader reader) throws DecodeException, IOException {
     property.decode(reader);
   }
 
@@ -126,7 +125,7 @@ public abstract class JSObjectBase {
     return part == null ? "null" : part instanceof JSObject ? encode((JSObject)part, depth) : part instanceof String ? "\"" + part + "\"" : String.valueOf(part);
   }
 
-  protected static Object decodeValue(final char ch, final RewindableReader reader, final Class<?> type, final Binding<?> binding) throws DecodeException, IOException {
+  protected static Object decodeValue(final char ch, final JsonReader reader, final Class<?> type, final Binding<?> binding) throws DecodeException, IOException {
     final boolean isArray = ch == '[';
     if (type == null)
       return isArray ? Collections.asCollection(new JSArray<Object>(), objectDecoder.recurse(reader, 0, binding)) : objectDecoder.decode(reader, ch, binding);
@@ -147,7 +146,7 @@ public abstract class JSObjectBase {
   }
 
   @SuppressWarnings({"rawtypes", "unchecked"})
-  protected static JSObject decode(final RewindableReader reader, char ch, final JSObject jsObject) throws DecodeException, IOException {
+  protected static JSObject decode(final JsonReader reader, char ch, final JSObject jsObject) throws DecodeException, IOException {
     boolean inObject = false;
     boolean inQuote = false;
     final StringBuilder builder = new StringBuilder();

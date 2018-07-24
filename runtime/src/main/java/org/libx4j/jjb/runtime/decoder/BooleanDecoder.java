@@ -18,10 +18,10 @@ package org.libx4j.jjb.runtime.decoder;
 
 import java.io.IOException;
 
-import org.lib4j.util.RewindableReader;
 import org.libx4j.jjb.runtime.Binding;
 import org.libx4j.jjb.runtime.DecodeException;
 import org.libx4j.jjb.runtime.JSObjectBase;
+import org.libx4j.jjb.runtime.JsonReader;
 
 public class BooleanDecoder extends Decoder<Boolean> {
   @Override
@@ -30,7 +30,7 @@ public class BooleanDecoder extends Decoder<Boolean> {
   }
 
   @Override
-  public Boolean decode(final RewindableReader reader, char ch, final Binding<?> binding) throws DecodeException, IOException {
+  public Boolean decode(final JsonReader reader, char ch, final Binding<?> binding) throws DecodeException, IOException {
     if (ch != 'f' && ch != 't') {
       if (JSObjectBase.isNull(ch, reader))
         return null;

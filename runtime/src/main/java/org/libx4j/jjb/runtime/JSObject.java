@@ -23,8 +23,6 @@ import java.io.Reader;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 
-import org.lib4j.util.RewindableReader;
-
 public abstract class JSObject extends JSObjectBase implements Cloneable {
   public static <T extends JSObject>T parse(final Class<?> type, final InputStream in) throws DecodeException, IOException {
     return parse(type, new InputStreamReader(in));
@@ -33,16 +31,16 @@ public abstract class JSObject extends JSObjectBase implements Cloneable {
   @SuppressWarnings("unchecked")
   public static <T extends JSObject>T parse(final Class<?> type, final Reader reader) throws DecodeException, IOException {
     try {
-      final RewindableReader rewindableReader = reader instanceof RewindableReader ? (RewindableReader)reader : new RewindableReader(reader);
-      final char ch = next(rewindableReader);
+      final JsonReader replayReader = reader instanceof JsonReader ? (JsonReader)reader : new JsonReader(reader);
+      final char ch = next(replayReader);
 
       if (ch == '[')
-        return (T)decodeValue(ch, rewindableReader, null, Binding.ANY);
+        return (T)decodeValue(ch, replayReader, null, Binding.ANY);
 
       if (!JSObject.class.isAssignableFrom(type))
-        throw new DecodeException("Expected a JSObject type " + type.getName(), rewindableReader, null);
+        throw new DecodeException("Expected a JSObject type " + type.getName(), replayReader, null);
 
-      return (T)decode(rewindableReader, ch, ((Class<T>)type).getDeclaredConstructor().newInstance());
+      return (T)decode(replayReader, ch, ((Class<T>)type).getDeclaredConstructor().newInstance());
     }
     catch (final IllegalAccessException | InstantiationException | InvocationTargetException | NoSuchMethodException e) {
       throw new UnsupportedOperationException(e);

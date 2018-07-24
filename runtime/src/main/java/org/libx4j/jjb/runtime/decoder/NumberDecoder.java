@@ -20,10 +20,10 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
-import org.lib4j.util.RewindableReader;
 import org.libx4j.jjb.runtime.Binding;
 import org.libx4j.jjb.runtime.DecodeException;
 import org.libx4j.jjb.runtime.JSObjectBase;
+import org.libx4j.jjb.runtime.JsonReader;
 
 public class NumberDecoder extends Decoder<Number> {
   @Override
@@ -32,7 +32,7 @@ public class NumberDecoder extends Decoder<Number> {
   }
 
   @Override
-  public Number decode(final RewindableReader reader, char ch, final Binding<?> binding) throws DecodeException, IOException {
+  public Number decode(final JsonReader reader, char ch, final Binding<?> binding) throws DecodeException, IOException {
     if (('0' > ch || ch > '9') && ch != '-') {
       if (JSObjectBase.isNull(ch, reader))
         return null;
