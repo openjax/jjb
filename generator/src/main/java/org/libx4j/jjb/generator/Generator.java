@@ -23,6 +23,7 @@ import java.io.OutputStreamWriter;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.net.URL;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -112,9 +113,8 @@ public class Generator {
     builder.append("\n\n  private ").append(name).append("() {");
     builder.append("\n  }");
     builder.append("\n}");
-    try (final OutputStreamWriter out = new FileWriter(new File(outDir, name + ".java"))) {
-      out.write(builder.toString());
-    }
+
+    Files.write(new File(outDir, name + ".java").toPath(), builder.toString().getBytes());
 
     if (compile) {
       try {
