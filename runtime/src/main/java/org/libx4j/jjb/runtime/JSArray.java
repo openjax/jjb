@@ -49,15 +49,15 @@ public class JSArray<E> extends JSObject implements List<E>, RandomAccess, Seria
   private final ArrayList<E> list;
 
   public JSArray() {
-    this.list = new ArrayList<E>();
+    this.list = new ArrayList<>();
   }
 
   public JSArray(final Collection<? extends E> c) {
-    this.list = new ArrayList<E>(c);
+    this.list = new ArrayList<>(c);
   }
 
   public JSArray(final int size) {
-    this.list = new ArrayList<E>(size);
+    this.list = new ArrayList<>(size);
   }
 
   @SuppressWarnings("unchecked")
@@ -217,7 +217,7 @@ public class JSArray<E> extends JSObject implements List<E>, RandomAccess, Seria
 
   @Override
   public JSArray<E> clone() {
-    return new JSArray<E>(this);
+    return new JSArray<>(this);
   }
 
   @Override

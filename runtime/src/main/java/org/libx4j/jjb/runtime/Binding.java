@@ -24,7 +24,7 @@ import org.lib4j.util.Collections;
 import org.libx4j.jjb.runtime.validator.Validator;
 
 public class Binding<T> {
-  public static final Binding<?> ANY = new Binding<Object>(null, null, null, false, false, Required.FALSE, false);
+  public static final Binding<?> ANY = new Binding<>(null, null, null, false, false, Required.FALSE, false);
 
   private static String errorsToString(final Property<?> property, final String[] errors) {
     if (errors == null || errors.length == 0)

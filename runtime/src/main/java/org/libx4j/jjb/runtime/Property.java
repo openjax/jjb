@@ -110,7 +110,7 @@ public class Property<T> {
 
     if (value instanceof Collection<?>) {
       final Collection<T> collection = (Collection<T>)value;
-      final Collection<T> encoded = new JSArray<T>(collection.size());
+      final Collection<T> encoded = new JSArray<>(collection.size());
       for (final T member : collection)
         encoded.add(encode(member, jsObject, binding));
 
@@ -128,7 +128,7 @@ public class Property<T> {
 
     if (value instanceof Collection<?>) {
       final Collection<T> collection = (Collection<T>)value;
-      final Collection<T> decoded = new ArrayList<T>(collection.size());
+      final Collection<T> decoded = new ArrayList<>(collection.size());
       for (final T member : collection)
         decoded.add(decode(member, jsObject, binding));
 

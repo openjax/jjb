@@ -263,9 +263,8 @@ public class Generator {
     builder.append("\n").append(pad).append("   private static final ").append(String.class.getName()).append(" _name = \"").append(objectName).append("\";\n");
     builder.append("\n").append(pad).append("   private static final ").append(Map.class.getName()).append("<").append(String.class.getName()).append(",").append(Binding.class.getName()).append("<?>> bindings = new ").append(HashMap.class.getName()).append("<").append(String.class.getName()).append(",").append(Binding.class.getName()).append("<?>>(").append((properties != null ? properties.size() : 0)).append(");");
 
-    builder.append("\n").append(pad).append("   static {");
-    builder.append("\n").append(pad).append("     registerBinding(_name, ").append(className).append(".class);");
     if (properties != null) {
+      builder.append("\n").append(pad).append("   static {");
       builder.append("\n").append(pad).append("     try {");
       for (final $Property property : properties) {
         final String propertyName = getPropertyName(property);
@@ -296,8 +295,8 @@ public class Generator {
       builder.append("\n").append(pad).append("     catch (final ").append(ReflectiveOperationException.class.getName()).append(" e) {");
       builder.append("\n").append(pad).append("       throw new ").append(ExceptionInInitializerError.class.getName()).append("(e);");
       builder.append("\n").append(pad).append("     }");
+      builder.append("\n").append(pad).append("   }");
     }
-    builder.append("\n").append(pad).append("   }");
 
     if (properties != null)
       for (final $Property property : properties)

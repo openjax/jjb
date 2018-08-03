@@ -18,9 +18,7 @@ package org.libx4j.jjb.runtime;
 
 import java.io.IOException;
 import java.io.Reader;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.lib4j.lang.Arrays;
 import org.lib4j.util.Collections;
@@ -37,8 +35,6 @@ public abstract class JSObjectBase {
   private static final JSObjectDecoder jsObjectDecoder = new JSObjectDecoder();
   private static final ObjectDecoder objectDecoder = new ObjectDecoder(jsObjectDecoder, stringDecoder, numberDecoder, booleanDecoder);
 
-  private static final Map<String,Class<? extends JSObject>> bindings = new HashMap<String,Class<? extends JSObject>>();
-
   protected static <T>void clone(final Property<T> property, final Property<T> clone) {
     property.clone(clone);
   }
@@ -49,10 +45,6 @@ public abstract class JSObjectBase {
 
   protected static <T>void decode(final Property<T> property, final JsonReader reader) throws DecodeException, IOException {
     property.decode(reader);
-  }
-
-  protected static void registerBinding(final String name, final Class<? extends JSObject> bindingClass) {
-    bindings.put(name, bindingClass);
   }
 
   protected static char next(final Reader reader) throws IOException {
@@ -128,7 +120,7 @@ public abstract class JSObjectBase {
   protected static Object decodeValue(final char ch, final JsonReader reader, final Class<?> type, final Binding<?> binding) throws DecodeException, IOException {
     final boolean isArray = ch == '[';
     if (type == null)
-      return isArray ? Collections.asCollection(new JSArray<Object>(), objectDecoder.recurse(reader, 0, binding)) : objectDecoder.decode(reader, ch, binding);
+      return isArray ? Collections.asCollection(new JSArray<>(), objectDecoder.recurse(reader, 0, binding)) : objectDecoder.decode(reader, ch, binding);
 
     if (JSObject.class.isAssignableFrom(type))
       return isArray ? Collections.asCollection(new JSArray<JSObject>(), jsObjectDecoder.recurse(reader, 0, binding)) : jsObjectDecoder.decode(reader, ch, binding);
