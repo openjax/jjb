@@ -19,7 +19,7 @@ package org.libx4j.jjb.runtime.validator;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
-import org.lib4j.lang.Numbers;
+import org.lib4j.util.Numbers;
 
 public class NumberValidator extends Validator<Number> {
   private final boolean integer;

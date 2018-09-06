@@ -20,7 +20,7 @@ import java.io.IOException;
 import java.io.Reader;
 import java.util.List;
 
-import org.lib4j.lang.Arrays;
+import org.lib4j.util.Arrays;
 import org.lib4j.util.Collections;
 import org.libx4j.jjb.runtime.decoder.BooleanDecoder;
 import org.libx4j.jjb.runtime.decoder.JSObjectDecoder;

@@ -17,9 +17,7 @@
 package org.libx4j.jjb.generator;
 
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.net.URL;
@@ -33,9 +31,9 @@ import java.util.Stack;
 
 import org.lib4j.jci.CompilationException;
 import org.lib4j.jci.JavaCompiler;
-import org.lib4j.lang.JavaIdentifiers;
-import org.lib4j.lang.Strings;
 import org.lib4j.math.BigDecimals;
+import org.lib4j.util.JavaIdentifiers;
+import org.lib4j.util.Strings;
 import org.lib4j.xml.ValidationException;
 import org.lib4j.xml.dom.DOMStyle;
 import org.lib4j.xml.dom.DOMs;

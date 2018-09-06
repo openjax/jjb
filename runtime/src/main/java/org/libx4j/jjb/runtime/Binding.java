@@ -40,7 +40,6 @@ public class Binding<T> {
   public final String name;
   public final Field property;
   public final Class<?> type;
-  public final boolean isAbstract;
   public final boolean array;
   public final Required required;
   public final boolean notNull;
@@ -57,7 +56,6 @@ public class Binding<T> {
       this.property.setAccessible(true);
 
     this.type = type;
-    this.isAbstract = isAbstract;
     this.array = array;
     this.required = required;
     this.notNull = notNull;

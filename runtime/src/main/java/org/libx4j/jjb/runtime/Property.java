@@ -21,9 +21,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.lib4j.lang.Numbers;
 import org.lib4j.net.URIComponent;
 import org.lib4j.util.Collections;
+import org.lib4j.util.Numbers;
 import org.libx4j.jjb.runtime.decoder.StringDecoder;
 
 public class Property<T> {
