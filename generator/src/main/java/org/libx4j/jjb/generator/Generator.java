@@ -31,7 +31,7 @@ import java.util.Stack;
 
 import org.lib4j.jci.CompilationException;
 import org.lib4j.jci.JavaCompiler;
-import org.lib4j.math.BigDecimals;
+import org.fastjax.math.BigDecimals;
 import org.fastjax.util.JavaIdentifiers;
 import org.fastjax.util.Strings;
 import org.lib4j.xml.ValidationException;
