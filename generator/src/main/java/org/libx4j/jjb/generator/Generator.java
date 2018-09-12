@@ -29,8 +29,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
-import org.lib4j.jci.CompilationException;
-import org.lib4j.jci.JavaCompiler;
+import org.fastjax.jci.CompilationException;
+import org.fastjax.jci.JavaCompiler;
 import org.fastjax.math.BigDecimals;
 import org.fastjax.util.JavaIdentifiers;
 import org.fastjax.util.Strings;
