@@ -21,7 +21,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
-import org.lib4j.util.Strings;
+import org.fastjax.util.Strings;
 import org.libx4j.jjb.runtime.DecodeException;
 
 @Provider
