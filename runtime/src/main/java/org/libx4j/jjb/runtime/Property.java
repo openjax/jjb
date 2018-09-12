@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.lib4j.net.URIComponent;
+import org.fastjax.net.URIComponent;
 import org.fastjax.util.Collections;
 import org.fastjax.util.Numbers;
 import org.libx4j.jjb.runtime.decoder.StringDecoder;
