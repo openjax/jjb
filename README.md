@@ -44,19 +44,19 @@ The [JSONx Schema][jsonx-xsd] offers semantics for the definition of check const
   mvn archetype:generate -DgroupId=com.mycompany.app -DartifactId=my-app -DarchetypeArtifactId=maven-archetype-quickstart -DinteractiveMode=false
   ```
 
-2. Add the `mvn.repo.lib4j.org` Maven repositories to the POM.
+2. Add the `mvn.repo.openjax.org` Maven repositories to the POM.
 
   ```xml
   <repositories>
     <repository>
-      <id>mvn.repo.lib4j.org</id>
-      <url>http://mvn.repo.lib4j.org/m2</url>
+      <id>mvn.repo.openjax.org</id>
+      <url>http://mvn.repo.openjax.org/m2</url>
     </repository>
   </repositories>
   <pluginRepositories>
     <pluginRepository>
-      <id>mvn.repo.lib4j.org</id>
-      <url>http://mvn.repo.lib4j.org/m2</url>
+      <id>mvn.repo.openjax.org</id>
+      <url>http://mvn.repo.openjax.org/m2</url>
     </pluginRepository>
   </pluginRepositories>
   ```
@@ -65,9 +65,9 @@ The [JSONx Schema][jsonx-xsd] offers semantics for the definition of check const
 
   ```xml
   <json name="json"
-    xmlns="http://jjb.lib4j.org/jsonx.xsd"
+    xmlns="http://jjb.openjax.org/jsonx-0.9.8.xsd"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://jjb.libx4j.org/jsonx.xsd http://jjb.libx4j.org/jsonx.xsd">
+    xsi:schemaLocation="http://jjb.openjax.org/jsonx-0.9.8.xsd http://jjb.openjax.org/jsonx.xsd">
 
     <description>JSON class definitions for communication protocol of server API</description>
 
@@ -97,11 +97,11 @@ The [JSONx Schema][jsonx-xsd] offers semantics for the definition of check const
   </json>
   ```
 
-4. Add the [`org.libx4j.maven.plugin:jjb-maven-plugin`][jjb-maven-plugin] to the POM.
+4. Add the [`org.openjax.maven.plugin:jjb-maven-plugin`][jjb-maven-plugin] to the POM.
 
   ```xml
   <plugin>
-    <groupId>org.libx4j.maven.plugin</groupId>
+    <groupId>org.openjax.maven.plugin</groupId>
     <artifactId>jjb-maven-plugin</artifactId>
     <version>0.9.8-SNAPSHOT</version>
     <executions>
@@ -120,13 +120,13 @@ The [JSONx Schema][jsonx-xsd] offers semantics for the definition of check const
   </plugin>
   ```
 
-5. Add the `org.libx4j.jjb:jjb-generator` dependency to the POM.
+5. Add the `org.openjax.jjb:jjb-generator` dependency to the POM.
 
   ```xml
   <dependency>
-    <groupId>org.libx4j.jjb</groupId>
+    <groupId>org.openjax.jjb</groupId>
     <artifactId>jjb-generator</artifactId>
-    <version>0.9.7-SNAPSHOT</version>
+    <version>0.9.8-SNAPSHOT</version>
   </dependency>
   ```
 
@@ -156,10 +156,10 @@ This project is licensed under the MIT License - see the [LICENSE.txt](LICENSE.t
 
 [java-enterprise]: https://img.shields.io/badge/java-enterprise-blue.svg
 [jdk8-download]: http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html
-[jjb-maven-plugin]: https://github.com/libx4j/jjb-maven-plugin
+[jjb-maven-plugin]: https://github.com/openjax/jjb-maven-plugin
 [json]: http://www.json.org/
-[jsonx-xsd]: https://github.com/libx4j/jjb/blob/master/generator/src/main/resources/jsonx.xsd
+[jsonx-xsd]: https://github.com/openjax/jjb/blob/master/generator/src/main/resources/jsonx.xsd
 [maven-archetype-quickstart]: http://maven.apache.org/archetypes/maven-archetype-quickstart/
 [maven]: https://maven.apache.org/
-[xrs-getting-started]: https://github.com/libx4j/xrs#getting-started
-[xrs]: https://github.com/libx4j/xrs
+[xrs-getting-started]: https://github.com/openjax/xrs#getting-started
+[xrs]: https://github.com/openjax/xrs
