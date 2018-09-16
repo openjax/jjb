@@ -159,8 +159,8 @@ This project is licensed under the MIT License - see the [LICENSE.txt](LICENSE.t
 [jdk8-download]: http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html
 [jjb-maven-plugin]: /../../../../openjax/jjb-maven-plugin
 [json]: http://www.json.org/
-[jsonx-xsd]: /../../../../openjax/jjb/blob/master/generator/src/main/resources/jsonx.xsd
+[jsonx-xsd]: /../../../../openjax/openjax-jjb/blob/master/generator/src/main/resources/jsonx.xsd
 [maven-archetype-quickstart]: http://maven.apache.org/archetypes/maven-archetype-quickstart/
 [maven]: https://maven.apache.org/
-[xrs-getting-started]: /../../../../openjax/xrs#getting-started
-[xrs]: /../../../../openjax/xrs
+[xrs-getting-started]: /../../../../openjax/openjax-xrs#getting-started
+[xrs]: /../../../../openjax/openjax-xrs
