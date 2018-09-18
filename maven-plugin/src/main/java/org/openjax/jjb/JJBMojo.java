@@ -14,7 +14,7 @@
  * program. If not, see <http://opensource.org/licenses/MIT/>.
  */
 
-package org.openjax.maven.plugin.jjb;
+package org.openjax.jjb;
 
 import java.io.IOException;
 import java.net.URL;
