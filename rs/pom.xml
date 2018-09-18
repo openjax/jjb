@@ -20,11 +20,10 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>org.openjax</groupId>
+    <groupId>org.openjax.jjb</groupId>
     <artifactId>jjb</artifactId>
     <version>0.9.8-SNAPSHOT</version>
   </parent>
-  <groupId>org.openjax.jjb</groupId>
   <artifactId>jjb-rs</artifactId>
   <name>${project.groupId}:${project.artifactId}</name>
   <properties>

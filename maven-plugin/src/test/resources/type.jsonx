@@ -1,0 +1,205 @@
+<!--
+  Copyright (c) 2015 OpenJAX
+
+  Permission is hereby granted, free of charge, to any person obtaining a copy
+  of this software and associated documentation files (the "Software"), to deal
+  in the Software without restriction, including without limitation the rights
+  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  copies of the Software, and to permit persons to whom the Software is
+  furnished to do so, subject to the following conditions:
+
+  The above copyright notice and this permission notice shall be included in
+  all copies or substantial portions of the Software.
+
+  You should have received a copy of The MIT License (MIT) along with this
+  program. If not, see <http://opensource.org/licenses/MIT/>.
+-->
+<json name="type" mimeType="application/json"
+  xmlns="http://jjb.openjax.org/jsonx-0.9.8.xsd"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://jjb.openjax.org/jsonx-0.9.8.xsd http://jjb.openjax.org/jsonx.xsd">
+  <description>All states of type expressions</description>
+  <object name="booleans">
+    <description>Boolean type.</description>
+    <property xsi:type="boolean" name="booleanDefault">
+      <description>Boolean default.</description>
+    </property>
+    <property xsi:type="boolean" name="booleanNotRequired" required="false">
+      <description>Boolean not required.</description>
+    </property>
+    <property xsi:type="boolean" name="booleanNotNull" null="false">
+      <description>Boolean not null.</description>
+    </property>
+  </object>
+  <object name="booleanArrays">
+    <description>Boolean array type.</description>
+    <property xsi:type="boolean" name="booleanArrayDefault" array="true">
+      <description>Boolean array default.</description>
+    </property>
+    <property xsi:type="boolean" name="booleanArrayNotRequired" required="false" array="true">
+      <description>Boolean array not required.</description>
+    </property>
+    <property xsi:type="boolean" name="booleanArrayNotNull" null="false" array="true">
+      <description>Boolean array not null.</description>
+    </property>
+  </object>
+  <object name="strings">
+    <description>String type.</description>
+    <property xsi:type="string" name="stringDefault">
+      <description>String default.</description>
+    </property>
+    <property xsi:type="string" name="stringNotRequired" required="false">
+      <description>String not required.</description>
+    </property>
+    <property xsi:type="string" name="stringNotNull" null="false">
+      <description>String not null.</description>
+    </property>
+    <property xsi:type="string" name="stringLength" length="5">
+      <description>String length.</description>
+    </property>
+    <property xsi:type="string" name="stringPattern" pattern="[valid]+">
+      <description>String pattern.</description>
+    </property>
+    <property xsi:type="string" name="stringUrlDecode" urlDecode="true">
+      <description>String url-decode.</description>
+    </property>
+    <property xsi:type="string" name="stringUrlEncode" urlEncode="true">
+      <description>String url-encode.</description>
+    </property>
+  </object>
+  <object name="stringArrays">
+    <description>String array type.</description>
+    <property xsi:type="string" name="stringArrayDefault" array="true">
+      <description>String array default.</description>
+    </property>
+    <property xsi:type="string" name="stringArrayNotNull" null="false" array="true">
+      <description>String array not null.</description>
+    </property>
+    <property xsi:type="string" name="stringArrayLength" length="5" array="true">
+      <description>String array length.</description>
+    </property>
+    <property xsi:type="string" name="stringArrayPattern" pattern="[valid]+" array="true">
+      <description>String array pattern.</description>
+    </property>
+    <property xsi:type="string" name="stringArrayNotRequired" required="false" array="true">
+      <description>String array not required.</description>
+    </property>
+    <property xsi:type="string" name="stringArrayUrlDecode" urlDecode="true" array="true">
+      <description>String array url-decode.</description>
+    </property>
+    <property xsi:type="string" name="stringArrayUrlEncode" urlEncode="true" array="true">
+      <description>String array url-encode.</description>
+    </property>
+  </object>
+  <object name="numbers">
+    <description>Number type.</description>
+    <property xsi:type="number" name="numberDefault">
+      <description>Number default.</description>
+    </property>
+    <property xsi:type="number" name="numberNotRequired" required="false">
+      <description>Number not required.</description>
+    </property>
+    <property xsi:type="number" name="numberNotNull" null="false">
+      <description>Number not null.</description>
+    </property>
+    <property xsi:type="number" name="numberMin" min="0">
+      <description>Number min.</description>
+    </property>
+    <property xsi:type="number" name="numberMax" max="0">
+      <description>Number max.</description>
+    </property>
+    <property xsi:type="number" name="numberInteger" form="integer">
+      <description>Number integer.</description>
+    </property>
+  </object>
+  <object name="numberArrays">
+    <description>Number array type.</description>
+    <property xsi:type="number" name="numberArrayDefault" array="true">
+      <description>Number array default.</description>
+    </property>
+    <property xsi:type="number" name="numberArrayNotRequired" required="false" array="true">
+      <description>Number array not required.</description>
+    </property>
+    <property xsi:type="number" name="numberArrayNotNull" null="false" array="true">
+      <description>Number array not null.</description>
+    </property>
+    <property xsi:type="number" name="numberArrayMin" min="0" array="true">
+      <description>Number array min.</description>
+    </property>
+    <property xsi:type="number" name="numberArrayMax" max="0" array="true">
+      <description>Number array max.</description>
+    </property>
+    <property xsi:type="number" name="numberArrayInteger" form="integer" array="true">
+      <description>Number array integer.</description>
+    </property>
+  </object>
+  <object name="abstractObject" abstract="true">
+    <description>Abstract object type.</description>
+    <property xsi:type="boolean" name="objectBoolean">
+      <description>Boolean in abstract object.</description>
+    </property>
+  </object>
+  <object name="objects">
+    <description>Object type.</description>
+    <property xsi:type="object" name="objectDefault">
+      <description>Object default.</description>
+    </property>
+    <property xsi:type="object" name="objectNotRequired" required="false">
+      <description>Object not required.</description>
+    </property>
+    <property xsi:type="object" name="objectNotNull" null="false">
+      <description>Object not null.</description>
+    </property>
+    <property xsi:type="object" name="objectExtendsAbstract" extends="abstractObject">
+      <description>Object with properties, extending abstractObject.</description>
+      <property xsi:type="string" name="objectString">
+        <description>String property.</description>
+      </property>
+      <property xsi:type="number" name="objectNumber">
+        <description>Number property.</description>
+      </property>
+      <property xsi:type="object" name="objectExtendsBooleans" extends="booleans">
+        <description>Object property, extending booleans.</description>
+      </property>
+    </property>
+    <property xsi:type="object" name="objectExtendsStrings" extends="strings">
+      <description>Object extending strings.</description>
+      <property xsi:type="string" name="additionalString">
+        <description>Additional string property.</description>
+      </property>
+    </property>
+  </object>
+  <object name="objectArrays" extends="abstractObject">
+    <description>Object array type.</description>
+    <property xsi:type="object" name="objectArrayDefault" array="true">
+      <description>Object array default.</description>
+    </property>
+    <property xsi:type="object" name="objectArrayNotRequired" required="false" array="true">
+      <description>Object array not required.</description>
+    </property>
+    <property xsi:type="object" name="objectArrayNotNull" null="false" array="true">
+      <description>Object array not null.</description>
+    </property>
+    <property xsi:type="object" name="objectArrayPropertiesSkipUnknown" array="true" onUnknown="skip">
+      <description>Object array with properties, skipping unknowns.</description>
+      <property xsi:type="boolean" name="objectArrayBoolean" array="true">
+        <description>Boolean array property.</description>
+      </property>
+      <property xsi:type="string" name="objectArrayString" array="true">
+        <description>String array property.</description>
+      </property>
+      <property xsi:type="number" name="objectArrayNumber" array="true">
+        <description>Number array property.</description>
+      </property>
+      <property xsi:type="object" name="objectArrayExtendsBooleans" extends="booleans" array="true">
+        <description>Object array property, extending booleans.</description>
+      </property>
+    </property>
+    <property xsi:type="object" name="objectArrayExtendsStringArrays" extends="stringArrays" array="true">
+      <description>Object array extending stringArrays.</description>
+      <property xsi:type="string" name="additionalStringArray" array="true">
+        <description>Additional string array property.</description>
+      </property>
+    </property>
+  </object>
+</json>
