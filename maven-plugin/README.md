@@ -21,7 +21,7 @@ The `jjb:generate` goal is bound to the `generate-sources` phase, and is used to
 
 ```xml
 <plugin>
-  <groupId>org.openjax.maven.plugin</groupId>
+  <groupId>org.openjax.jjb</groupId>
   <artifactId>jjb-maven-plugin</artifactId>
   <version>0.9.8-SNAPSHOT</version>
   <configuration>
@@ -37,7 +37,7 @@ The `jjb:generate` goal is bound to the `generate-sources` phase, and is used to
 
 | Name              | Type    | Use      | Description                                                                   |
 |:------------------|:--------|:---------|:------------------------------------------------------------------------------|
-| `/                | Object  | Required | Manifest descriptor.                                                          |
+| `/`               | Object  | Required | Manifest descriptor.                                                          |
 | `/destDir`        | String  | Required | Destination path of generated bindings.                                       |
 | `/schemas`        | List    | Required | List of `resource` elements.                                                  |
 | `/schemas/schema` | String  | Required | File path of XML Schema.                                                      |
@@ -48,5 +48,5 @@ This project is licensed under the MIT License - see the [LICENSE.txt](LICENSE.t
 
 <a href="http://cooltext.com" target="_top"><img src="https://cooltext.com/images/ct_pixel.gif" width="80" height="15" alt="Cool Text: Logo and Graphics Generator" border="0" /></a>
 
-[jjb]: /../../../../openjax/openjax-jjb
+[jjb]: /
 [mvn-plugin]: https://img.shields.io/badge/mvn-plugin-lightgrey.svg
