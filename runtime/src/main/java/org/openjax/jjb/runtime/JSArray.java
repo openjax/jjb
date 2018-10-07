@@ -126,7 +126,7 @@ public class JSArray<E> extends JSObject implements List<E>, RandomAccess, Seria
   }
 
   @Override
-  public <T> T[] toArray(final T[] a) {
+  public <T>T[] toArray(final T[] a) {
     return list.toArray(a);
   }
 
