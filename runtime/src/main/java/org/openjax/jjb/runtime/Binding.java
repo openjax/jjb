@@ -20,7 +20,7 @@ import java.lang.reflect.Field;
 import java.util.Collection;
 import java.util.List;
 
-import org.fastjax.util.Collections;
+import org.fastjax.util.FastCollections;
 import org.openjax.jjb.runtime.validator.Validator;
 
 public class Binding<T> {
@@ -72,7 +72,7 @@ public class Binding<T> {
 
   protected boolean isAssignable(final T value) {
     final Class<?> type;
-    return value == null || (array ? value instanceof List && ((type = Collections.getComponentType((List<?>)value)) == null || type.isAssignableFrom(type)) : this.type.isAssignableFrom(type = value.getClass()));
+    return value == null || (array ? value instanceof List && ((type = FastCollections.getComponentType((List<?>)value)) == null || type.isAssignableFrom(type)) : this.type.isAssignableFrom(type = value.getClass()));
   }
 
   @SuppressWarnings("unchecked")

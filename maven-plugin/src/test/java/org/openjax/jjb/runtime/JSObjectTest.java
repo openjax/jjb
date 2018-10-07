@@ -25,7 +25,7 @@ import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.fastjax.util.Collections;
+import org.fastjax.util.FastCollections;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -109,7 +109,7 @@ public class JSObjectTest {
     final String url = "http://www.thesaurus.com/browse/cool?s=t";
     message.url.set(url);
     message.important.set(true);
-    final List<String> recipients = Collections.asCollection(new ArrayList<String>(), "alex", "seva");
+    final List<String> recipients = FastCollections.asCollection(new ArrayList<String>(), "alex", "seva");
     message.recipients.set(recipients);
     message.emptyarray.set(new ArrayList<String>());
     final api.Message.Attachment[] attachment = {att1, att2, att3, null};

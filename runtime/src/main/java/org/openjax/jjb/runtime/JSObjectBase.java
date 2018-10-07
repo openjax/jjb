@@ -20,8 +20,8 @@ import java.io.IOException;
 import java.io.Reader;
 import java.util.List;
 
-import org.fastjax.util.Arrays;
-import org.fastjax.util.Collections;
+import org.fastjax.util.FastArrays;
+import org.fastjax.util.FastCollections;
 import org.openjax.jjb.runtime.decoder.BooleanDecoder;
 import org.openjax.jjb.runtime.decoder.JSObjectDecoder;
 import org.openjax.jjb.runtime.decoder.NumberDecoder;
@@ -98,7 +98,7 @@ public abstract class JSObjectBase {
   }
 
   protected static String pad(final int depth) {
-    return depth <= 0 ? "" : new String(Arrays.createRepeat(' ', depth * 2));
+    return depth <= 0 ? "" : new String(FastArrays.createRepeat(' ', depth * 2));
   }
 
   protected static String encode(final JSObject object, final int depth) {
@@ -120,19 +120,19 @@ public abstract class JSObjectBase {
   protected static Object decodeValue(final char ch, final JsonReader reader, final Class<?> type, final Binding<?> binding) throws DecodeException, IOException {
     final boolean isArray = ch == '[';
     if (type == null)
-      return isArray ? Collections.asCollection(new JSArray<>(), objectDecoder.recurse(reader, 0, binding)) : objectDecoder.decode(reader, ch, binding);
+      return isArray ? FastCollections.asCollection(new JSArray<>(), objectDecoder.recurse(reader, 0, binding)) : objectDecoder.decode(reader, ch, binding);
 
     if (JSObject.class.isAssignableFrom(type))
-      return isArray ? Collections.asCollection(new JSArray<JSObject>(), jsObjectDecoder.recurse(reader, 0, binding)) : jsObjectDecoder.decode(reader, ch, binding);
+      return isArray ? FastCollections.asCollection(new JSArray<JSObject>(), jsObjectDecoder.recurse(reader, 0, binding)) : jsObjectDecoder.decode(reader, ch, binding);
 
     if (type == String.class)
-      return isArray ? Collections.asCollection(new JSArray<String>(), stringDecoder.recurse(reader, 0, binding)) : stringDecoder.decode(reader, ch, binding);
+      return isArray ? FastCollections.asCollection(new JSArray<String>(), stringDecoder.recurse(reader, 0, binding)) : stringDecoder.decode(reader, ch, binding);
 
     if (type == Boolean.class)
-      return isArray ? Collections.asCollection(new JSArray<Boolean>(), booleanDecoder.recurse(reader, 0, binding)) : booleanDecoder.decode(reader, ch, binding);
+      return isArray ? FastCollections.asCollection(new JSArray<Boolean>(), booleanDecoder.recurse(reader, 0, binding)) : booleanDecoder.decode(reader, ch, binding);
 
     if (Number.class.isAssignableFrom(type))
-      return isArray ? Collections.asCollection(new JSArray<Number>(), numberDecoder.recurse(reader, 0, binding)) : numberDecoder.decode(reader, ch, binding);
+      return isArray ? FastCollections.asCollection(new JSArray<Number>(), numberDecoder.recurse(reader, 0, binding)) : numberDecoder.decode(reader, ch, binding);
 
     throw new UnsupportedOperationException("Unsupported type: " + type);
   }

@@ -24,7 +24,7 @@ public final class TestHelper {
   @SuppressWarnings("rawtypes")
   public static Property property(final JSObject jsObject, final String propertyName) {
     try {
-      final Field field = Classes.getFieldDeep(jsObject.getClass(), propertyName);
+      final Field field = Classes.getField(jsObject.getClass(), propertyName);
       if (field == null)
         throw new RuntimeException("Field not found: " + propertyName);
 
