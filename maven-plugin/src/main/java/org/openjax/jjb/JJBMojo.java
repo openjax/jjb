@@ -46,7 +46,7 @@ public class JJBMojo extends GeneratorMojo {
         Generator.generate(schema, configuration.getDestDir(), false);
     }
     catch (final GeneratorExecutionException | IOException | ValidationException e) {
-      throw new MojoExecutionException(e.getMessage(), e);
+      throw new MojoExecutionException(e.getClass().getSimpleName() + ": " + e.getMessage(), e);
     }
   }
 }
