@@ -16,6 +16,8 @@
 
 package org.openjax.jjb.runtime;
 
+import static org.junit.Assert.*;
+
 import java.io.IOException;
 import java.io.StringReader;
 import java.math.BigInteger;
@@ -24,7 +26,6 @@ import java.util.Collections;
 
 import org.fastjax.math.BigDecimals;
 import org.fastjax.math.BigIntegers;
-import org.junit.Assert;
 
 public abstract class TestHarness {
   @SuppressWarnings({"rawtypes", "unchecked"})
@@ -39,13 +40,13 @@ public abstract class TestHarness {
     propetry.set(val);
 
     // Assert that the get method returns the value that's been set
-    Assert.assertEquals(val, TestHelper.property(jsObject, propertyName).get());
+    assertEquals(val, TestHelper.property(jsObject, propertyName).get());
 
     // Clear the property
     propetry.clear();
 
     // Assert that after property.clear(), the get method returns null
-    Assert.assertEquals(null, propetry.get());
+    assertEquals(null, propetry.get());
 
     // Set the value again
     propetry.set(val);
@@ -62,7 +63,7 @@ public abstract class TestHarness {
       final Object validValue = propertyName != null ? TestHelper.property(clone, propertyName).get() : null;
       final Object condition = unit.instigate(clone, propertyName);
       if (!unit.validate(clone, propertyName, condition))
-        Assert.fail("Failed \"" + unit.getName() + "\" unit:\n" + condition);
+        fail("Failed \"" + unit.getName() + "\" unit:\n" + condition);
 
       if (propertyName != null)
         TestHelper.property(clone, propertyName).set(validValue);

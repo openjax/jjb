@@ -16,66 +16,64 @@
 
 package org.openjax.jjb.runtime;
 
+import static org.junit.Assert.*;
+
 import java.io.IOException;
 import java.io.StringReader;
 import java.math.BigInteger;
 
-import org.junit.Assert;
 import org.junit.Test;
-import org.openjax.jjb.runtime.DecodeException;
-import org.openjax.jjb.runtime.JSArray;
-import org.openjax.jjb.runtime.JSObject;
 
 public class JSArrayTest {
   @Test
   public void testEmpty() throws DecodeException, IOException {
     final String data = "[]";
     final JSArray<?> jsObj = JSObject.parse(JSArray.class, new StringReader(data));
-    Assert.assertEquals(0, jsObj.size());
+    assertEquals(0, jsObj.size());
   }
 
   @Test
   public void test1() throws DecodeException, IOException {
     final String data = "[0, 1, 2, 3, 4]";
     final JSArray<BigInteger> jsObj = JSObject.parse(JSArray.class, new StringReader(data));
-    Assert.assertEquals(5, jsObj.size());
+    assertEquals(5, jsObj.size());
     for (int i = 0; i < 5; i++)
-      Assert.assertEquals(i, jsObj.get(i).intValue());
+      assertEquals(i, jsObj.get(i).intValue());
   }
 
   @Test
   public void test2() throws DecodeException, IOException {
     final String data = "[[0, 1, 2, 3, 4]]";
     final JSArray<JSArray<BigInteger>> jsObj = JSObject.parse(JSArray.class, new StringReader(data));
-    Assert.assertEquals(1, jsObj.size());
+    assertEquals(1, jsObj.size());
     final JSArray<BigInteger> inner = jsObj.get(0);
     for (int i = 0; i < 5; i++)
-      Assert.assertEquals(i, inner.get(i).intValue());
+      assertEquals(i, inner.get(i).intValue());
   }
 
   @Test
   public void test3() throws DecodeException, IOException {
     final String data = "[[[0, 1, 2, 3, 4]]]";
     final JSArray<JSArray<JSArray<BigInteger>>> jsObj = JSObject.parse(JSArray.class, new StringReader(data));
-    Assert.assertEquals(1, jsObj.size());
+    assertEquals(1, jsObj.size());
     final JSArray<JSArray<BigInteger>> inner = jsObj.get(0);
-    Assert.assertEquals(1, inner.size());
+    assertEquals(1, inner.size());
     final JSArray<BigInteger> inner2 = inner.get(0);
     for (int i = 0; i < 5; i++)
-      Assert.assertEquals(i, inner2.get(i).intValue());
+      assertEquals(i, inner2.get(i).intValue());
   }
 
   @Test
   public void test21() throws DecodeException, IOException {
     final String data = "[[[0, 1, 2, 3, 4]], [[0, 1, 2, 3, 4]], [[0, 1, 2, 3, 4]]]";
     final JSArray<JSArray<JSArray<BigInteger>>> jsObj = JSObject.parse(JSArray.class, new StringReader(data));
-    Assert.assertEquals(3, jsObj.size());
+    assertEquals(3, jsObj.size());
     for (int i = 0; i < 3; i++) {
       final JSArray<JSArray<BigInteger>> inner = jsObj.get(i);
-      Assert.assertEquals(1, inner.size());
+      assertEquals(1, inner.size());
       final JSArray<BigInteger> inner2 = inner.get(0);
       for (int j = 0; j < 5; j++)
-        Assert.assertEquals(j, inner2.get(j).intValue());
+        assertEquals(j, inner2.get(j).intValue());
     }
   }
 
@@ -83,13 +81,13 @@ public class JSArrayTest {
   public void test31() throws DecodeException, IOException {
     final String data = "[[[0, 1, 2, 3, 4], [0, 1, 2, 3, 4], [0, 1, 2, 3, 4]]]";
     final JSArray<JSArray<JSArray<BigInteger>>> jsObj = JSObject.parse(JSArray.class, new StringReader(data));
-    Assert.assertEquals(1, jsObj.size());
+    assertEquals(1, jsObj.size());
     final JSArray<JSArray<BigInteger>> inner = jsObj.get(0);
-    Assert.assertEquals(3, inner.size());
+    assertEquals(3, inner.size());
     for (int i = 0; i < 3; i++) {
       final JSArray<BigInteger> inner2 = inner.get(i);
       for (int j = 0; j < 5; j++)
-        Assert.assertEquals(j, inner2.get(j).intValue());
+        assertEquals(j, inner2.get(j).intValue());
     }
   }
 }

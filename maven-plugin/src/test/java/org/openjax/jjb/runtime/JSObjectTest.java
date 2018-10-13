@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.junit.Assert;
+import static org.junit.Assert.*;
 import org.junit.Test;
 import org.fastjax.util.FastCollections;
 import org.slf4j.Logger;
@@ -144,10 +144,10 @@ public class JSObjectTest {
 
     encoded = message.toString();
     if (encoded.indexOf("notRequired") != -1)
-      Assert.fail("message.notRequired or message.notRequiredArray should not be present in the encoded string");
+      fail("message.notRequired or message.notRequiredArray should not be present in the encoded string");
 
     logger.info(encoded);
-    Assert.assertEquals(external(encoded), message.toExternalForm());
+    assertEquals(external(encoded), message.toExternalForm());
     try {
       JSObject.parse(api.Message.class, new StringReader(encoded.replace("3A", "3a")));
     }
@@ -168,14 +168,14 @@ public class JSObjectTest {
     final String reEncoded = decoded.toString();
     logger.info(reEncoded);
 
-    Assert.assertEquals(encoded, reEncoded);
-    Assert.assertEquals(subject, decoded.subject.get());
-    Assert.assertEquals(url, decoded.url.get());
-    Assert.assertEquals(true, decoded.important.get());
-    Assert.assertEquals(recipients, decoded.recipients.get());
-    Assert.assertEquals(0, decoded.emptyarray.get().size());
-    Assert.assertArrayEquals(attachment, decoded.attachment.get().toArray());
-    Assert.assertEquals(signature, decoded.signature.get());
+    assertEquals(encoded, reEncoded);
+    assertEquals(subject, decoded.subject.get());
+    assertEquals(url, decoded.url.get());
+    assertEquals(true, decoded.important.get());
+    assertEquals(recipients, decoded.recipients.get());
+    assertEquals(0, decoded.emptyarray.get().size());
+    assertArrayEquals(attachment, decoded.attachment.get().toArray());
+    assertEquals(signature, decoded.signature.get());
   }
 
   @Test
@@ -187,14 +187,14 @@ public class JSObjectTest {
   public void testGiphyObject() throws Exception {
     final api.Giphy giphy = JSObject.parse(api.Giphy.class, new InputStreamReader(Thread.currentThread().getContextClassLoader().getResource("giphy.json").openStream()));
     final String expected = "{\n  \"data\": [{\n    \"id\": \"iuHaJ0D7macZq\",\n    \"url\": \"http://giphy.com/gifs/cat-day-tomorrow-iuHaJ0D7macZq\"\n  }, {\n    \"id\": \"Z1kpfgtHmpWHS\",\n    \"url\": \"http://giphy.com/gifs/cat-way-make-Z1kpfgtHmpWHS\"\n  }, {\n    \"id\": \"ZpWJhFSusGSac\",\n    \"url\": \"http://giphy.com/gifs/funny-cat-ZpWJhFSusGSac\"\n  }, {\n    \"id\": \"dLd4DTFSeGwc8\",\n    \"url\": \"http://giphy.com/gifs/funny-cat-dLd4DTFSeGwc8\"\n  }, {\n    \"id\": \"gWFhtJxDgDUXK\",\n    \"url\": \"http://giphy.com/gifs/funny-cat-gWFhtJxDgDUXK\"\n  }, {\n    \"id\": \"cTaC7ryiBZIxG\",\n    \"url\": \"http://giphy.com/gifs/funny-cat-cTaC7ryiBZIxG\"\n  }, {\n    \"id\": \"ZjrZpeIkBclpK\",\n    \"url\": \"http://giphy.com/gifs/funny-cat-ZjrZpeIkBclpK\"\n  }, {\n    \"id\": \"dir7Th3EEsA6s\",\n    \"url\": \"http://giphy.com/gifs/funny-cat-dir7Th3EEsA6s\"\n  }, {\n    \"id\": \"bKrynkeJjTKow\",\n    \"url\": \"http://giphy.com/gifs/funny-cat-bKrynkeJjTKow\"\n  }, {\n    \"id\": \"csBIJ9q2AXx1m\",\n    \"url\": \"http://giphy.com/gifs/funny-cat-csBIJ9q2AXx1m\"\n  }, {\n    \"id\": \"Xnlz8u878NR8A\",\n    \"url\": \"http://giphy.com/gifs/funny-cat-Xnlz8u878NR8A\"\n  }, {\n    \"id\": \"SBIDrovnm0wOA\",\n    \"url\": \"http://giphy.com/gifs/funny-cat-SBIDrovnm0wOA\"\n  }, {\n    \"id\": \"QJVrZI6VHmt4Q\",\n    \"url\": \"http://giphy.com/gifs/funny-cat-QJVrZI6VHmt4Q\"\n  }, {\n    \"id\": \"VIcgtjYlDLfkk\",\n    \"url\": \"http://giphy.com/gifs/funny-cat-VIcgtjYlDLfkk\"\n  }, {\n    \"id\": \"VDYtzvOm5fQcM\",\n    \"url\": \"http://giphy.com/gifs/funny-cat-VDYtzvOm5fQcM\"\n  }, {\n    \"id\": \"OvJuHbDfem9Co\",\n    \"url\": \"http://giphy.com/gifs/funny-cat-OvJuHbDfem9Co\"\n  }, {\n    \"id\": \"PFifISGfIz2vK\",\n    \"url\": \"http://giphy.com/gifs/funny-cat-PFifISGfIz2vK\"\n  }, {\n    \"id\": \"Mp592a0PuVzbi\",\n    \"url\": \"http://giphy.com/gifs/funny-cat-Mp592a0PuVzbi\"\n  }, {\n    \"id\": \"MYXU72VlYV3i\",\n    \"url\": \"http://giphy.com/gifs/funny-cat-MYXU72VlYV3i\"\n  }, {\n    \"id\": \"GOWYG0kaBDkwo\",\n    \"url\": \"http://giphy.com/gifs/funny-cat-GOWYG0kaBDkwo\"\n  }, {\n    \"id\": \"FMppCCrk97sB2\",\n    \"url\": \"http://giphy.com/gifs/funny-cat-FMppCCrk97sB2\"\n  }, {\n    \"id\": \"HHp5GPMG5PwHu\",\n    \"url\": \"http://giphy.com/gifs/funny-cat-HHp5GPMG5PwHu\"\n  }, {\n    \"id\": \"DDqfQ5YNY6yLC\",\n    \"url\": \"http://giphy.com/gifs/funny-cat-DDqfQ5YNY6yLC\"\n  }, {\n    \"id\": \"Cw8m4xnyJJQ7m\",\n    \"url\": \"http://giphy.com/gifs/funny-cat-Cw8m4xnyJJQ7m\"\n  }, {\n    \"id\": \"BVwi1Pwm6kaT6\",\n    \"url\": \"http://giphy.com/gifs/funny-cat-BVwi1Pwm6kaT6\"\n  }]\n}";
-    Assert.assertEquals(expected, giphy.toString());
+    assertEquals(expected, giphy.toString());
   }
 
   private static void assertJSObject(final JSObject object, final Class<?> type) throws Exception {
     final String string = object.toString();
     final JSObject parsed = JSObject.parse(type, new StringReader(string));
-    Assert.assertEquals(object, parsed);
-    Assert.assertEquals(string, parsed.toString());
+    assertEquals(object, parsed);
+    assertEquals(string, parsed.toString());
   }
 
   @Test
