@@ -44,7 +44,7 @@ public class NumberDecoder extends Decoder<Number> {
     char lastChar = '\0';
     boolean isDecimal = false;
     do {
-      isDecimal = ch == '.' || ((lastChar == 'e' || lastChar == 'E') && ch == '-') || isDecimal;
+      isDecimal |= ch == '.' || ((lastChar == 'e' || lastChar == 'E') && ch == '-');
       lastChar = ch;
 
       value.append(ch);

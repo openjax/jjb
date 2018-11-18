@@ -278,21 +278,20 @@ public class XMLText {
   }
 
   /**
-   * Turn any HTML escape entities in the string into characters and return the resulting string.
+   * Turn any HTML escape entities in the string into characters and return the
+   * resulting string.
    *
-   * @param text
-   *          String to be unescaped.
-   * @return unescaped String.
-   * @throws NullPointerException
-   *           if s is null.
+   * @param text String to be unescaped.
+   * @return The unescaped String.
+   * @throws NullPointerException If {@code text} is null.
    */
   public static String unescapeXMLText(final String text) {
     final StringBuilder result = new StringBuilder(text.length());
-    int ampInd = text.indexOf("&");
+    int ampInd = text.indexOf('&');
     int lastEnd = 0;
     while (ampInd >= 0) {
-      final int nextAmp = text.indexOf("&", ampInd + 1);
-      final int nextSemi = text.indexOf(";", ampInd + 1);
+      final int nextAmp = text.indexOf('&', ampInd + 1);
+      final int nextSemi = text.indexOf(';', ampInd + 1);
       if (nextSemi != -1 && (nextAmp == -1 || nextSemi < nextAmp)) {
         int value = -1;
         final String escape = text.substring(ampInd + 1, nextSemi);

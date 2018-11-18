@@ -24,8 +24,6 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.RandomAccess;
 
-import org.fastjax.util.FastCollections;
-
 public class JSArray<E> extends JSObject implements List<E>, RandomAccess, Serializable {
   private static final long serialVersionUID = -3764980134016799398L;
 
@@ -227,14 +225,7 @@ public class JSArray<E> extends JSObject implements List<E>, RandomAccess, Seria
 
   @Override
   public boolean equals(final Object obj) {
-    if (obj == this)
-      return true;
-
-    if (!(obj instanceof JSArray))
-      return false;
-
-    final JSArray<?> that = (JSArray<?>)obj;
-    return FastCollections.equals(this, that);
+    return obj == this || obj instanceof JSArray && containsAll((JSArray<?>)obj);
   }
 
   @Override
