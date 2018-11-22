@@ -19,6 +19,7 @@ package org.openjax.jjb.runtime.decoder;
 import java.io.IOException;
 import java.net.URLDecoder;
 
+import org.fastjax.util.Characters;
 import org.openjax.jjb.runtime.Binding;
 import org.openjax.jjb.runtime.DecodeException;
 import org.openjax.jjb.runtime.JSObjectBase;
@@ -45,9 +46,15 @@ public class StringDecoder extends Decoder<String> {
 
     boolean escape = false;
     final StringBuilder builder = new StringBuilder();
-    while ((ch = JSObjectBase.nextAny(reader)) != '"' || escape)
-      if (!(escape = ch == '\\' && !escape))
+    while ((ch = JSObjectBase.nextAny(reader)) != '"' || escape) {
+      if (escape && ch != '"') {
+        builder.append(Characters.escape(ch));
+        escape = false;
+      }
+      else if (!(escape = ch == '\\')) {
         builder.append(ch);
+      }
+    }
 
     return binding != null && binding.urlDecode ? URLDecoder.decode(builder.toString(), "UTF-8") : builder.toString();
   }
