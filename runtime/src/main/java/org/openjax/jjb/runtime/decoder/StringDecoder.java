@@ -48,7 +48,11 @@ public class StringDecoder extends Decoder<String> {
     final StringBuilder builder = new StringBuilder();
     while ((ch = JSObjectBase.nextAny(reader)) != '"' || escape) {
       if (escape && ch != '"') {
-        builder.append(Characters.escape(ch));
+        if (Characters.isEscapable(ch))
+          builder.append(Characters.escape(ch));
+        else
+          builder.append(ch);
+
         escape = false;
       }
       else if (!(escape = ch == '\\')) {
