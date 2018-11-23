@@ -19,7 +19,6 @@ package org.openjax.jjb.runtime.decoder;
 import java.io.IOException;
 import java.net.URLDecoder;
 
-import org.fastjax.util.Characters;
 import org.openjax.jjb.runtime.Binding;
 import org.openjax.jjb.runtime.DecodeException;
 import org.openjax.jjb.runtime.JSObjectBase;
@@ -27,7 +26,86 @@ import org.openjax.jjb.runtime.JsonReader;
 
 public class StringDecoder extends Decoder<String> {
   public static String escapeString(final String string) {
-    return string.replace("\\", "\\\\").replace("\"", "\\\"");
+    final StringBuilder out = new StringBuilder();
+    for (int i = 0, length = string.length(); i < length; i++) {
+      final char ch = string.charAt(i);
+      /*
+       * From RFC 4627, "All Unicode characters may be placed within the
+       * quotation marks except for the characters that must be escaped:
+       * quotation mark, reverse solidus, and the control characters (U+0000
+       * through U+001F)."
+       */
+      switch (ch) {
+        case '"':
+        case '\\':
+        case '/':
+          out.append('\\').append(ch);
+          break;
+        case '\t':
+          out.append("\\t");
+          break;
+        case '\b':
+          out.append("\\b");
+          break;
+        case '\n':
+          out.append("\\n");
+          break;
+        case '\r':
+          out.append("\\r");
+          break;
+        case '\f':
+          out.append("\\f");
+          break;
+        default:
+          out.append(ch <= 0x1F ? String.format("\\u%04x", (int)ch) : ch);
+          break;
+      }
+    }
+
+    return out.toString();
+  }
+
+  /**
+   * Unescapes the specified character, which is identified by the character or
+   * characters that immediately follow a backslash. The backslash '\' should
+   * have already been read. This supports both unicode escapes "u000A" and
+   * two-character escapes "\n".
+   *
+   * @return The escaped character.
+   * @throws IOException If an I/O error has occurred.
+   * @throws DecodeException If the escape sequence is unterminated.
+   * @throws NumberFormatException if any unicode escape sequences are
+   *           malformed.
+   */
+  private static char readEscaped(final JsonReader reader, final char escaped) throws DecodeException, IOException {
+    switch (escaped) {
+      case 'u':
+        final char[] unicode = new char[4];
+        for (int i = 0; i < unicode.length; ++i) {
+          final int ch = reader.read();
+          if (ch == -1)
+            throw new DecodeException("Unterminated escape sequence", reader);
+
+          unicode[i] = (char)ch;
+        }
+
+        return (char)Integer.parseInt(new String(unicode), 16);
+      case 't':
+        return '\t';
+      case 'b':
+        return '\b';
+      case 'n':
+        return '\n';
+      case 'r':
+        return '\r';
+      case 'f':
+        return '\f';
+      case '\'':
+      case '"':
+      case '\\':
+      default:
+        return escaped;
+    }
   }
 
   @Override
@@ -48,11 +126,7 @@ public class StringDecoder extends Decoder<String> {
     final StringBuilder builder = new StringBuilder();
     while ((ch = JSObjectBase.nextAny(reader)) != '"' || escape) {
       if (escape && ch != '"') {
-        if (Characters.isEscapable(ch))
-          builder.append(Characters.escape(ch));
-        else
-          builder.append(ch);
-
+        builder.append(readEscaped(reader, ch));
         escape = false;
       }
       else if (!(escape = ch == '\\')) {
