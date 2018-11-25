@@ -181,7 +181,7 @@ public class Generator {
 
     final String instanceName = getInstanceName(property);
 
-    final String pad = Strings.padFixed("", depth * 2, false);
+    final String pad = Strings.padLeft("", depth * 2);
     final StringBuilder builder = new StringBuilder("\n");
     if (property.getDescription() != null)
       builder.append("\n").append(pad).append("   /**\n").append(pad).append("    * ").append(property.getDescription().text()).append("\n").append(pad).append("    */");
@@ -193,7 +193,7 @@ public class Generator {
   private static String writeEncode(final $Property property, final int depth) {
     final String valueName = getPropertyName(property);
     final String instanceName = getInstanceName(property);
-    final String pad = Strings.padFixed("", depth * 2, false);
+    final String pad = Strings.padLeft("", depth * 2);
 
     final StringBuilder builder = new StringBuilder();
     if ("true".equals(property.getRequired$().text()) || "encode".equals(property.getRequired$().text())) {
@@ -252,7 +252,7 @@ public class Generator {
     parents.push(objectName);
     final String className = JavaIdentifiers.toClassCase(objectName);
 
-    final String pad = Strings.padFixed("", depth * 2, false);
+    final String pad = Strings.padLeft("", depth * 2);
     final StringBuilder builder = new StringBuilder("\n");
     if (object.getDescription() != null)
       builder.append("\n").append(pad).append(" /**\n").append(pad).append("  * ").append(object.getDescription().text()).append("\n").append(pad).append("  */");
