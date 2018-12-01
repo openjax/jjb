@@ -17,8 +17,8 @@
 package org.openjax.jjb.runtime.decoder;
 
 import java.io.IOException;
-import java.net.URLDecoder;
 
+import org.fastjax.net.URIComponent;
 import org.openjax.jjb.runtime.Binding;
 import org.openjax.jjb.runtime.DecodeException;
 import org.openjax.jjb.runtime.JSObjectBase;
@@ -134,6 +134,6 @@ public class StringDecoder extends Decoder<String> {
       }
     }
 
-    return binding != null && binding.urlDecode ? URLDecoder.decode(builder.toString(), "UTF-8") : builder.toString();
+    return binding != null && binding.urlDecode ? URIComponent.decode(builder.toString(), "UTF-8") : builder.toString();
   }
 }
