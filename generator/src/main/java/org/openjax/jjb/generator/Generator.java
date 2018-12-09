@@ -257,7 +257,7 @@ public class Generator {
     if (object.getDescription() != null)
       builder.append("\n").append(pad).append(" /**\n").append(pad).append("  * ").append(object.getDescription().text()).append("\n").append(pad).append("  */");
 
-    builder.append("\n").append(pad).append(" public static").append((isAbstract ? " abstract" : "")).append(" class ").append(className).append(" extends ").append((extendsPropertyName != null ? parents.get(0) + "." + JavaIdentifiers.toClassCase(extendsPropertyName) : JSObject.class.getName()) + " {");
+    builder.append("\n").append(pad).append(" public static").append((isAbstract ? " abstract" : "")).append(" class ").append(className).append(" extends ").append((extendsPropertyName != null ? parents.get(0) + "." + JavaIdentifiers.toClassCase(extendsPropertyName) : JSObject.class.getName())).append(" {");
     builder.append("\n").append(pad).append("   private static final ").append(String.class.getName()).append(" _name = \"").append(objectName).append("\";\n");
     builder.append("\n").append(pad).append("   private static final ").append(Map.class.getName()).append("<").append(String.class.getName()).append(",").append(Binding.class.getName()).append("<?>> bindings = new ").append(HashMap.class.getName()).append("<").append(String.class.getName()).append(",").append(Binding.class.getName()).append("<?>>(").append((properties != null ? properties.size() : 0)).append(");");
 

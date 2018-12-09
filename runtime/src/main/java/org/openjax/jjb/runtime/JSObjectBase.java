@@ -16,10 +16,6 @@
 
 package org.openjax.jjb.runtime;
 
-import java.io.IOException;
-import java.io.Reader;
-import java.util.List;
-
 import org.fastjax.util.FastArrays;
 import org.fastjax.util.FastCollections;
 import org.openjax.jjb.runtime.decoder.BooleanDecoder;
@@ -27,6 +23,10 @@ import org.openjax.jjb.runtime.decoder.JSObjectDecoder;
 import org.openjax.jjb.runtime.decoder.NumberDecoder;
 import org.openjax.jjb.runtime.decoder.ObjectDecoder;
 import org.openjax.jjb.runtime.decoder.StringDecoder;
+
+import java.io.IOException;
+import java.io.Reader;
+import java.util.List;
 
 public abstract class JSObjectBase {
   private static final BooleanDecoder booleanDecoder = new BooleanDecoder();
@@ -59,13 +59,11 @@ public abstract class JSObjectBase {
   }
 
   protected static char nextAny(final Reader reader) throws IOException {
-    int ch;
-    while (true) {
-      if ((ch = reader.read()) == -1)
-        throw new IOException("EOS");
+    final int ch = reader.read();
+    if (ch == -1)
+      throw new IOException("EOS");
 
-      return (char)ch;
-    }
+    return (char)ch;
   }
 
   protected static boolean isNull(char ch, final Reader reader) throws IOException {

@@ -16,13 +16,13 @@
 
 package org.openjax.jjb.runtime;
 
-import static org.junit.Assert.*;
-
 import java.io.IOException;
 import java.io.StringReader;
 import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.Collections;
+
+import static org.junit.Assert.*;
 
 import org.fastjax.math.BigDecimals;
 import org.fastjax.math.BigIntegers;
@@ -46,7 +46,7 @@ public abstract class TestHarness {
     propetry.clear();
 
     // Assert that after property.clear(), the get method returns null
-    assertEquals(null, propetry.get());
+    assertNull(propetry.get());
 
     // Set the value again
     propetry.set(val);
