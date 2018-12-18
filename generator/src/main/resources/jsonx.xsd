@@ -66,7 +66,7 @@
   <xs:complexType name="named" abstract="true">
     <xs:complexContent>
       <xs:extension base="jsonx:property">
-        <xs:attribute name="name" type="dt:javaIdentifier" use="required">
+        <xs:attribute name="name" type="dt:identifier" use="required">
           <xs:annotation>
             <xs:documentation>Name of property.</xs:documentation>
           </xs:annotation>
@@ -140,7 +140,7 @@
         <xs:sequence minOccurs="0" maxOccurs="unbounded">
           <xs:element name="property" type="jsonx:property"/>
         </xs:sequence>
-        <xs:attribute name="name" type="dt:javaIdentifier" use="required">
+        <xs:attribute name="name" type="dt:identifier" use="required">
           <xs:annotation>
             <xs:documentation>Name of object.</xs:documentation>
           </xs:annotation>
@@ -177,7 +177,7 @@
                 <xs:sequence minOccurs="0" maxOccurs="unbounded">
                   <xs:element name="property" type="jsonx:property"/>
                 </xs:sequence>
-                <xs:attribute name="name" type="dt:javaIdentifier" use="required">
+                <xs:attribute name="name" type="dt:identifier" use="required">
                   <xs:annotation>
                     <xs:documentation>Name of object.</xs:documentation>
                   </xs:annotation>
@@ -206,7 +206,7 @@
           </xs:unique>
         </xs:element>
       </xs:sequence>
-      <xs:attribute name="name" type="dt:javaIdentifier" use="required"/>
+      <xs:attribute name="name" type="dt:identifier" use="required"/>
       <xs:attribute name="mimeType" type="dt:mimeType" use="required"/>
     </xs:complexType>
     <xs:key name="keyObjectName">
