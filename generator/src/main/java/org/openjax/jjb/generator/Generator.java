@@ -32,7 +32,7 @@ import java.util.Stack;
 import org.fastjax.jci.CompilationException;
 import org.fastjax.jci.JavaCompiler;
 import org.fastjax.math.BigDecimals;
-import org.fastjax.util.JavaIdentifiers;
+import org.fastjax.util.Identifiers;
 import org.fastjax.util.Strings;
 import org.fastjax.xml.ValidationException;
 import org.fastjax.xml.dom.DOMStyle;
@@ -147,13 +147,13 @@ public class Generator {
     if (property instanceof $Object) {
       final $Object object = ($Object)property;
       if (object.getExtends$() != null && !property.elementIterator().hasNext())
-        return JavaIdentifiers.toClassCase(object.getExtends$().text());
+        return Identifiers.toClassCase(object.getExtends$().text());
 
       final StringBuilder builder = new StringBuilder(parents.get(0));
       for (int i = 1; i < parents.size(); i++)
-        builder.append('.').append(JavaIdentifiers.toClassCase(parents.get(i)));
+        builder.append('.').append(Identifiers.toClassCase(parents.get(i)));
 
-      return builder.append(".").append(JavaIdentifiers.toClassCase((($Object)property).getName$().text())).toString();
+      return builder.append(".").append(Identifiers.toClassCase((($Object)property).getName$().text())).toString();
     }
 
     throw new UnsupportedOperationException("Unsupported type: " + property.getClass().getName());
@@ -170,7 +170,7 @@ public class Generator {
   }
 
   private static String getInstanceName(final $Property property) {
-    return JavaIdentifiers.toInstanceCase(getPropertyName(property));
+    return Identifiers.toInstanceCase(getPropertyName(property));
   }
 
   private static String writeField(final Stack<String> parent, final $Property property, final int depth) {
@@ -250,14 +250,14 @@ public class Generator {
     }
 
     parents.push(objectName);
-    final String className = JavaIdentifiers.toClassCase(objectName);
+    final String className = Identifiers.toClassCase(objectName);
 
     final String pad = Strings.padLeft("", depth * 2);
     final StringBuilder builder = new StringBuilder("\n");
     if (object.getDescription() != null)
       builder.append("\n").append(pad).append(" /**\n").append(pad).append("  * ").append(object.getDescription().text()).append("\n").append(pad).append("  */");
 
-    builder.append("\n").append(pad).append(" public static").append((isAbstract ? " abstract" : "")).append(" class ").append(className).append(" extends ").append((extendsPropertyName != null ? parents.get(0) + "." + JavaIdentifiers.toClassCase(extendsPropertyName) : JSObject.class.getName())).append(" {");
+    builder.append("\n").append(pad).append(" public static").append((isAbstract ? " abstract" : "")).append(" class ").append(className).append(" extends ").append((extendsPropertyName != null ? parents.get(0) + "." + Identifiers.toClassCase(extendsPropertyName) : JSObject.class.getName())).append(" {");
     builder.append("\n").append(pad).append("   private static final ").append(String.class.getName()).append(" _name = \"").append(objectName).append("\";\n");
     builder.append("\n").append(pad).append("   private static final ").append(Map.class.getName()).append("<").append(String.class.getName()).append(",").append(Binding.class.getName()).append("<?>> bindings = new ").append(HashMap.class.getName()).append("<").append(String.class.getName()).append(",").append(Binding.class.getName()).append("<?>>(").append((properties != null ? properties.size() : 0)).append(");");
 
