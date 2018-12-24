@@ -16,6 +16,8 @@
 
 package org.openjax.jjb.generator;
 
+import static org.fastjax.util.function.Throwing.*;
+
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -23,6 +25,7 @@ import java.math.BigInteger;
 import java.net.URL;
 import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -30,7 +33,7 @@ import java.util.Map;
 import java.util.Stack;
 
 import org.fastjax.jci.CompilationException;
-import org.fastjax.jci.JavaCompiler;
+import org.fastjax.jci.InMemoryCompiler;
 import org.fastjax.math.BigDecimals;
 import org.fastjax.util.Identifiers;
 import org.fastjax.util.Strings;
@@ -115,8 +118,14 @@ public class Generator {
     Files.write(new File(outDir, name + ".java").toPath(), builder.toString().getBytes());
 
     if (compile) {
+      final InMemoryCompiler compiler = new InMemoryCompiler();
+      Files.walk(destDir.toPath())
+        .map(p -> p.toFile())
+        .filter(f -> f.getName().endsWith(".java"))
+        .forEach(rethrow((File f) -> compiler.addSource(new String(Files.readAllBytes(f.toPath())))));
+
       try {
-        new JavaCompiler(destDir).compile(destDir);
+        compiler.compile(Arrays.asList("-g"), destDir);
       }
       catch (final CompilationException e) {
         throw new UnsupportedOperationException(e);
