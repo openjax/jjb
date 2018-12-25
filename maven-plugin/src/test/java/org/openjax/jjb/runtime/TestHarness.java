@@ -255,7 +255,7 @@ public abstract class TestHarness {
     @SuppressWarnings({"rawtypes", "unchecked"})
     public void condition(final JSObject jsObject, final String propertyName) {
       final Property property = TestHelper.property(jsObject, propertyName);
-      property.set(property.binding.array ? Collections.singletonList(BigDecimals.instance("-1.1")) : BigDecimals.instance("-1.1"));
+      property.set(property.binding.array ? Collections.singletonList(BigDecimals.of("-1.1")) : BigDecimals.of("-1.1"));
     }
 
     @Override
@@ -269,7 +269,7 @@ public abstract class TestHarness {
     @SuppressWarnings({"rawtypes", "unchecked"})
     public String condition(final JSObject jsObject, final String propertyName) {
       final Property property = TestHelper.property(jsObject, propertyName);
-      property.set(property.binding.array ? Collections.singletonList(BigDecimals.instance("0.0")) : BigDecimals.instance("0.0"));
+      property.set(property.binding.array ? Collections.singletonList(BigDecimals.of("0.0")) : BigDecimals.of("0.0"));
       return jsObject.toString().replaceAll("0.0", "-1");
     }
 
@@ -284,7 +284,7 @@ public abstract class TestHarness {
     @SuppressWarnings({"rawtypes", "unchecked"})
     public void condition(final JSObject jsObject, final String propertyName) {
       final Property property = TestHelper.property(jsObject, propertyName);
-      property.set(property.binding.array ? Collections.singletonList(BigDecimals.instance("1.1")) : BigDecimals.instance("1.1"));
+      property.set(property.binding.array ? Collections.singletonList(BigDecimals.of("1.1")) : BigDecimals.of("1.1"));
     }
 
     @Override
@@ -298,7 +298,7 @@ public abstract class TestHarness {
     @SuppressWarnings({"rawtypes", "unchecked"})
     public String condition(final JSObject jsObject, final String propertyName) {
       final Property property = TestHelper.property(jsObject, propertyName);
-      property.set(property.binding.array ? Collections.singletonList(BigDecimals.instance("0.0")) : BigDecimals.instance("0.0"));
+      property.set(property.binding.array ? Collections.singletonList(BigDecimals.of("0.0")) : BigDecimals.of("0.0"));
       return jsObject.toString().replaceAll("0.0", "1.1");
     }
 
@@ -313,7 +313,7 @@ public abstract class TestHarness {
     @SuppressWarnings({"rawtypes", "unchecked"})
     public void condition(final JSObject jsObject, final String propertyName) {
       final Property property = TestHelper.property(jsObject, propertyName);
-      property.set(property.binding.array ? Collections.singletonList(BigDecimals.instance("3.1415")) : BigDecimals.instance("3.1415"));
+      property.set(property.binding.array ? Collections.singletonList(BigDecimals.of("3.1415")) : BigDecimals.of("3.1415"));
     }
 
     @Override
@@ -327,7 +327,7 @@ public abstract class TestHarness {
     @SuppressWarnings({"rawtypes", "unchecked"})
     public String condition(final JSObject jsObject, final String propertyName) {
       final Property property = TestHelper.property(jsObject, propertyName);
-      property.set(property.binding.array ? Collections.singletonList(BigIntegers.instance("989898")) : BigIntegers.instance("989898"));
+      property.set(property.binding.array ? Collections.singletonList(BigIntegers.of("989898")) : BigIntegers.of("989898"));
       return jsObject.toString().replaceAll("989898", "3.1415");
     }
 
