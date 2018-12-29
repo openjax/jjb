@@ -33,9 +33,6 @@
   <description>
     Java &lt;-&gt; JSON Binding
   </description>
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-  </properties>
   <modules>
     <module>generator</module>
     <module>rs</module>
