@@ -43,7 +43,7 @@ The `jjb:generate` goal is bound to the `generate-sources` phase, and is used to
 
 ### JavaDocs
 
-JavaDocs are available [here](https://jjb.openjax.org/javadocs/).
+JavaDocs are available [here](https://jjb.openjax.org/apidocs/).
 
 ## Contributing
 

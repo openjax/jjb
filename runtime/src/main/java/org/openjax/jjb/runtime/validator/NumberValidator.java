@@ -19,7 +19,7 @@ package org.openjax.jjb.runtime.validator;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
-import org.fastjax.util.Numbers;
+import org.openjax.classic.util.Numbers;
 
 public class NumberValidator extends Validator<Number> {
   private final boolean integer;

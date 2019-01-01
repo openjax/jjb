@@ -16,16 +16,16 @@
 
 package org.openjax.jjb.runtime;
 
+import static org.junit.Assert.*;
+
 import java.io.IOException;
 import java.io.StringReader;
 import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.Collections;
 
-import static org.junit.Assert.*;
-
-import org.fastjax.math.BigDecimals;
-import org.fastjax.math.BigIntegers;
+import org.openjax.classic.math.BigDecimals;
+import org.openjax.classic.math.BigIntegers;
 
 public abstract class TestHarness {
   @SuppressWarnings({"rawtypes", "unchecked"})

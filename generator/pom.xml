@@ -57,8 +57,8 @@
   </build>
   <dependencies>
     <dependency>
-      <groupId>org.fastjax</groupId>
-      <artifactId>jci</artifactId>
+      <groupId>org.openjax.classic</groupId>
+      <artifactId>classic-jci</artifactId>
       <version>0.8.3-SNAPSHOT</version>
     </dependency>
     <dependency>

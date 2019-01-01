@@ -20,7 +20,7 @@ import java.lang.reflect.Field;
 import java.util.Collection;
 import java.util.List;
 
-import org.fastjax.util.FastCollections;
+import org.openjax.classic.util.FastCollections;
 import org.openjax.jjb.runtime.validator.Validator;
 
 public class Binding<T> {

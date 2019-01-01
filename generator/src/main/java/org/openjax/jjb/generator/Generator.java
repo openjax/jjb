@@ -16,7 +16,7 @@
 
 package org.openjax.jjb.generator;
 
-import static org.fastjax.util.function.Throwing.*;
+import static org.openjax.classic.util.function.Throwing.*;
 
 import java.io.File;
 import java.io.IOException;
@@ -25,21 +25,20 @@ import java.math.BigInteger;
 import java.net.URL;
 import java.nio.file.Files;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
-import org.fastjax.jci.CompilationException;
-import org.fastjax.jci.InMemoryCompiler;
-import org.fastjax.math.BigDecimals;
-import org.fastjax.util.Identifiers;
-import org.fastjax.util.Strings;
-import org.fastjax.xml.ValidationException;
-import org.fastjax.xml.dom.DOMStyle;
-import org.fastjax.xml.dom.DOMs;
+import org.openjax.classic.jci.CompilationException;
+import org.openjax.classic.jci.InMemoryCompiler;
+import org.openjax.classic.math.BigDecimals;
+import org.openjax.classic.util.Identifiers;
+import org.openjax.classic.util.Strings;
+import org.openjax.classic.xml.api.ValidationException;
+import org.openjax.classic.xml.dom.DOMStyle;
+import org.openjax.classic.xml.dom.DOMs;
 import org.openjax.jjb.jsonx_0_9_8.xL1gluGCXYYJc.$Boolean;
 import org.openjax.jjb.jsonx_0_9_8.xL1gluGCXYYJc.$Element;
 import org.openjax.jjb.jsonx_0_9_8.xL1gluGCXYYJc.$Named;
@@ -125,7 +124,7 @@ public class Generator {
         .forEach(rethrow((File f) -> compiler.addSource(new String(Files.readAllBytes(f.toPath())))));
 
       try {
-        compiler.compile(Arrays.asList("-g"), destDir);
+        compiler.compile(destDir, "-g");
       }
       catch (final CompilationException e) {
         throw new UnsupportedOperationException(e);

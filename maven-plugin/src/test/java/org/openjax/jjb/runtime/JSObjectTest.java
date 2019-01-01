@@ -16,6 +16,8 @@
 
 package org.openjax.jjb.runtime;
 
+import static org.junit.Assert.*;
+
 import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.math.BigDecimal;
@@ -23,9 +25,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.Assert.*;
 import org.junit.Test;
-import org.fastjax.util.FastCollections;
+import org.openjax.classic.util.FastCollections;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
