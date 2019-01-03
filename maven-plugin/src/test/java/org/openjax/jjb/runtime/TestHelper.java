@@ -18,7 +18,7 @@ package org.openjax.jjb.runtime;
 
 import java.lang.reflect.Field;
 
-import org.openjax.classic.util.Classes;
+import org.openjax.standard.util.Classes;
 
 public final class TestHelper {
   @SuppressWarnings("rawtypes")

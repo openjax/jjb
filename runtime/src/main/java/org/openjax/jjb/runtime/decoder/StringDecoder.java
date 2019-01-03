@@ -18,7 +18,7 @@ package org.openjax.jjb.runtime.decoder;
 
 import java.io.IOException;
 
-import org.openjax.classic.net.URIComponent;
+import org.openjax.standard.net.URIComponent;
 import org.openjax.jjb.runtime.Binding;
 import org.openjax.jjb.runtime.DecodeException;
 import org.openjax.jjb.runtime.JSObjectBase;

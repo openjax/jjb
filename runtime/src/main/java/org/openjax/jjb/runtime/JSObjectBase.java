@@ -20,8 +20,8 @@ import java.io.IOException;
 import java.io.Reader;
 import java.util.List;
 
-import org.openjax.classic.util.FastArrays;
-import org.openjax.classic.util.FastCollections;
+import org.openjax.standard.util.FastArrays;
+import org.openjax.standard.util.FastCollections;
 import org.openjax.jjb.runtime.decoder.BooleanDecoder;
 import org.openjax.jjb.runtime.decoder.JSObjectDecoder;
 import org.openjax.jjb.runtime.decoder.NumberDecoder;

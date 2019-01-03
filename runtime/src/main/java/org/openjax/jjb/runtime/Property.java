@@ -21,9 +21,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.openjax.classic.net.URIComponent;
-import org.openjax.classic.util.FastCollections;
-import org.openjax.classic.util.Numbers;
+import org.openjax.standard.net.URIComponent;
+import org.openjax.standard.util.FastCollections;
+import org.openjax.standard.util.Numbers;
 import org.openjax.jjb.runtime.decoder.StringDecoder;
 
 public class Property<T> {

@@ -19,7 +19,7 @@ package org.openjax.jjb.runtime;
 import java.io.IOException;
 import java.io.Reader;
 
-import org.openjax.classic.io.ReplayReader;
+import org.openjax.standard.io.ReplayReader;
 
 public class JsonReader extends ReplayReader {
   private String full;

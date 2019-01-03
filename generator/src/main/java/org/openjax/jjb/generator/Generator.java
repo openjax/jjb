@@ -16,7 +16,7 @@
 
 package org.openjax.jjb.generator;
 
-import static org.openjax.classic.util.function.Throwing.*;
+import static org.openjax.standard.util.function.Throwing.*;
 
 import java.io.File;
 import java.io.IOException;
@@ -31,14 +31,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
-import org.openjax.classic.jci.CompilationException;
-import org.openjax.classic.jci.InMemoryCompiler;
-import org.openjax.classic.math.BigDecimals;
-import org.openjax.classic.util.Identifiers;
-import org.openjax.classic.util.Strings;
-import org.openjax.classic.xml.api.ValidationException;
-import org.openjax.classic.xml.dom.DOMStyle;
-import org.openjax.classic.xml.dom.DOMs;
+import org.openjax.standard.jci.CompilationException;
+import org.openjax.standard.jci.InMemoryCompiler;
+import org.openjax.standard.math.BigDecimals;
+import org.openjax.standard.util.Identifiers;
+import org.openjax.standard.util.Strings;
+import org.openjax.standard.xml.api.ValidationException;
+import org.openjax.standard.xml.dom.DOMStyle;
+import org.openjax.standard.xml.dom.DOMs;
 import org.openjax.jjb.jsonx_0_9_8.xL1gluGCXYYJc.$Boolean;
 import org.openjax.jjb.jsonx_0_9_8.xL1gluGCXYYJc.$Element;
 import org.openjax.jjb.jsonx_0_9_8.xL1gluGCXYYJc.$Named;
