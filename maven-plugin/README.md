@@ -1,6 +1,8 @@
 # OpenJAX JJB Maven Plugin
 
-**Maven Plugin for [jJB][jjb] framework**
+> Maven Plugin for [jJB][jjb] framework
+
+[![Build Status](https://travis-ci.org/openjax/jjb.png)](https://travis-ci.org/openjax/jjb)
 
 ### Introduction
 
