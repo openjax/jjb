@@ -1,6 +1,8 @@
 # OpenJAX JJB
 
-**Java <-> JSON Binding**
+> Java <-> JSON Binding
+
+[![Build Status](https://travis-ci.org/openjax/jjb.png)](https://travis-ci.org/openjax/jjb)
 
 ### Introduction
 
