@@ -3,6 +3,7 @@
 > Java <-> JSON Binding
 
 [![Build Status](https://travis-ci.org/openjax/jjb.png)](https://travis-ci.org/openjax/jjb)
+[![Coverage Status](https://coveralls.io/repos/github/openjax/jjb/badge.svg)](https://coveralls.io/github/openjax/jjb)
 
 ### Introduction
 
