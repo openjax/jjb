@@ -81,8 +81,8 @@ public abstract class TestHarness {
       return this.name;
     }
 
-    public abstract T instigate(final JSObject jsObject, final String propertyName);
-    public abstract boolean validate(final JSObject jsObject, final String propertyName, final T result);
+    public abstract T instigate(JSObject jsObject, String propertyName);
+    public abstract boolean validate(JSObject jsObject, String propertyName, T result);
   }
 
   protected static abstract class EncodeUnit extends Unit<Exception> {
@@ -90,7 +90,7 @@ public abstract class TestHarness {
       super(name);
     }
 
-    public abstract void condition(final JSObject jsObject, final String propertyName);
+    public abstract void condition(JSObject jsObject, final String propertyName);
 
     @Override
     public final Exception instigate(final JSObject jsObject, final String propertyName) {
@@ -110,7 +110,7 @@ public abstract class TestHarness {
       super(name);
     }
 
-    public abstract String condition(final JSObject jsObject, final String propertyName);
+    public abstract String condition(JSObject jsObject, String propertyName);
 
     @Override
     public final Exception instigate(final JSObject jsObject, final String propertyName) {

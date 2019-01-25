@@ -24,9 +24,9 @@ import org.openjax.jjb.runtime.JSObjectBase;
 import org.openjax.jjb.runtime.JsonReader;
 
 public abstract class Decoder<T> extends JSObjectBase {
-  protected abstract T[] newInstance(final int depth);
+  protected abstract T[] newInstance(int depth);
 
-  public abstract T decode(final JsonReader reader, char ch, final Binding<?> binding) throws DecodeException, IOException;
+  public abstract T decode(JsonReader reader, char ch, Binding<?> binding) throws DecodeException, IOException;
 
   public final T[] recurse(final JsonReader reader, final int depth, final Binding<?> binding) throws DecodeException, IOException {
     final char ch = JSObjectBase.next(reader);

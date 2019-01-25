@@ -69,5 +69,5 @@ public abstract class Validator<T> {
     this.type = type;
   }
 
-  public abstract String validate(final T value);
+  public abstract String validate(T value);
 }

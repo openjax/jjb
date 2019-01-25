@@ -60,7 +60,7 @@ public abstract class JSObject extends JSObjectBase implements Cloneable {
   }
 
   protected abstract String _name();
-  protected abstract Binding<?> _getBinding(final String name);
+  protected abstract Binding<?> _getBinding(String name);
   protected abstract Collection<Binding<?>> _bindings();
   protected abstract boolean _skipUnknown();
   protected abstract JSBundle _bundle();
