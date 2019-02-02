@@ -2,8 +2,7 @@
 
 > Java <-> JSON Binding
 
-[![Build Status](https://travis-ci.org/openjax/jjb.png)](https://travis-ci.org/openjax/jjb)
-[![Coverage Status](https://coveralls.io/repos/github/openjax/jjb/badge.svg)](https://coveralls.io/github/openjax/jjb)
+**_This project has been sunsetted and replaced by the [JSONX][jsonx] project._**
 
 ### Introduction
 
@@ -174,3 +173,4 @@ This project is licensed under the MIT License - see the [LICENSE.txt](LICENSE.t
 [maven]: https://maven.apache.org/
 [xrs-getting-started]: /../../../../openjax/xrs#getting-started
 [xrs]: /../../../../openjax/xrs
+[jsonx]: /../../../../openjax/jsonx
